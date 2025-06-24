@@ -113,12 +113,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const [pageName, setPageName] = useLocalStorage("selectedMenu", "dashboard");
 
   const userPermissions = useSelector((state: any) => state?.user?.details);
-  const filteredMenuItems = menuGroups[0].menuItems.filter((item) => {
-    const permissionKey = Object.keys(permissionToMenuLabelMap).find(
-      (key) => permissionToMenuLabelMap[key] === item.label
-    );
-    return permissionKey ? userPermissions[permissionKey] : true;
-  });
+  // const filteredMenuItems = menuGroups[0].menuItems.filter((item) => {
+  //   const permissionKey = Object.keys(permissionToMenuLabelMap).find(
+  //     (key) => permissionToMenuLabelMap[key] === item.label
+  //   );
+  //   return permissionKey ? userPermissions[permissionKey] : true;
+  // });
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
@@ -140,7 +140,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           <nav className='px-4 lg:p-6'>
             <h3 className='mb-2 ml-4 text-xl font-semibold'>MENU</h3>
             <ul className='mb-24 flex flex-col gap-1.5 overflow-y-auto hidescroll'>
-              {filteredMenuItems.map((menuItem, menuIndex) => (
+              {menuGroups[0].menuItems.map((menuItem, menuIndex) => (
                 <SidebarItem
                   key={menuIndex}
                   item={menuItem}

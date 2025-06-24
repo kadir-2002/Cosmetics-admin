@@ -2,7 +2,7 @@ import { apiCores } from "./apiCore";
 import { apiCoreslogin } from "./apiCoreLogin";
 
 export const loginApi = async (username: string, password: string) => {
-  const response = await apiCoreslogin("/user/login/", { username: username, password: password }, "POST");
+  const response = await apiCoreslogin("/auth/login", { email: username, password: password }, "POST");
   return response;
 };
 export const otpSendApi = async (username: string) => {

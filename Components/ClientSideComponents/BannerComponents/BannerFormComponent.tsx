@@ -212,11 +212,11 @@ const BannerFormComponent = () => {
       };
       const response = await bannerAllDataApi(apiParams, token);
       if (response?.detail === "Invalid token") {
-        dispatch(clearUserDetails());
+        // dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
-      } else if (response?.results) {
-        setBanner(response?.results);
+      } else if (response) {
+        setBanner(response);
       }
     } catch (error) {
       console.error("Error fetching roles:", error);
@@ -699,22 +699,22 @@ const BannerFormComponent = () => {
                   </td>
                   <th className='p-3 text-center capitalize '>
                     {" "}
-                    {banner?.sub_heading}
+                    {banner?.subheading}
                   </th>
                   <td className='p-3 text-center'>
                     <div className='text-center'>
                       <Switch
-                        checked={banner?.is_active}
+                        checked={banner?.isActive}
                         onChange={() =>
-                          activeHandler(banner, !banner?.is_active)
+                          activeHandler(banner, !banner?.isActive)
                         }
                         className={`${
-                          banner?.is_active ? "bg-green-500" : "bg-gray-300"
+                          banner?.isActive ? "bg-green-500" : "bg-gray-300"
                         } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                       >
                         <span
                           className={`${
-                            banner?.is_active
+                            banner?.isActive
                               ? "translate-x-6"
                               : "translate-x-1"
                           } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}

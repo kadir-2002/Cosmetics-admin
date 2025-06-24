@@ -39,10 +39,10 @@ const LoginProfilButton = ({ currentDateTime }: Props) => {
                     <div>
                         <div className="w-full flex flex-row items-center justify-between md:-my-3 md:-mx-3  -mx-5 -my-2 md:gap-2 gap-2">
                             <div>
-                                {userDetails?.profile_picture ? (
+                                {userDetails?.imageUrl ? (
                                     <>
                                         <Avatar
-                                            src={`${process.env.NEXT_PUBLIC_BASE_URL}${userDetails?.first_name}`}
+                                            src={`${process.env.NEXT_PUBLIC_BASE_URL}${userDetails?.firstName}`}
                                             maxInitials={2}
                                             size="43"
                                             round={true}
@@ -57,14 +57,14 @@ const LoginProfilButton = ({ currentDateTime }: Props) => {
                                             round={true}
                                             style={{ color: "black" }}
 
-                                            name={userDetails?.first_name as string}
+                                            name={userDetails?.firstName as string}
                                         />
 
                                     </>
                                 )}
                             </div>
                             <div className="flex flex-col">
-                                <p className=" capitalize text-lg font-semibold ">{userDetails?.first_name}{userDetails?.last_name}</p>
+                                <p className=" capitalize text-lg font-semibold ">{userDetails?.firstName}{userDetails?.lastName}</p>
                                 <h2 className="text-sm ">{currentDateTime}</h2>
                             </div>
                         </div>
@@ -78,11 +78,11 @@ const LoginProfilButton = ({ currentDateTime }: Props) => {
                         >
                             <div className="flex flex-row items-center justify-center gap-1 mx-10 my-1 border-b-[0.5px] border-b-black p-2">
                                 <div>
-                                    {userDetails?.profile_picture ? (
+                                    {userDetails?.imageUrl ? (
                                         <>
                                             <Avatar
 
-                                                src={`${process.env.NEXT_PUBLIC_BASE_URL}${userDetails?.first_name}`}
+                                                src={`${userDetails?.imageUrl}`}
                                                 maxInitials={2}
                                                 size="30"
                                                 round={true}
@@ -90,22 +90,18 @@ const LoginProfilButton = ({ currentDateTime }: Props) => {
                                             />
                                         </>
                                     ) : (
-                                        <>
-                                            <>
-                                                <Avatar
-                                                    name={userDetails?.first_name as string}
-                                                    maxInitials={2}
-                                                    size="30"
-                                                    round={true}
-                                                    style={{ color: "black" }}
+                                        <Avatar
+                                            name={userDetails?.firstName as string}
+                                            maxInitials={2}
+                                            size="30"
+                                            round={true}
+                                            style={{ color: "black" }}
 
-                                                />
-                                            </>
-                                        </>
+                                        />
                                     )}
                                 </div>
-                                <p className="truncate md:max-w-[100px] capitalize" title={userDetails?.first_name}>
-                                    {userDetails?.first_name}
+                                <p className="truncate md:max-w-[100px] capitalize" title={userDetails?.firstName}>
+                                    {userDetails?.firstName}
                                 </p>
                             </div>
                             <ul className="md:p-3  p-2 md:text-[14px] text-sm flex flex-col items-start justify-start gap-2">

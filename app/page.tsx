@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <>{userDetails ? <div className="flex flex-col justify-start items-center">
-      <MainDashboardComponent />
+      {/* <MainDashboardComponent /> */}
     </div> : null}
     </>
 

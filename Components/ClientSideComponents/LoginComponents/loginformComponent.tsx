@@ -38,7 +38,7 @@ const LoginFormComponent = () => {
         toast.success("Login Successfully");
         dispatch(
           saveUserDetails({
-            details: response?.data?.user_details,
+            details: response?.data?.user,
             token: response?.data?.token,
             userId: response,
           })

@@ -4,7 +4,7 @@ export const apiCoreslogin = async (
   method: string = "POST"
 ) => {
   const data = JSON.stringify({ jsonrpc: "2.0", params: { ...requestBody }, });
-  return await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`, { method: method, headers: { "Content-Type": "application/json", }, body: JSON.stringify(requestBody), next: { revalidate: 0 }, })
+  return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, { method: method, headers: { "Content-Type": "application/json", }, body: JSON.stringify(requestBody), next: { revalidate: 0 }, })
   
   .then(async (response) => {
       if (response?.status === 200) {

@@ -1,6 +1,6 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
-import { apiCoreGet } from "./apiCoreGet";
 import { apiCoreUpdateuser } from "./apiCoreUpdateuser";
 
 export const createBannerApi = async (
@@ -44,8 +44,8 @@ export const bannerAllDataApi = async (params: {ordering: string, isActive?: boo
   if (params.isActive !== undefined) {
     queryParams.append("is_active", params.isActive.toString());
   }
-  const endpoint = `/frontend/banner/?${queryParams.toString()}`;
-  const response = await apiCoreGet(endpoint, "GET", token);
+  const endpoint = `/banners/?${queryParams.toString()}`;
+  const response = await apiCoreNode(endpoint, {}, "GET", token);
   return response;
 };
 
