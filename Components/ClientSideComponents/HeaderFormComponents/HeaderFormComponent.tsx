@@ -76,7 +76,7 @@ const HeaderFormComponent = () => {
         if (response?.status === 200) {
           toast.success("Updated successfully");
           setIsEdit(false);
-          fetchBanner();
+          fetchHeaderData();
           setOpenForm(false);
           setfile("");
           setNewUser({
@@ -87,10 +87,10 @@ const HeaderFormComponent = () => {
             is_active: false,
           });
         } else if (
-          response?.data?.error === "This sequence number already exists"
+          response?.body?.data?.error === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.body?.data?.detail === "Invalid token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -98,16 +98,17 @@ const HeaderFormComponent = () => {
       } else {
         const response = await headerCreateApi(
           name,
-          sequence_number,
+          Number(sequence_number),
           link,
           is_active,
+          created_by,
           token
         );
-        if (response?.data?.error === "This sequence number already exists") {
-          toast.error("This sequence number already exists");
+        if (response?.body?.data?.success === false) {
+          toast.error(response?.body?.data?.message);
         } else if (response?.status === 201) {
           toast.success("Created successfully!");
-          fetchBanner();
+          fetchHeaderData();
           setOpenForm(false);
           setfile("");
           setNewUser({
@@ -117,7 +118,7 @@ const HeaderFormComponent = () => {
             link,
             is_active: false,
           });
-        } else if (response?.detail === "Invalid token") {
+        } else if (response?.body?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -153,19 +154,19 @@ const HeaderFormComponent = () => {
       : isfiltervalue === "Inactive"
       ? false
       : undefined;
-  const fetchBanner = async () => {
+  const fetchHeaderData = async () => {
     try {
       const apiParams: { ordering: string; isActive?: boolean } = {
         ordering,
         isActive,
       };
       const response = await headerAllDataApi(apiParams, token);
-      if (response?.detail === "Invalid token") {
+      if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
-      } else if (response?.results) {
-        setData(response?.results);
+      } else if (response?.body?.result) {
+        setData(response?.body?.result);
       }
     } catch (error) {
       console.error("Error fetching roles:", error);
@@ -181,7 +182,7 @@ const HeaderFormComponent = () => {
     setIsActiveInactiveFilterPopup(false);
   };
   useEffect(() => {
-    fetchBanner();
+    fetchHeaderData();
   }, [ordering, isfiltervalue]);
 
   const handleDelete = async (id: string) => {
@@ -191,11 +192,11 @@ const HeaderFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await headerDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body?.success) {
         toast.success("Header deleted successfully");
         setIsLogoutPopup(false);
-        fetchBanner();
-      } else if (response?.detail === "Invalid token") {
+        fetchHeaderData();
+      } else if (response?.body?.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -245,8 +246,8 @@ const HeaderFormComponent = () => {
       token
     );
     if (response?.status === 200) {
-      fetchBanner();
-    } else if (response?.data?.detail === "Invalid token") {
+      fetchHeaderData();
+    } else if (response?.body?.data?.detail === "Invalid token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

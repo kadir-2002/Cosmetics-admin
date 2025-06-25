@@ -8,7 +8,7 @@ export const apiCoreNode = async (
 
   const headers: HeadersInit = {
     "Content-Type": "application/json",
-    ...(token && { Authorization: `Token ${token}` })
+    ...(token && { Authorization: `Token ${token}` }),
   };
 
   const options: RequestInit = {
@@ -18,28 +18,33 @@ export const apiCoreNode = async (
   };
 
   // Conditionally add the body if method is POST
-  if (method === "POST") {
+  if (method !== "GET") {
     options.body = data;
   }
 
-  return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, options)
-    .then((response) => {
-      if (!response?.ok) {
-        if (response.status === 401) {
-          console.log("Unauthorized");
-          const responseData = "Unauthorized";
-          return responseData;
-        } else {
-          console.log("Network response was not ok");
-        }
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, options);
+
+    // Check if response is not ok (non-2xx status code)
+    if (!response.ok) {
+      // You can throw specific errors based on status
+      if (response.status === 401) {
+        throw new Error("Unauthorized");
+      } else {
+        const errorMessage = `Request failed with status ${response.status}`;
+        throw new Error(errorMessage);
       }
-      return response?.json();
-    })
-    .then((responseData) => {
-      return responseData; // Return the JSON data
-    })
-    .catch((error) => {
-      console.log(error.message);
-      // return error;
-    });
+    }
+
+    // Return both status and body as JSON
+    const responseData = await response.json();
+    return {
+      status: response.status,
+      body: responseData,
+    };
+  } catch (error: any) {
+    console.error("API Error:", error.message);
+    // You can return an error object here, or re-throw the error
+    return { status: "error", body: error.message };
+  }
 };
