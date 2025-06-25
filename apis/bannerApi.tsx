@@ -6,33 +6,31 @@ import { apiCoreUpdateuser } from "./apiCoreUpdateuser";
 export const createBannerApi = async (
   sequence_number: string,
   heading: string,
-  sub_heading:string,
-  description: string,
-  image: File | null | any,
+  subheading:string,
+ subheading2: string,
+  imageUrl: File | null | any,
   mobile_banner: File | null | any,
   isActive: boolean,
-  button:string,
-  button_link:string,
-  created_by: any,
+  buttonText:string,
+  buttonLink:string,
   token: string,
 ) => {
 
   const formData = new FormData();
   formData.append("sequence_number", sequence_number);
   formData.append("heading", heading);
-  formData.append("sub_heading", sub_heading);
+  formData.append("subheading", subheading);
   if(mobile_banner){
     formData.append("mobile_banner", mobile_banner);
   }
-  formData.append("description", description);
-  formData.append("button_text", button);
-  formData.append("button_link", button_link);
-  if (image) {
-    formData.append("image", image);
+  formData.append("subheading2", subheading2);
+  formData.append("buttonText", buttonText);
+  formData.append("buttonLink", buttonLink);
+  if (imageUrl) {
+    formData.append("image", imageUrl);
   }
-  formData.append("is_active", isActive.toString());
-  formData.append("created_by", created_by.toString());
-  const response = await apiCoreFormData("/frontend/banner/", formData, "POST", token);
+  formData.append("isActive", isActive.toString());
+  const response = await apiCoreFormData("/banners", formData, "POST", token);
   return response;
 
 };
@@ -42,15 +40,16 @@ export const bannerAllDataApi = async (params: {ordering: string, isActive?: boo
     queryParams.append("ordering", params.ordering);
   }
   if (params.isActive !== undefined) {
-    queryParams.append("is_active", params.isActive.toString());
+    queryParams.append("isActive", params.isActive.toString());
   }
-  const endpoint = `/banners/?${queryParams.toString()}`;
+  const endpoint = `/banners?${queryParams.toString()}`;
   const response = await apiCoreNode(endpoint, {}, "GET", token);
   return response;
 };
 
 export const bannerDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(`/frontend/banner/${id}/`, token);
+  console.log(token,"delete")
+  const response = await apiCoreDelete(`/banners/${id}`, token);
   return response;
 };
 
@@ -58,33 +57,31 @@ export const bannerUpdatedApi = async (
   id: string,
   sequence_number: string,
   heading: string,
-  sub_heading:string,
-  description: string,
-  image: File | null | any,
+  subheading:string,
+  subheading2: string,
+  imageUrl: File | null | any,
   mobile_banner:File | null |any,
   isActive: boolean,
-  button:string,
-  button_link:string,
-  updated_by: any,
+  buttonText:string,
+  buttonLink:string,
   token: string
 ) => {
   const formData = new FormData();
   formData.append("sequence_number", sequence_number);
   formData.append("heading", heading);
-  formData.append("sub_heading", sub_heading);
-  formData.append("description", description);
-  formData.append("button_text", button);
-  formData.append("button_link", button_link);
-  if (image) {
-    formData.append("image", image);
+  formData.append("subheading", subheading);
+  formData.append("subheading2", subheading2);
+  formData.append("buttonText", buttonText);
+  formData.append("buttonLink", buttonLink);
+  if (imageUrl) {
+    formData.append("imageUrl", imageUrl);
   }
   if(mobile_banner){
     formData.append("mobile_banner", mobile_banner);
   }
-  formData.append("is_active", isActive.toString());
-  formData.append("updated_by", updated_by);
+  formData.append("isActive", isActive.toString());
 
-  const response = await apiCoreUpdateuser(`/frontend/banner/${id}/`, formData, "PATCH", token,);
+  const response = await apiCoreUpdateuser(`/banners/${id}`, formData, "PATCH", token,);
   return response;
 };
 

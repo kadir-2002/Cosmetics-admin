@@ -9,7 +9,7 @@ export const apiCoreFormData = async (
 
       ...(token && { Authorization: `Token ${token}` }),
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, {
       method,
       body: formData,
       headers,

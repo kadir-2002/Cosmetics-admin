@@ -1,6 +1,6 @@
 export const apiCoreDelete = async (endpoint: string, token: string) => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

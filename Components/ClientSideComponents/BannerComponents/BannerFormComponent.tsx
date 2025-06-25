@@ -58,6 +58,7 @@ const BannerFormComponent = () => {
   const [fileName, setFileName] = useState("");
   const created_by = useSelector((state: any) => state?.user?.details?.id);
   const token = useSelector((state: any) => state?.user?.token);
+  console.log(token,"token in banner")
   const dispatch = useDispatch();
   const router = useRouter();
   const [isFileNamemobile,setFileNamemobile]=useState("")
@@ -89,7 +90,6 @@ const BannerFormComponent = () => {
           is_active,
           button,
           button_link,
-          created_by,
           token
         );
         if (response?.status === 200) {
@@ -132,7 +132,6 @@ const BannerFormComponent = () => {
           is_active,
           button,
           button_link,
-          created_by,
           token
         );
         if (response?.error === "This sequence number already exists") {
@@ -343,7 +342,6 @@ const BannerFormComponent = () => {
       is_active,
       banner?.button_text,
       banner?.button_link,
-      created_by,
       token
     );
     if (response?.status === 200) {
@@ -665,10 +663,10 @@ const BannerFormComponent = () => {
                 <tr key={index} className='border-b'>
                   <td className='p-3 text-center'>{banner?.sequence_number}</td>
                   <td className='p-3 text-center lg:px-7'>
-                    {banner?.image ? (
+                    {banner?.imageUrl ? (
                       <>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL}${banner?.image}`}
+                          src={banner?.imageUrl}
                           alt='Profile'
                           className='lg:h-16 lg:w-16 h-12 w-12 object-cover rounded-full'
                         />
@@ -683,7 +681,7 @@ const BannerFormComponent = () => {
                     {banner?.mobile_banner ? (
                       <>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL}${banner?.mobile_banner}`}
+                          src={banner?.mobile_banner}
                           alt='Profile'
                           className='lg:h-16 lg:w-16 h-12 w-12 object-cover rounded-full'
                         />
