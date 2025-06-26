@@ -42,9 +42,9 @@ const CurrencyManager = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [newRole, setNewRole] = useState({
     id: "",
-    country: "",
-    currency: "",
-    currency_symbol: "",
+    country: "India",
+    currency: "INR",
+    currency_symbol: "\ub20b9",
     logo: "",
     address: "",
     phone: "",
@@ -56,8 +56,8 @@ const CurrencyManager = () => {
     instagram_link: "",
     twitter_icon: "",
     twitter_link: "",
-    linkedin_icon:"",
-    linkedin_link:"",
+    linkedin_icon: "",
+    linkedin_link: "",
     product_low_stock_threshold: "",
     minimum_order_quantity: "",
   });
@@ -84,36 +84,36 @@ const CurrencyManager = () => {
   const fetchcurrencyData = async () => {
     try {
       const response = await currencyAllDataApi(token);
-      if (response?.detail === "Invalid token") {
+      if (response?.status === 401) {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
         return;
       }
-      if (response.details) {
-        setCurrencyData(response?.details);
+      if (response.body.result && response.body.result.length > 0) {
+        const result = response.body.result[0];
+        setCurrencyData(result);
         setNewRole({
-          id: response.details.id.toString(),
-          country: response.details.country,
-          currency: response.details.currency,
-          currency_symbol: response.details.currency_symbol,
-          logo: response.details.logo,
-          address: response.details.address,
-          phone: response.details.phone_number,
-          email: response.details.email,
-          description: response.details.text,
-          facebook_icon: response.details.facebook_icon,
-          facebook_link: response.details.facebook_link,
-          instagram_icon: response.details.instagram_icon,
-          instagram_link: response.details.instagram_link,
-          twitter_icon: response.details.twitter_icon,
-          twitter_link: response.details.twitter_link,
-          linkedin_icon:response.details.linkedin_icon,
-          linkedin_link:response.details.linkedin_link,
-          product_low_stock_threshold:
-          response?.details?.product_low_stock_threshold,
-          minimum_order_quantity: response?.details?.minimum_order_quantity,
-        });
+          id: result.id,
+          country: result.country,
+          currency: result.currency,
+          currency_symbol: result.currency_symbol,
+          logo: result.logo,
+          address: result.address,
+          phone: result.phone,
+          email: result.email,
+          description: result.text,
+          facebook_icon: result.facebook_icon,
+          facebook_link: result.facebook_link,
+          instagram_icon: result.instagram_icon,
+          instagram_link: result.instagram_link,
+          twitter_icon: result.twitter_icon,
+          twitter_link: result.twitter_link,
+          linkedin_icon: result.linkedin_icon,
+          linkedin_link: result.linkedin_link,
+          product_low_stock_threshold: result.product_low_stock_threshold,
+          minimum_order_quantity: result.minimum_order_quantity,
+        })
       }
     } catch (error) {
       console.log("Error fetching currency data:", error);
@@ -205,8 +205,8 @@ const CurrencyManager = () => {
       instagram_link,
       twitter_icon,
       twitter_link,
-        linkedin_icon,
-        linkedin_link,
+      linkedin_icon,
+      linkedin_link,
       product_low_stock_threshold,
       minimum_order_quantity,
     } = newRole;
@@ -331,7 +331,7 @@ const CurrencyManager = () => {
     }
   };
 
-    const handlelinkedin_iconChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handlelinkedin_iconChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file: any = e.target.files?.[0];
     // setfile(file);
     if (file) {
@@ -420,7 +420,7 @@ const CurrencyManager = () => {
                 {newRole?.logo ? (
                   <div className='lg:h-16 lg:w-20 h-10 w-10 bg-gray-200 flex items-center justify-center rounded-full p-1'>
                     <img
-                      src={`${process.env.NEXT_PUBLIC_BASE_URL}${newRole?.logo}`}
+                      src={`${newRole?.logo}`}
                       alt='Profile'
                       className='lg:h-16 lg:w-16 h-10 w-10 object-contain rounded-full'
                     />
@@ -541,7 +541,7 @@ const CurrencyManager = () => {
                 {newRole?.facebook_icon ? (
                   <div className='lg:h-16 lg:w-20 h-10 w-10 bg-gray-200 flex items-center justify-center rounded-full p-1'>
                     <img
-                      src={`${process.env.NEXT_PUBLIC_BASE_URL}${newRole?.facebook_icon}`}
+                      src={newRole?.facebook_icon}
                       alt='Profile'
                       className='lg:h-16 lg:w-16 h-10 w-10 object-contain rounded-full'
                     />
@@ -598,7 +598,7 @@ const CurrencyManager = () => {
                 {newRole?.instagram_icon ? (
                   <div className='lg:h-16 lg:w-20 h-10 w-10 bg-gray-200 flex items-center justify-center rounded-full p-1'>
                     <img
-                      src={`${process.env.NEXT_PUBLIC_BASE_URL}${newRole?.instagram_icon}`}
+                      src={`${newRole?.instagram_icon}`}
                       alt='Profile'
                       className='lg:h-16 lg:w-16 h-10 w-10 object-contain rounded-full'
                     />
@@ -655,7 +655,7 @@ const CurrencyManager = () => {
                 {newRole?.twitter_icon ? (
                   <div className='lg:h-16 lg:w-20 h-10 w-10 bg-gray-200 flex items-center justify-center rounded-full p-1'>
                     <img
-                      src={`${process.env.NEXT_PUBLIC_BASE_URL}${newRole?.twitter_icon}`}
+                      src={`${newRole?.twitter_icon}`}
                       alt='Profile'
                       className='lg:h-16 lg:w-16 h-10 w-10 object-contain rounded-full'
                     />
@@ -684,7 +684,7 @@ const CurrencyManager = () => {
                 </label>
               </div>
 
-                 <div className='lg:flex gap-3 w-full'>
+              <div className='lg:flex gap-3 w-full'>
                 <div className='border-primary/30 border-[1px] bg-gray-50 rounded-md  w-full focus:outline-none focus:outline-1 placeholder-black h-12'>
                   <div className='flex bg-admin-secondary justify-center items-center px-4 rounded-md'>
                     <input
@@ -698,6 +698,7 @@ const CurrencyManager = () => {
                       //   {...(isEdit ? {} : { required: true })}
                       className='block w-full text-sm text-admin-secondary file:mr-4 file:py-1 file:h-12 file:px-4  file:rounded-l-md file:border-0 file:text-sm file:font-semibold file:bg-admin-secondary bg-admin-secondary file:text-white hover:file:bg-gray-700'
                     />
+                    <h1> {newRole.country}</h1>
                     {linkdingfileName ? (
                       <span className='text-white px-2 w-full'>
                         {linkdingfileName.length > 10
@@ -712,7 +713,7 @@ const CurrencyManager = () => {
                 {newRole?.linkedin_icon ? (
                   <div className='lg:h-16 lg:w-20 h-10 w-10 bg-gray-200 flex items-center justify-center rounded-full p-1'>
                     <img
-                      src={`${process.env.NEXT_PUBLIC_BASE_URL}${newRole?.linkedin_icon}`}
+                      src={`${newRole?.linkedin_icon}`}
                       alt='Profile'
                       className='lg:h-16 lg:w-16 h-10 w-10 object-contain rounded-full'
                     />
