@@ -48,8 +48,8 @@ export const bannerAllDataApi = async (params: {ordering: string, isActive?: boo
 };
 
 export const bannerDeleteApi = async (id: any, token: string) => {
-  console.log(token,"delete")
   const response = await apiCoreDelete(`/banners/${id}`, token);
+  console.log(response,"bannerData")
   return response;
 };
 

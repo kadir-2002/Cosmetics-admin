@@ -98,22 +98,13 @@ const CategryFormComponent = () => {
     }
     try {
       if (isEdit) {
+        console.log(sequence_number,"api payload")
         const response = await categryUpdatedApi(
-          selectedRoleId,
           sequence_number,
           categryName,
-          title,
-          heading,
-          description,
           image,
           banner,
-          seodescription,
           seo_title,
-          seo_description,
-          seo_keyword,
-          parent_catgory,
-          isActive,
-          minimum_order_quantity,
           token
         );
         if (response?.status === 200) {
@@ -158,18 +149,8 @@ const CategryFormComponent = () => {
         const response = await createCategryApi(
           sequence_number,
           categryName,
-          title,
-          heading,
-          description,
           image,
           banner,
-          seodescription,
-          seo_title,
-          seo_description,
-          seo_keyword,
-          parent_catgory,
-          isActive,
-          minimum_order_quantity,
           token
         );
         if (
@@ -244,10 +225,10 @@ const CategryFormComponent = () => {
         apiParams.ordering = ordering;
       }
       const response = await categryAllDataApi(apiParams);
-      if (response?.results) {
-        setCategry(response?.results);
-        setTotalPages(response?.total_pages);
-      } else if (response?.detail === "Invalid token") {
+      if (response.body) {
+        setCategry(response.body.categories);
+        setTotalPages(response?.body.total_pages);
+      } else if (response?.body.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -279,7 +260,7 @@ const CategryFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await categoryDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.message==='Category deleted') {
         toast.success("Category deleted successfully");
         setIsLogoutPopup(false);
         fetchCategory();
@@ -399,18 +380,8 @@ const CategryFormComponent = () => {
       data?.id,
       data?.sequence_number,
       data?.name,
-      data?.title,
-      data?.heading,
-      data?.description,
       image,
       banner,
-      data?.seo_description,
-      data?.seo_title,
-      data?.seo_data,
-      data?.seo_keyword,
-      data?.parent_catgory,
-      isActive,
-      data?.minimum_order_quantity,
       token
     );
     if (response?.status === 200) {
@@ -628,24 +599,7 @@ const CategryFormComponent = () => {
             </div>
             <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
-              <input
-                type='text'
-                placeholder=' Minimum Order Quantity'
-                value={newRole.seo_title}
-                className='peer bg-[#F3F3F3] focus:outline-none w-full px-4  py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
-                onChange={(e) =>
-                  setNewRole((prev) => ({
-                    ...prev,
-                    seo_title: e.target.value,
-                  }))
-                }
-              />
-              <label
-                htmlFor='tag'
-                className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-              >
-                Enter SEO Title
-              </label>
+            
             </div>
             <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
@@ -881,7 +835,6 @@ const CategryFormComponent = () => {
                   {isfiltervalue === "" ? "Status" : isfiltervalue}{" "}
                   <FaAngleDown className='text-admin-text-primary' />
                 </th>
-                <th className='p-3 text-center'>Minimum Order Quantity</th>
                 <th className='p-3 text-center'>Sub-Category</th>
                 <th className='py-3 px-6'>Action</th>
                 <th className='py-3 px-6'>Info</th>
@@ -890,16 +843,16 @@ const CategryFormComponent = () => {
 
             
             <tbody>
-              {categry?.map((data: any, index: any) => (
+               {Array.isArray(categry) && categry?.map((data: any, index: any) => (
                 <tr key={index} className='border-b-[1px] hover:bg-blue-100 '>
                   <td className='flex justify-start items-center'>
                     <div className='py-3 px-6 '>{data?.sequence_number}</div>
                   </td>
                   <td className='p-3'>
-                    {data?.image ? (
+                    {data?.imageUrl ? (
                       <>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL}${data?.image}`}
+                          src={data?.imageUrl}
                           alt='Profile'
                           className='lg:h-12 lg:w-12 h-12 w-12 object-cover rounded-full'
                         />
@@ -914,7 +867,7 @@ const CategryFormComponent = () => {
                     {data?.banner ? (
                       <>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL}${data?.banner}`}
+                          src={data?.banner}
                           alt='Profile'
                           className='lg:h-12 lg:w-12 h-12 w-12 object-cover rounded-full'
                         />
@@ -947,9 +900,7 @@ const CategryFormComponent = () => {
                       </Switch>
                     </div>
                   </td>
-                  <td className='p-3 text-center'>
-                    {data?.minimum_order_quantity}
-                  </td>
+                  
                   <td className='py-3 px-6'>
                     <div
                       className='flex justify-center items-center'

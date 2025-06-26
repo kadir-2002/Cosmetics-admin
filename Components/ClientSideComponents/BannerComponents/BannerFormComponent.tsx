@@ -58,7 +58,6 @@ const BannerFormComponent = () => {
   const [fileName, setFileName] = useState("");
   const created_by = useSelector((state: any) => state?.user?.details?.id);
   const token = useSelector((state: any) => state?.user?.token);
-  console.log(token,"token in banner")
   const dispatch = useDispatch();
   const router = useRouter();
   const [isFileNamemobile,setFileNamemobile]=useState("")
@@ -210,12 +209,12 @@ const BannerFormComponent = () => {
         isActive,
       };
       const response = await bannerAllDataApi(apiParams, token);
-      if (response?.detail === "Invalid token") {
+      if (response?.status === "01") {
         // dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
       } else if (response) {
-        setBanner(response);
+        setBanner(response.body);
       }
     } catch (error) {
       console.error("Error fetching roles:", error);
@@ -241,11 +240,11 @@ const BannerFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await bannerDeleteApi(id, token);
-      if (response?.success) {
+      if (response.status === 200) {
         toast.success("Banner deleted successfully");
         setIsLogoutPopup(false);
         fetchBanner();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.status === 401) {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -266,7 +265,6 @@ const BannerFormComponent = () => {
         if (reader.result) {
           setNewUser((prev) => ({ ...prev, image: file }));
           setFileName(file.name);
-          console.log("reader.result ", reader.result);
         }
       };
       reader.readAsDataURL(file);
