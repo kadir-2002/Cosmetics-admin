@@ -59,7 +59,7 @@ export const whyChooseUsUpdatedApi = async (
   formData.append("heading", heading);
   formData.append("description", description);
   if (image) {
-    formData.append("file", image);
+    formData.append("image", image);
   }
   formData.append("isActive", isActive.toString());
 
