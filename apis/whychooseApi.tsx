@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
 import { apiCoreGet } from "./apiCoreGet";
@@ -14,15 +15,14 @@ export const createWhyChooseUsApi = async (
 ) => {
 
   const formData = new FormData();
-  formData.append("sequence_number", sequence_number);
+  formData.append("sequenceNumber", sequence_number);
   formData.append("heading", heading);
   formData.append("description", description);
   if (image) {
     formData.append("image", image);
   }
-  formData.append("is_active", isActive.toString());
-  formData.append("created_by", created_by.toString());
-  const response = await apiCoreFormData("/frontend/whychooseus/", formData, "POST", token);
+  formData.append("isActive", isActive.toString());
+  const response = await apiCoreFormData("/why-choose-us/", formData, "POST", token);
   return response;
 
 };
@@ -34,13 +34,13 @@ export const whychooseusAllDataApi = async (params: {ordering: string, isActive?
   if (params.isActive !== undefined) {
     queryParams.append("is_active", params.isActive.toString());
   }
-  const endpoint = `/frontend/whychooseus/?${queryParams.toString()}`;
-  const response = await apiCoreGet(endpoint, "GET", token);
+  const endpoint = `/why-choose-us/?${queryParams.toString()}`;
+  const response = await apiCoreNode(endpoint, {},"GET");
   return response;
 };
 
 export const whyChooseUsDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(`/frontend/whychooseus/${id}/`, token);
+  const response = await apiCoreNode(`/why-choose-us/${id}/`,{},"DELETE" ,token);
   return response;
 };
 
@@ -55,14 +55,13 @@ export const whyChooseUsUpdatedApi = async (
   token: string
 ) => {
   const formData = new FormData();
-  formData.append("sequence_number", sequence_number);
+  formData.append("sequenceNumber", sequence_number);
   formData.append("heading", heading);
   formData.append("description", description);
   if (image) {
-    formData.append("image", image);
+    formData.append("file", image);
   }
-  formData.append("is_active", isActive.toString());
-  formData.append("updated_by", updated_by);
+  formData.append("isActive", isActive.toString());
 
   const response = await apiCoreUpdateuser(`/frontend/whychooseus/${id}/`, formData, "PATCH", token,);
   return response;

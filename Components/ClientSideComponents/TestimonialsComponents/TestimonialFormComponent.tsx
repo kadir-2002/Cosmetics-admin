@@ -161,10 +161,10 @@ const TestimonialFormComponent = () => {
         apiParams.ordering = ordering;
       }
       const response = await testimonialAllDataApi(apiParams);
-      if (response?.results) {
-        setTestimonial(response?.results);
-        setTotalPages(response?.total_pages);
-      } else if (response?.detail === "Invalid token") {
+      if (response?.body.testimonials) {
+        setTestimonial(response?.body.testimonials);
+        setTotalPages(response?.body.total_pages);
+      } else if (response?.status === 401) {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -196,11 +196,12 @@ const TestimonialFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await testimonialDeleteApi(id, token);
-      if (response?.success) {
+      console.log("response", response)
+      if (response?.body.success) {
         toast.success("Category deleted successfully");
         setIsLogoutPopup(false);
         fetchCategory();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.body?.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -212,9 +213,9 @@ const TestimonialFormComponent = () => {
 
   const handleEdit = (data: {
     id: string;
-    designation: string;
+    role: string;
     image: string;
-    testimonial: string;
+    description: string;
     name: string;
     is_active: boolean;
   }) => {
@@ -228,9 +229,9 @@ const TestimonialFormComponent = () => {
     }
     setNewRole({
       name: data?.name,
-      description: data?.testimonial,
+      description: data?.description,
       image: "",
-      role: data?.designation,
+      role: data?.role,
       isActive: data?.is_active,
     });
     setIsEdit(true);
@@ -278,7 +279,7 @@ const TestimonialFormComponent = () => {
       data?.name,
       data?.testimonial,
       image,
-      data?.designation,
+      data?.role,
       isActive,
       token
     );
@@ -532,7 +533,7 @@ const TestimonialFormComponent = () => {
                     </span>
                   </div>
                 </th>
-                <th className='py-3 px-5 text-start'>Designation</th>
+                <th className='py-3 px-5 text-start'>role</th>
                 <th
                   className='p-4 flex gap-1 justify-center items-center'
                   onClick={() => setIsActiveInactiveFilterPopup(true)}
@@ -548,10 +549,10 @@ const TestimonialFormComponent = () => {
               {testimonial?.map((data: any, index: any) => (
                 <tr key={index} className='border-b-[1px] hover:bg-blue-100 '>
                   <td className='p-3 '>
-                    {data?.profile_picture ? (
+                    {data?.image ? (
                       <>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL}${data?.profile_picture}`}
+                          src={`${data?.image}`}
                           alt='Profile'
                           className='lg:h-12 lg:w-12 h-12 w-12 object-cover rounded-full'
                         />
@@ -567,7 +568,7 @@ const TestimonialFormComponent = () => {
                   </td>
                  
                   <td className='items-center'>
-                    <div className='py-3 px-6 '>{data?.designation}</div>
+                    <div className='py-3 px-6 '>{data?.role}</div>
                   </td>
                   <td className='py-3 px-6 text-center'>
                     <div className=''>
@@ -593,9 +594,9 @@ const TestimonialFormComponent = () => {
                           handleEdit({
                             id: data?.id,
                             name: data?.name,
-                            testimonial: data?.testimonial,
+                            description: data?.description,
                             image: data?.profile_picture,
-                            designation: data?.designation,
+                            role: data?.role,
                             is_active: data?.is_active,
                           })
                         }

@@ -190,12 +190,12 @@ const WhyChooseUsFormComponent = () => {
         isActive,
       };
       const response = await whychooseusAllDataApi(apiParams, token);
-      if (response?.detail === "Invalid token") {
+      if (response?.status === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
-      } else if (response?.results) {
-        setBanner(response?.results);
+      } else if (response?.body) {
+        setBanner(response?.body.items);
       }
     } catch (error) {
       console.error("Error fetching roles:", error);
@@ -221,11 +221,11 @@ const WhyChooseUsFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await whyChooseUsDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body.message === "Item deleted successfully") {
         toast.success("Why Choose Us deleted successfully");
         setIsLogoutPopup(false);
         fetchBanner();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.status === 401) {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
 import { apiCoreGet } from "./apiCoreGet";
@@ -25,7 +26,7 @@ export const testimonialAllDataApi = async (params: {
     queryParams.append("is_active", params.filtervalue.toString());
   }
   const endpoint = `/frontend/testimonial/?${queryParams.toString()}`;
-  const response = await apiCoreGet(endpoint, "GET", params?.token);
+  const response = await apiCoreNode(endpoint,{}, "GET");
   return response;
 };
 
@@ -39,14 +40,14 @@ export const createtesTimonialApi = async (
 ) => {
   const formData = new FormData();
   formData.append("name", name);
-  formData.append("testimonial", description);
+  formData.append("description", description);
   if (image) {
-    formData.append("profile_picture", image);
+    formData.append("image", image);
   }
-  formData.append("designation", role);
+  formData.append("role", role);
   formData.append("is_active", is_active.toString());
   const response = await apiCoreFormData(
-    "/frontend/testimonial/",
+    "/frontend/testimonial",
     formData,
     "POST",
     token
@@ -55,7 +56,7 @@ export const createtesTimonialApi = async (
 };
 
 export const testimonialDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(`/frontend/testimonial/${id}/`, token);
+  const response = await apiCoreNode(`/frontend/testimonial/${id}/`,{}, 'DELETE', token);
   return response;
 };
 export const testimonialUpdatedApi = async (
@@ -69,15 +70,15 @@ export const testimonialUpdatedApi = async (
 ) => {
   const formData = new FormData();
   formData.append("name", name);
-  formData.append("testimonial", description);
+  formData.append("description", description);
   if (image) {
-    formData.append("profile_picture", image);
+    formData.append("image", image);
   }
-  formData.append("designation", role);
+  formData.append("role", role);
   formData.append("is_active", is_active.toString());
 
   const response = await apiCoreUpdateuser(
-    `/frontend/testimonial/${id}/`,
+    `/frontend/testimonial/${id}`,
     formData,
     "PATCH",
     token
