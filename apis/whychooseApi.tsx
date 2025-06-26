@@ -63,7 +63,7 @@ export const whyChooseUsUpdatedApi = async (
   }
   formData.append("isActive", isActive.toString());
 
-  const response = await apiCoreUpdateuser(`/frontend/whychooseus/${id}/`, formData, "PATCH", token,);
+  const response = await apiCoreUpdateuser(`/why-choose-us/${id}/`, formData, "PATCH", token,);
   return response;
 };
 

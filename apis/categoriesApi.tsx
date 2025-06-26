@@ -64,7 +64,7 @@ export const categoryDeleteApi = async (id: any, token: string) => {
 export const categryUpdatedApi = async (
   id: string,
   sequence_number: string,
-  name: string,
+  name: string,     
   image: string,
   banner: string,
   token: string
@@ -73,12 +73,9 @@ export const categryUpdatedApi = async (
   formData.append("sequence_number", sequence_number);
   formData.append("name", name);
 
-  if (image) {
     formData.append("image", image);
-  }
-  if (banner) {
+  
     formData.append("banner", banner);
-  }
 
   console.log("formdata update:");
 for (const pair of formData.entries()) {

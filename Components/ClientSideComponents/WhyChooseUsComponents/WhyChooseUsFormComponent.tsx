@@ -532,7 +532,7 @@ const WhyChooseUsFormComponent = () => {
                     {banner?.image ? (
                       <>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL}${banner?.image}`}
+                          src={`${banner?.image}`}
                           alt='Profile'
                           className='lg:h-16 lg:w-16 h-12 w-12 object-cover rounded-full'
                         />
@@ -549,17 +549,17 @@ const WhyChooseUsFormComponent = () => {
                   <td className='p-3 text-center'>
                     <div className='text-center'>
                       <Switch
-                        checked={banner?.is_active}
+                        checked={banner?.isActive}
                         onChange={() =>
-                          activeHandler(banner, !banner?.is_active)
+                          activeHandler(banner, !banner?.isActive)
                         }
                         className={`${
-                          banner?.is_active ? "bg-green-500" : "bg-gray-300"
+                          banner?.isActive ? "bg-green-500" : "bg-gray-300"
                         } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                       >
                         <span
                           className={`${
-                            banner?.is_active
+                            banner?.isActive
                               ? "translate-x-6"
                               : "translate-x-1"
                           } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}

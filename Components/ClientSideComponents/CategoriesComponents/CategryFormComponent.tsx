@@ -886,15 +886,15 @@ const CategryFormComponent = () => {
                   <td className='py-3 px-6 text-center'>
                     <div className=''>
                       <Switch
-                        checked={data?.is_active}
-                        onChange={() => activeHandler(data, !data?.is_active)}
+                        checked={!data?.isDeleted}
+                        onChange={() => activeHandler(data, !data?.isDeleted)}
                         className={`${
-                          data?.is_active ? "bg-green-500" : "bg-gray-300"
+                          !data?.isDeleted ? "bg-green-500" : "bg-gray-300"
                         } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                       >
                         <span
                           className={`${
-                            data?.is_active ? "translate-x-6" : "translate-x-1"
+                            !data?.isDeleted ? "translate-x-6" : "translate-x-1"
                           } inline-block w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out`}
                         />
                       </Switch>
