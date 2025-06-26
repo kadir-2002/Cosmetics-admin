@@ -27,13 +27,14 @@ export const categryAllDataApi = async (params: {
     queryParams.append("isDeleted", params.filtervalue.toString());
   }
   const endpoint = `/category`;
-  const response = await apiCoreNode(endpoint, {},"GET");
+  const response = await apiCoreNode(endpoint, {}, "GET");
   return response;
 };
 
 export const createCategryApi = async (
   sequence_number: string,
   name: string,
+  isDeleted: any,
   image: string,
   banner: string,
   token: string
@@ -41,6 +42,7 @@ export const createCategryApi = async (
   const formData = new FormData();
   formData.append("sequence_number", sequence_number);
   formData.append("name", name);
+  formData.append("isDeleted", isDeleted);
 
   if (image) {
     formData.append("image", image);
@@ -64,7 +66,8 @@ export const categoryDeleteApi = async (id: any, token: string) => {
 export const categryUpdatedApi = async (
   id: string,
   sequence_number: string,
-  name: string,     
+  is_deleted: any,
+  name: string,
   image: string,
   banner: string,
   token: string
@@ -72,15 +75,15 @@ export const categryUpdatedApi = async (
   const formData = new FormData();
   formData.append("sequence_number", sequence_number);
   formData.append("name", name);
+  formData.append("isDeleted", is_deleted);
+  formData.append("image", image);
 
-    formData.append("image", image);
-  
-    formData.append("banner", banner);
+  formData.append("banner", banner);
 
   console.log("formdata update:");
-for (const pair of formData.entries()) {
-  console.log(`${pair[0]}:`, pair[1]);
-}
+  for (const pair of formData.entries()) {
+    console.log(`${pair[0]}:`, pair[1]);
+  }
   const response = await apiCoreUpdateuser(
     `/category/${id}`,
     formData,
@@ -106,9 +109,9 @@ export const createSubCategryApi = async (
   heading: string,
   description: string,
   seo_description: string,
-  seo_title:string,
-  seo_data:string,
-  seo_keyword:string,
+  seo_title: string,
+  seo_data: string,
+  seo_keyword: string,
   parent_catgeory: number,
   image: string,
   banner: string,
@@ -150,9 +153,9 @@ export const updateSubCategryApi = async (
   heading: string,
   description: string,
   seo_description: string,
-  seo_title:string,
-  seo_data:string,
-  seo_keyword:string,
+  seo_title: string,
+  seo_data: string,
+  seo_keyword: string,
   parent_catgeory: number,
   image: string,
   banner: string,

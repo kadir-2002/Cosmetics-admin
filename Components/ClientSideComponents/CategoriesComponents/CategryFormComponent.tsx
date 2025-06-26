@@ -37,6 +37,7 @@ interface Role {
 const CategryFormComponent = () => {
   const [categry, setCategry] = useState<Role[]>([]);
   const [newRole, setNewRole] = useState({
+    id: "",
     sequence_number: "",
     categryName: "",
     title: "",
@@ -78,6 +79,7 @@ const CategryFormComponent = () => {
   const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const {
+      id,
       sequence_number,
       categryName,
       title,
@@ -98,16 +100,16 @@ const CategryFormComponent = () => {
     }
     try {
       if (isEdit) {
-        console.log(sequence_number,"api payload")
         const response = await categryUpdatedApi(
+          id,
           sequence_number,
+          isActive,
           categryName,
           image,
           banner,
-          seo_title,
           token
         );
-        if (response?.status === 200) {
+        if (response?.data?.success) {
           toast.success("Category updated successfully");
           setIsEdit(false);
           fetchCategory();
@@ -115,6 +117,7 @@ const CategryFormComponent = () => {
           setFileName("");
           setBannerName("");
           setNewRole({
+            id: "",
             sequence_number: "",
             categryName: "",
             title: "",
@@ -130,7 +133,7 @@ const CategryFormComponent = () => {
             minimum_order_quantity: "",
             isActive: false,
           });
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -149,6 +152,7 @@ const CategryFormComponent = () => {
         const response = await createCategryApi(
           sequence_number,
           categryName,
+          isActive,
           image,
           banner,
           token
@@ -164,6 +168,7 @@ const CategryFormComponent = () => {
           setFileName("");
           setBannerName("");
           setNewRole({
+            id: "",
             sequence_number: "",
             categryName: "",
             title: "",
@@ -179,7 +184,7 @@ const CategryFormComponent = () => {
             minimum_order_quantity: "",
             isActive: false,
           });
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -198,8 +203,8 @@ const CategryFormComponent = () => {
     isfiltervalue === "Active"
       ? true
       : isfiltervalue === "Inactive"
-      ? false
-      : undefined;
+        ? false
+        : undefined;
   const fetchCategory = async () => {
     try {
       const apiParams: {
@@ -260,7 +265,7 @@ const CategryFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await categoryDeleteApi(id, token);
-      if (response?.message==='Category deleted') {
+      if (response?.message === 'Category deleted') {
         toast.success("Category deleted successfully");
         setIsLogoutPopup(false);
         fetchCategory();
@@ -282,9 +287,9 @@ const CategryFormComponent = () => {
     image: string;
     banner: string;
     seo_description: string,
-    seo_title:  string;
+    seo_title: string;
     seo_data: string,
-    seo_keyword:  string,
+    seo_keyword: string,
     parent_catgory: string;
     name: string;
     minimum_order_quantity: string;
@@ -300,6 +305,7 @@ const CategryFormComponent = () => {
       });
     }
     setNewRole({
+      id: data?.id,
       sequence_number: data?.sequence_number,
       categryName: data?.name,
       description: data?.description,
@@ -324,6 +330,7 @@ const CategryFormComponent = () => {
     setBannerName("");
     setFileName("");
     setNewRole({
+      id: "",
       sequence_number: "",
       categryName: "",
       title: "",
@@ -333,7 +340,7 @@ const CategryFormComponent = () => {
       banner: "",
       seodescription: "",
       seo_title: "",
-      seo_description:"",
+      seo_description: "",
       seo_keyword: "",
       parent_catgory: "",
       minimum_order_quantity: "",
@@ -353,6 +360,7 @@ const CategryFormComponent = () => {
     setFileName("");
     setBannerName("");
     setNewRole({
+      id: "",
       sequence_number: "",
       categryName: "",
       title: "",
@@ -362,7 +370,7 @@ const CategryFormComponent = () => {
       banner: "",
       seodescription: "",
       seo_title: "",
-      seo_description:"",
+      seo_description: "",
       seo_keyword: "",
       parent_catgory: "",
       minimum_order_quantity: "",
@@ -379,6 +387,7 @@ const CategryFormComponent = () => {
     const response = await categryUpdatedApi(
       data?.id,
       data?.sequence_number,
+      isActive,
       data?.name,
       image,
       banner,
@@ -441,7 +450,7 @@ const CategryFormComponent = () => {
   };
 
   return (
-    
+
     <div className='min-h-screen w-full flex flex-col lg:items-center' ref={topRef}>
       <div className='flex justify-center items-center mx-auto w-full mb-4 lg:gap-8 gap-3 '>
         <div className='md:w-[60%] w-[90%] relative'>
@@ -599,7 +608,7 @@ const CategryFormComponent = () => {
             </div>
             <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
-            
+
             </div>
             <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
@@ -620,7 +629,7 @@ const CategryFormComponent = () => {
                 className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
               >
                 Enter SEO Description
-                </label>
+              </label>
             </div>
             <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
@@ -663,7 +672,7 @@ const CategryFormComponent = () => {
               >
                 Minimum Order Quantity
               </label>
-            </div> 
+            </div>
             <div className='flex items-center  justify-between gap-3 bg-[#F3F3F3] rounded-lg h-12 px-4 w-full '>
               <label className='text-sm text-[#577C8E]'>Is Active?</label>
               <div className='switch'>
@@ -685,7 +694,7 @@ const CategryFormComponent = () => {
 
 
 
-            
+
             <div className='rounded-md  w-full focus:outline-none focus:outline-1 placeholder-black h-12'>
               <p className='lg:py-2 mb-1'>Image</p>
               <div className='flex bg-admin-secondary justify-center items-center px-4 rounded-md'>
@@ -742,14 +751,13 @@ const CategryFormComponent = () => {
                 }
               />
             </div>
-           
+
           </div>
           <div className='flex lg:flex-row flex-col justify-center items-center gap-6 '>
             <button
               type='submit'
-              className={`text-lg lg:w-[230px] w-full ${
-                isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
-              } text-white px-6 py-3 rounded-md`}
+              className={`text-lg lg:w-[230px] w-full ${isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
+                } text-white px-6 py-3 rounded-md`}
             >
               {isEdit ? "Update" : "Create"}
             </button>
@@ -771,11 +779,10 @@ const CategryFormComponent = () => {
             <thead>
               <tr className='bg-admin-secondary text-admin-text-primary  font-semibold  text-start'>
                 <th
-                  className={`text-center cursor-pointer transition-colors duration-200 ${
-                    ordering === "name" || ordering === "-name"
+                  className={`text-center cursor-pointer transition-colors duration-200 ${ordering === "name" || ordering === "-name"
                       ? "text-admin-text-primary"
                       : "text-admin-text-primary"
-                  }`}
+                    }`}
                   onClick={() => handleOrdering("name")}
                 >
                   <div className='flex items-center justify-center space-x-0'>
@@ -801,11 +808,10 @@ const CategryFormComponent = () => {
                 <th className='py-3 px-5 text-start'>Image</th>
                 <th className='py-3 text-start'>Banner Image</th>
                 <th
-                  className={`p-3 text-center cursor-pointer transition-colors duration-200 ${
-                    ordering === "name" || ordering === "-name"
+                  className={`p-3 text-center cursor-pointer transition-colors duration-200 ${ordering === "name" || ordering === "-name"
                       ? "text-admin-text-primary"
                       : "text-admin-text-primary"
-                  }`}
+                    }`}
                   onClick={() => handleOrdering("name")}
                 >
                   <div className='flex items-center justify-start space-x-0'>
@@ -841,9 +847,9 @@ const CategryFormComponent = () => {
               </tr>
             </thead>
 
-            
+
             <tbody>
-               {Array.isArray(categry) && categry?.map((data: any, index: any) => (
+              {Array.isArray(categry) && categry?.map((data: any, index: any) => (
                 <tr key={index} className='border-b-[1px] hover:bg-blue-100 '>
                   <td className='flex justify-start items-center'>
                     <div className='py-3 px-6 '>{data?.sequence_number}</div>
@@ -888,19 +894,17 @@ const CategryFormComponent = () => {
                       <Switch
                         checked={!data?.isDeleted}
                         onChange={() => activeHandler(data, !data?.isDeleted)}
-                        className={`${
-                          !data?.isDeleted ? "bg-green-500" : "bg-gray-300"
-                        } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
+                        className={`${!data?.isDeleted ? "bg-green-500" : "bg-gray-300"
+                          } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                       >
                         <span
-                          className={`${
-                            !data?.isDeleted ? "translate-x-6" : "translate-x-1"
-                          } inline-block w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out`}
+                          className={`${!data?.isDeleted ? "translate-x-6" : "translate-x-1"
+                            } inline-block w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out`}
                         />
                       </Switch>
                     </div>
                   </td>
-                  
+
                   <td className='py-3 px-6'>
                     <div
                       className='flex justify-center items-center'
@@ -928,9 +932,9 @@ const CategryFormComponent = () => {
                             image: data?.image,
                             banner: data?.banner,
                             seo_description: data?.seo_description,
-                            seo_title:  data?.seo_title,
+                            seo_title: data?.seo_title,
                             seo_data: data?.seo_data,
-                            seo_keyword:  data?.seo_keyword,
+                            seo_keyword: data?.seo_keyword,
                             parent_catgory: data?.parent_category,
                             minimum_order_quantity:
                               data?.minimum_order_quantity,
@@ -1021,7 +1025,7 @@ const CategryFormComponent = () => {
         </button>
       </div>
     </div>
-  
+
   );
 };
 
