@@ -38,7 +38,6 @@ type props = {
   variantSpecifications: any;
   setVariantSpecifications: any;
   setCurrentPage: any;
-  isTagData: any;
 };
 const ProductFormComponent: React.FC<props> = ({
   productdata,
@@ -59,7 +58,6 @@ const ProductFormComponent: React.FC<props> = ({
   variantSpecifications,
   setVariantSpecifications,
   setCurrentPage,
-  isTagData,
 }) => {
   const created_by = useSelector((state: any) => state?.user?.details?.id);
 
@@ -197,37 +195,27 @@ const ProductFormComponent: React.FC<props> = ({
           name,
           SKU,
           description,
-          category,
-          sub_catogry,
-          base_price,
-          selling_price,
-          base_and_selling_price_difference_in_percent,
+          Number(category),
+          Number(sub_catogry),
+          Number(base_price),
+          Number(selling_price),
+          Number(base_and_selling_price_difference_in_percent),
           variantSpecifications,
-          stock,
+          Number(stock),
           is_active,
           is_new_arrival,
-          minimum_order_quantity,
-          tag_list,
           created_by,
           token,
-          low_stock_threshold,
           weight,
           length,
           width,
           height,
           product_details,
-          care_instruction,
           seo_title,
           seo_description,
           seo_keyword,
-          warranty,
-          delivery_or_installation_tips,
-          material,
-          weight_bearing_number,
-          is_stackable,
-          stackable_pieces_number
         );
-        if (response?.data?.error === "SKU with this name already exists") {
+        if (response?.body?.data?.error === "SKU with this name already exists") {
           toast.error("This SKU is already existed");
         } else if (response?.status === 201) {
           console.log("response", response?.status);
@@ -268,7 +256,7 @@ const ProductFormComponent: React.FC<props> = ({
             is_stackable: false,
             stackable_pieces_number: "",
           });
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.body?.data?.detail === "Invalid token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -674,104 +662,7 @@ const ProductFormComponent: React.FC<props> = ({
               </div>
             </div>
 
-            {/* <div className='flex flex-col'>
-              <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-                <FaMoneyBill color='#A5B7C0' size={26} />
-                <input
-                  type='number'
-                  name='Base Price'
-                  value={newUser.base_price}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    const parsedValue = parseFloat(value);
-
-                    if (parsedValue >= 0 || value === "") {
-                      setNewUser((prev: any) => ({
-                        ...prev,
-                        base_price: value === "" ? "" : parsedValue,
-                      }));
-                    }
-                  }}
-                  // placeholder="Enter Base Price *"
-                  className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out'
-                  required
-                />
-                <label
-                  htmlFor='tag'
-                  className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-                >
-                  Enter Base Price *
-                </label>
-              </div>
-            </div>
-            <div className='flex lg:flex-row flex-col lg:gap-2 gap-3 w-full'>
-              <div className='flex flex-col lg:w-1/2 w-full'>
-                <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-                  <FaMoneyBill color='#A5B7C0' size={26} />
-                  <input
-                    type='number'
-                    name='percentage'
-                    value={newUser.base_and_selling_price_difference_in_percent}
-                    onChange={(e) => {
-                      const inputValue = e.target.value;
-                      if (inputValue === "") {
-                        setNewUser((prev: any) => {
-                          const basePrice = parseFloat(prev.base_price) || 0;
-                          return {
-                            ...prev,
-                            base_and_selling_price_difference_in_percent: "",
-                            selling_price: parseFloat(basePrice.toFixed(2)),
-                          };
-                        });
-                        return;
-                      }
-
-                      const value = parseFloat(inputValue);
-                      if (!isNaN(value)) {
-                        setNewUser((prev: any) => {
-                          const basePrice = parseFloat(prev.base_price) || 0;
-                          const sellingPrice =
-                            basePrice + (basePrice * value) / 100;
-                          return {
-                            ...prev,
-                            base_and_selling_price_difference_in_percent: value,
-                            selling_price: parseFloat(sellingPrice.toFixed(2)), // Ensure selling price is properly formatted
-                          };
-                        });
-                      }
-                    }}
-                    // placeholder="Enter Percentage *"
-                    className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out'
-                    required
-                  />
-                  <label
-                    htmlFor='tag'
-                    className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-                  >
-                    Enter Percentage *
-                  </label>
-                </div>
-              </div>
-              <div className='flex flex-col lg:w-1/2 w-full'>
-                <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-                  <FaMoneyBill color='#A5B7C0' size={26} />
-                  <input
-                    type='number'
-                    name='selling_price'
-                    value={newUser.selling_price}
-                    readOnly
-                    // placeholder="Selling Price"
-                    className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out'
-                  />
-                  <label
-                    htmlFor='tag'
-                    className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-                  >
-                    Selling Price *
-                  </label>
-                </div>
-              </div>
-            </div> */}
+            
             <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                 <FaMoneyBill color='#A5B7C0' size={26} />
@@ -1203,37 +1094,6 @@ const ProductFormComponent: React.FC<props> = ({
                   />
                   <span className='slider'></span>
                 </label>
-              </div>
-            </div>
-            <div className='-mt-2 lg:col-span-2'>
-              <p className='p-2'>Tag</p>
-              <div className='flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto  cursor-pointer'>
-                {isTagData.map((data: any) => {
-                  const isSelected = newUser.tag_list.includes(data.id);
-                  return (
-                    <div
-                      key={data.id}
-                      onClick={() => {
-                        const updatedTags = isSelected
-                          ? newUser.tag_list.filter(
-                              (tagId: number) => tagId !== data.id
-                            )
-                          : [...newUser.tag_list, data.id];
-                        setNewUser((prev: any) => ({
-                          ...prev,
-                          tag_list: updatedTags,
-                        }));
-                      }}
-                      className={`px-4 py-2 rounded-md cursor-pointer h-12 flex items-center justify-center  ${
-                        isSelected
-                          ? "bg-admin-buttonprimary text-white"
-                          : "bg-gray-200 text-black"
-                      } transition-all duration-300`}
-                    >
-                      {data.name}
-                    </div>
-                  );
-                })}
               </div>
             </div>
 

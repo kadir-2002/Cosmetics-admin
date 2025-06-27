@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCores } from "./apiCore";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
@@ -53,82 +54,62 @@ export const productAllDataApi = async (params: {
     endpoint = `/product/?parent=true&${queryParams.toString()}`;
   }
 
-  const response = await apiCoreGet(endpoint, "GET", params?.token);
+  const response = await apiCoreNode(endpoint, {}, "GET", params?.token);
   return response;
 };
 export const createProductApi = async (
   name: string,
   SKU: string,
   description: string,
-  category: string,
-  sub_catogry: string,
-  base_price: string,
-  selling_price: string,
-  base_and_selling_price_difference_in_percent: string,
+  categoryId: number,
+  sub_catogry: number,
+  basePrice: number,
+  sellingPrice: number,
+  priceDifferencePercent: number,
   variant_specifications: any,
-  stock: string,
+  stock: number,
   is_active: boolean,
-  is_new_arrival: boolean,
-  minimum_order_quantity: number,
-  tag_list: [],
-  created_by: number,
+  isNewArrival: boolean,
+  createdById: number,
   token: string,
-  low_stock_threshold: string,
   weight: string,
   length: string,
   width: string,
   height: string,
   product_details: string,
-  care_instruction: string,
-  seo_title: string,
-  seo_description: string,
-  seo_keyword: string,
-  warranty: string,
-  delivery_or_installation_tips: string,
-  material: string,
-  weight_bearing_number: string,
-  is_stackable: boolean,
-  stackable_pieces_number: string
+  seoTitle: string,
+  seoDescription: string,
+  seoKeyword: string,
 ) => {
   const payload: any = {
     name,
     SKU,
     description,
-    base_price,
-    selling_price,
-    base_and_selling_price_difference_in_percent,
+    basePrice,
+    sellingPrice,
+    priceDifferencePercent,
     variant_specifications,
     stock,
     is_active,
-    is_new_arrival,
-    minimum_order_quantity: minimum_order_quantity,
-    tag_list,
-    created_by,
-    low_stock_threshold,
+    isNewArrival,
+    createdById,
     weight,
     length,
     width,
     height,
     product_details,
-    sequence_number:null,
-    care_instruction,
-    seo_title,
-    seo_description,
-    seo_keyword,
-    warranty,
-    delivery_or_installation_tips,
-    material,
-    weight_bearing_number,
-    is_stackable,
-    stackable_pieces_number,
+    sequenceNumber: null,
+    seoTitle,
+    seoDescription,
+    seoKeyword,
   };
 
   if (sub_catogry) {
-    payload.category = sub_catogry;
+    payload.subcategoryId = sub_catogry;
   } else {
-    payload.category = category;
+    payload.categoryId = categoryId;
   }
-  const response = await apiCores("/product/", payload, "POST", token);
+  const response = await apiCoreNode("/product/", payload, "POST", token);
   return response;
 };
 
@@ -242,8 +223,8 @@ export const ProductToggleUpdatedApi = async (
   product_details: string,
   care_instruction: string,
   seo_title: string,
-    seo_description: string,
-    seo_keyword: string,
+  seo_description: string,
+  seo_keyword: string,
   warranty: string,
   delivery_or_installation_tips: string,
   material: string,
@@ -294,7 +275,7 @@ export const ProductToggleUpdatedApi = async (
 };
 
 export const catagoryDataApi = async (token: string) => {
-  const response = await apiCoreGet(`/parent-child-categories/`, "GET", token);
+  const response = await apiCoreNode(`/category/`, {}, "GET", token);
   return response;
 };
 export const tagDataApi = async (token: string) => {
@@ -588,10 +569,9 @@ export const productsequenceDataApi = async (
   sequencePayload: any,
   token: any
 ) => {
-  const response = await apiCoreUpdate(
-    `/update_product_sequence/`,
-    "",
-    sequencePayload,
+  const response = await apiCoreNode(
+    `/product/update-sequence`,
+    { sequencePayload },
     "PATCH",
     token
   );

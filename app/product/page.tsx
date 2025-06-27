@@ -19,7 +19,7 @@ interface SubCategory {
 interface Category {
   id: number
   name: string
-  child_categories: SubCategory[]
+  subcategories: SubCategory[]
 }
 
 const Page: React.FC = () => {
@@ -89,7 +89,6 @@ const Page: React.FC = () => {
   const dispatch = useDispatch()
   const router = useRouter()
   const topRef = useRef<HTMLDivElement | null>(null)
-  const [isTagData, setTagData] = useState([])
   const [filterCategory, setFilterCategory] = useState<any>("")
   const [filterSubCategory, setFilterSubCategory] = useState<any>("")
 
@@ -191,7 +190,7 @@ const Page: React.FC = () => {
       stackable_pieces_number: product?.stackable_pieces_number,
     })
     const selectedCategory = categories.find((category) => category.id === product?.category_info?.parent_category_id)
-    setSubCategories(selectedCategory?.child_categories || [])
+    setSubCategories(selectedCategory?.subcategories || [])
     setIsEdit(true)
   }
 
@@ -203,13 +202,12 @@ const Page: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [categoryResponse, tagResponse] = await Promise.all([catagoryDataApi(token), tagDataApi(token)])
+        const categoryResponse = await catagoryDataApi(token)
        
-        if (categoryResponse?.product_categories && tagResponse?.results) {
+        if (categoryResponse?.body?.success) {
           
-          const fetchedCategories = categoryResponse.product_categories
+          const fetchedCategories = categoryResponse?.body?.categories
           setCategories(fetchedCategories)
-          setTagData(tagResponse.results)
           if (fetchedCategories.length > 0) {
             const firstCategory = fetchedCategories[0]
             setNewUser((prev: any) => ({
@@ -232,14 +230,7 @@ const Page: React.FC = () => {
               setFilterSubCategory("")
             }
           }
-        } else if (
-          categoryResponse?.detail === "Invalid token" ||
-          tagResponse?.data?.detail === "Invalid token"
-        ) {
-          dispatch(clearUserDetails())
-          toast.error("Session Expired, Please Login Again")
-          router.push("/")
-        }
+        } 
       } catch (error) {
         console.error("Error fetching data:", error)
       }
@@ -254,7 +245,7 @@ const Page: React.FC = () => {
 
     const selected = categories.find((cat: any) => cat.id === Number.parseInt(categoryId))
 
-    const subCats = selected?.child_categories || []
+    const subCats = selected?.subcategories || []
     setSubCategories(subCats)
 
     if (subCats.length > 0) {
@@ -289,9 +280,9 @@ const Page: React.FC = () => {
           filterValue: isActivefilter,
           iscaegoryvalue: categoryIdToUse,
         })
-        if (response?.results) {
-          setProducts(response?.results)
-        } else if (response?.detail === "Invalid token") {
+        if (response?.body?.products) {
+          setProducts(response?.body?.products)
+        } else if (response?.body?.detail === "Invalid tokens") {
           dispatch(clearUserDetails())
           toast.error("Session Expired, Please Login Again")
           router.push("/")
@@ -342,7 +333,6 @@ const Page: React.FC = () => {
             variantSpecifications={variantSpecifications}
             setVariantSpecifications={setVariantSpecifications}
             setCurrentPage={setCurrentPage}
-            isTagData={isTagData}
           />
           <div className="flex gap-5 mb-7">
             <div className="bg-admin-secondary px-2 rounded-md">

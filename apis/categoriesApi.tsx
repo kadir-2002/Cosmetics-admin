@@ -1,5 +1,4 @@
 import { apiCoreNode } from "@/APISFolder/APICoreNode";
-import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
 import { apiCoreGet } from "./apiCoreGet";
 import { apiCoreUpdateuser } from "./apiCoreUpdateuser";
