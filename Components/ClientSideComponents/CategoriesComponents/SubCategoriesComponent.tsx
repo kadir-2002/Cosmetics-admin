@@ -247,11 +247,11 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await subcategoryDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body.success) {
         toast.success("Sub Categry deleted successfully");
         setSelectCategry(false);
         loadCategry();
-      } else if (response?.data?.detail === "Invalid token") {
+      } else if (response?.body.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
