@@ -25,7 +25,7 @@ type banner = {
   sub_heading: string;
   description: string;
   image: string;
-  is_active: false;
+  isActive: false;
   created_by: string;
   updated_at: string;
   updated_by: string;
@@ -43,7 +43,7 @@ const BannerFormComponent = () => {
     button_link: "",
     image: "",
     mobile_banner:"",
-    is_active: false,
+    isActive: false,
   });
   const [isOpenDeletePopup, setIsLogoutPopup] = useState<boolean>(false);
   const [selectedRoleId, setSelectedRoleId] = useState("");
@@ -71,7 +71,7 @@ const BannerFormComponent = () => {
       sub_heading,
       description,
       image,
-      is_active,
+      isActive,
       button,
       mobile_banner,
       button_link,
@@ -86,7 +86,7 @@ const BannerFormComponent = () => {
           description,
           image,
           mobile_banner,
-          is_active,
+          isActive,
           button,
           button_link,
           token
@@ -109,7 +109,7 @@ const BannerFormComponent = () => {
             mobile_banner:"",
             button: "",
             button_link: "",
-            is_active: false,
+            isActive: false,
           });
         } else if (
           response?.data?.error === "This sequence number already exists"
@@ -128,7 +128,7 @@ const BannerFormComponent = () => {
           description,
           image,
           mobile_banner,
-          is_active,
+          isActive,
           button,
           button_link,
           token
@@ -152,7 +152,7 @@ const BannerFormComponent = () => {
             mobile_banner:"",
             button: "",
             button_link: "",
-            is_active: false,
+            isActive: false,
           });
         } else if (response?.detail === "Invalid token") {
           dispatch(clearUserDetails());
@@ -175,7 +175,7 @@ const BannerFormComponent = () => {
     description: string;
     image: string;
     mobile_banner:string,
-    is_active: boolean;
+    isActive: boolean;
     created_by: string;
   }) => {
     setOpenForm(true);
@@ -191,7 +191,7 @@ const BannerFormComponent = () => {
       mobile_banner:"",
       button: banner?.button_text,
       button_link: banner?.button_link,
-      is_active: banner?.is_active,
+      isActive: banner?.isActive,
     });
     setIsEdit(true);
   };
@@ -300,7 +300,7 @@ const BannerFormComponent = () => {
       mobile_banner:"",
       button: "",
       button_link: "",
-      is_active: false,
+      isActive: false,
     });
   };
 
@@ -318,7 +318,7 @@ const BannerFormComponent = () => {
       mobile_banner:"",
       button: "",
       button_link: "",
-      is_active: false,
+      isActive: false,
     });
   };
   const handleOpenInfo = (id: number) => {
@@ -326,7 +326,7 @@ const BannerFormComponent = () => {
     setIsinfo(id);
   };
 
-  const activeHandler = async (banner: any, is_active: boolean) => {
+  const activeHandler = async (banner: any, isActive: boolean) => {
     const image = isfile;
     const mobile_banner=""
     const response = await bannerUpdatedApi(
@@ -337,7 +337,7 @@ const BannerFormComponent = () => {
       banner?.description,
       image,
       mobile_banner,
-      is_active,
+      isActive,
       banner?.button_text,
       banner?.button_link,
       token
@@ -569,11 +569,11 @@ const BannerFormComponent = () => {
                     <label>
                       <input
                         type='checkbox'
-                        checked={newUser.is_active}
+                        checked={newUser.isActive}
                         onChange={(e) =>
                           setNewUser((prev) => ({
                             ...prev,
-                            is_active: e.target.checked,
+                            isActive: e.target.checked,
                           }))
                         }
                       />

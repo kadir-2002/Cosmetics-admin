@@ -265,11 +265,11 @@ const CategryFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await categoryDeleteApi(id, token);
-      if (response?.message === 'Category deleted') {
+      if (response?.body.message === 'Category deleted') {
         toast.success("Category deleted successfully");
         setIsLogoutPopup(false);
         fetchCategory();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.body.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
