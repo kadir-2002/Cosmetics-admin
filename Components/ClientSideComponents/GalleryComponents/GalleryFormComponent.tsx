@@ -183,13 +183,13 @@ const GalleryFormComponent = () => {
       
           const response = await galleryAllDataApi(apiParams, token);
           
-          if (response?.detail === "Invalid token") {
+          if (response?.status === 401) {
             dispatch(clearUserDetails());
             toast.error("Session Expired, Please Login Again");
             router.push("/");
-          } else if (response?.results) {
-            setData(response.results);
-            setTotalPages(response?.total_pages)
+          } else if (response?.body.result) {
+            setData(response.body.result);
+            setTotalPages(response?.body.total_pages)
           }
         } catch (error) {
           console.error("Error fetching gallery:", error);
@@ -215,11 +215,11 @@ const GalleryFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await galleryDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body.success) {
         toast.success("Image deleted successfully");
         setIsLogoutPopup(false);
         fetchGalery();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.status === 401) {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -299,9 +299,9 @@ const GalleryFormComponent = () => {
     const fetchData = async () => {
       try {
         const response = await gallerysectionAllDataApi(token);
-        if (response) {
-          setType(response?.results);
-        } else if (response?.data?.detail === "Invalid token") {
+        if (response.body) {
+          setType(response?.body.result);
+        } else if (response?.status === 401) {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -424,7 +424,7 @@ const GalleryFormComponent = () => {
                 {type.map((category: any) => (
                   <option
                     key={category.id}
-                    value={category.id}
+                    value={category.name}
                     className='bg-white text-black'
                   >
                     {category.name}
@@ -535,7 +535,7 @@ const GalleryFormComponent = () => {
                     {banner?.image ? (
                       <>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL}${banner?.image}`}
+                          src={`${banner?.image}`}
                           alt='Profile'
                           className='lg:h-16 lg:w-16 h-12 w-12 object-cover rounded-full'
                         />
@@ -546,7 +546,7 @@ const GalleryFormComponent = () => {
                       </div>
                     )}
                   </td>
-                  <th className='p-3 text-left '>{banner?.section_name}</th>
+                  <th className='p-3 text-left '>{banner?.typeName}</th>
                   <td className='p-3 text-center'>
                     <div className='text-center'>
                       <Switch

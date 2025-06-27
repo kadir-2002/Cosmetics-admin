@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
 import { apiCoreGet } from "./apiCoreGet";
@@ -19,7 +20,7 @@ export const createGalleryApi = async (
   formData.append("section", types);
   formData.append("is_active", isActive.toString());
   // formData.append("created_by", created_by.toString());
-  const response = await apiCoreFormData("/frontend/gallery_image/", formData, "POST", token);
+  const response = await apiCoreFormData("/galleryitem/", formData, "POST", token);
   return response;
 
 };
@@ -42,14 +43,14 @@ export const galleryAllDataApi = async (
     queryParams.append("page_size", params.page_size.toString());
   }
 
-  const endpoint = `/frontend/gallery_image/?${queryParams.toString()}`;
-  const response = await apiCoreGet(endpoint, "GET", token);
+  const endpoint = `/galleryitem/?${queryParams.toString()}`;
+  const response = await apiCoreNode(endpoint,{}, "GET", token);
   return response;
 };
 
 
 export const galleryDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(`/frontend/gallery_image/${id}/`, token);
+  const response = await apiCoreNode(`/galleryitem/${id}/`,{},"DELETE", token);
   return response;
 };
 
@@ -70,8 +71,7 @@ export const galleryUpdatedApi = async (
   formData.append("is_active", isActive.toString());
   // formData.append("updated_by", updated_by);
 
-  const response = await apiCoreUpdateuser(`/frontend/gallery_image/${id}/`, formData, "PATCH", token,);
+  const response = await apiCoreUpdateuser(`/galleryitem${id}/`, formData, "PATCH", token,);
   return response;
 };
-
 

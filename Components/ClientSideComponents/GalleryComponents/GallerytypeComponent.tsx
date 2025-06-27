@@ -60,11 +60,11 @@ const GallerytypeComponent = () => {
         if (response?.status === 200) {
           toast.success("Type updated successfully");
           setIsEdit(false);
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.status === 401) {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
-        } else if (response?.data?.error === "This name already exists") {
+        } else if (response?.body?.error === "This name already exists") {
           toast.error("This name already exists");
         }
       } else {
@@ -75,11 +75,11 @@ const GallerytypeComponent = () => {
         );
         if (response?.status === 201) {
           toast.success("Type created successfully");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.status === 401) {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
-        }else if (response?.data?.error === "This name already exists") {
+        }else if (response?.body?.error === "This name already exists") {
           toast.error("This name already exists");
         }
       }
@@ -94,10 +94,10 @@ const GallerytypeComponent = () => {
   const fetchTag = async () => {
     try {
       const response = await gallerysectionAllDataApi(token);
-      if (response?.results) {
-        setCategry(response?.results);
-        setTotalPages(response?.total_pages);
-      } else if (response?.detail === "Invalid token") {
+      if (response?.body.result) {
+        setCategry(response?.body.result);
+        setTotalPages(response?.body.total_pages);
+      } else if (response?.body.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -130,11 +130,11 @@ const GallerytypeComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await gallerysectionDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body.success) {
         toast.success("Type Deleted successfully");
         setIsLogoutPopup(false);
         fetchTag();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
