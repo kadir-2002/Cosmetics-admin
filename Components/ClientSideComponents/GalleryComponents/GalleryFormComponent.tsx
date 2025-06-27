@@ -546,7 +546,7 @@ const GalleryFormComponent = () => {
                       </div>
                     )}
                   </td>
-                  <th className='p-3 text-left '>{banner?.typeName}</th>
+                  <th className='p-3 text-left '>{banner?.section}</th>
                   <td className='p-3 text-center'>
                     <div className='text-center'>
                       <Switch

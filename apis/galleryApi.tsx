@@ -71,7 +71,8 @@ export const galleryUpdatedApi = async (
   formData.append("is_active", isActive.toString());
   // formData.append("updated_by", updated_by);
 
-  const response = await apiCoreUpdateuser(`/galleryitem${id}/`, formData, "PATCH", token,);
+  const response = await apiCoreUpdateuser(`/galleryitem/${id}/`, formData, "PATCH", token,);
+  console.log(formData,"galleryitem  galleryApi")
   return response;
 };
 
