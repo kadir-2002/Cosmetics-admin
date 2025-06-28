@@ -61,14 +61,14 @@ const ChildProductMainComponent: React.FC<Props> = ({
         pageSize,
         token
       );
-      if (response?.detail === "Invalid token") {
+      if (response?.body.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again")
         router.push("/");
 
-      } else if (response?.results) {
-        setProducts(response?.results);
-        setTotalPages(response?.total_pages);
+      } else if (response?.body.variants) {
+        setProducts(response?.body.variants);
+        setTotalPages(response?.body.total_pages);
       }
 
     } catch (error) {

@@ -64,6 +64,17 @@ const ChildFormComponent: React.FC<props> = ({
   const token = useSelector((state: any) => state?.user?.token);
   const dispatch = useDispatch();
   const router = useRouter();
+  
+  // console.log(isParentProductdata,"parent prod")
+useEffect(() => {
+  if (isParentProductdata) {
+    setNewUser((prev:any) => ({
+      ...prev,
+      selling_price: isParentProductdata.sellingPrice,
+      base_and_selling_price_difference_in_percent: isParentProductdata.priceDifferencePercent,
+    }));
+  }
+}, [isParentProductdata]);
 
   const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -97,6 +108,7 @@ const ChildFormComponent: React.FC<props> = ({
           is_new_arrival,
           created_by,
           low_stock_threshold,
+          
           token
         );
         if (response?.status === 200) {
@@ -112,30 +124,30 @@ const ChildFormComponent: React.FC<props> = ({
         }
       } else {
         const response = await createProductVarientApi(
-          isParentProductId,
-          description,
-          SKU,
-          selling_price,
-          base_and_selling_price_difference_in_percent,
-          specification,
-          stock,
-          colorcode,
-          is_selected,
-          is_active,
-          is_new_arrival,
-          created_by,
-          low_stock_threshold,
-          token
+         isParentProductId,
+  isParentProductdata?.description || "",
+  newUser.SKU,
+  newUser.selling_price,
+  newUser.base_and_selling_price_difference_in_percent,
+  specification,
+  newUser.stock,
+  newUser.colorcode,
+  newUser.is_selected,
+  newUser.is_active,
+  newUser.is_new_arrival,
+  created_by,
+  newUser.low_stock_threshold,
+  token
         );
-        if (response?.data?.error === "SKU with this name already exists") {
+        if (response?.body?.error === "SKU with this name already exists") {
           toast.error("This SKU is already existed");
         } else if (response?.status === 201) {
-          console.log("response", response?.status);
+          console.log("response", response?.status === 201);
           toast.success("Varient Add successfully!");
           setSpecification({});
           productdata();
           setOpenForm(false);
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.body?.detail === "Invalid token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -158,23 +170,43 @@ const ChildFormComponent: React.FC<props> = ({
     }
   };
 
-  useEffect(() => {
-    const fetchvarient = async () => {
-      try {
-        const response = await VarientTabApi(isParentProductId, token);
-        if (response?.specifications) {
-          setVarientdata(response?.specifications);
-        } else if (response?.detail === "Invalid token") {
-          dispatch(clearUserDetails());
-          toast.error("Session Expired, Please Login Again");
-          router.push("/");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+ useEffect(() => {
+  const fetchvarient = async () => {
+    try {
+      const response = await VarientTabApi(isParentProductId, token);
+      console.log(response);
+
+      if (response?.body.specifications) {
+        // Transform array to object with arrays as values
+        const groupedSpecs: Record<string, string[]> = {};
+
+        response.body.specifications.forEach((spec: any) => {
+          const key = spec.name;
+          const value = spec.value;
+
+          if (groupedSpecs[key]) {
+            // Avoid duplicates
+            if (!groupedSpecs[key].includes(value)) {
+              groupedSpecs[key].push(value);
+            }
+          } else {
+            groupedSpecs[key] = [value];
+          }
+        });
+
+        setVarientdata(groupedSpecs); // ✅ Now isVarientdata is an object with array values
+      } else if (response?.body.detail === "Invalid token") {
+        dispatch(clearUserDetails());
+        toast.error("Session Expired, Please Login Again");
+        router.push("/");
       }
-    };
-    fetchvarient();
-  }, []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  fetchvarient();
+}, []);
 
   const handleCancelEdit = () => {
     setOpenForm(false);
@@ -248,403 +280,281 @@ const ChildFormComponent: React.FC<props> = ({
           </button>
         </div>
       </div>
-      {openForm && (
-        <form
-          onSubmit={handleCreateOrUpdate}
-          className='lg:rounded-xl w-full border-[1px] overflow-y-auto px-2'
-        >
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 lg:w-full justify-center items-center lg:max-w-6xl w-full mt-4'>
-            <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-              <FaShoppingBag color='#A5B7C0' size={26} />
-              <input
-                type='text'
-                name='Product Name'
-                value={isParentProductdata?.name}
-                // onChange={(e) =>
-                //     setNewUser((prev: any) => ({ ...prev, name: e.target.value }))}
-                // placeholder="Enter Variant Name *"
-                disabled
-                className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
-              />
-              <label
-                htmlFor='tag'
-                className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-              >
-                Product Name *
-              </label>
-            </div>
+    {openForm && (
+  <form
+    onSubmit={handleCreateOrUpdate}
+    className="lg:rounded-xl w-full border-[1px] overflow-y-auto px-2"
+  >
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:w-full justify-center items-center lg:max-w-6xl w-full mt-4">
+      {/* Product Name (read-only) */}
+      <div className="flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm">
+        <FaShoppingBag color="#A5B7C0" size={26} />
+        <input
+          type="text"
+          name="Product Name"
+          value={isParentProductdata?.name || ""}
+          disabled
+          className="peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out"
+        />
+        <label className="absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 bg-[#F3F3F3] peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm">
+          Product Name *
+        </label>
+      </div>
 
-            <div className='flex flex-col'>
-              <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-                <FaShoppingBag color='#A5B7C0' size={26} />
-                <input
-                  type='text'
-                  name='Varient SKU'
-                  value={newUser.SKU}
-                  onChange={(e) =>
-                    setNewUser((prev: any) => ({
+      {/* SKU */}
+      <div className="flex flex-col">
+        <div className="flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm">
+          <FaShoppingBag color="#A5B7C0" size={26} />
+          <input
+            type="text"
+            name="SKU"
+            value={newUser.SKU}
+            onChange={(e) =>
+              setNewUser((prev:any) => ({ ...prev, SKU: e.target.value }))
+            }
+            className="peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out"
+            required
+          />
+          <label className="absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 bg-[#F3F3F3] peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm">
+            Enter Variant SKU *
+          </label>
+        </div>
+      </div>
+
+      {/* Base Price (read-only) */}
+      <div className="flex flex-col">
+        <div className="flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm">
+          <FaMoneyBill color="#A5B7C0" size={26} />
+          <input
+            type="number"
+            value={isParentProductdata?.basePrice || ""}
+            readOnly
+            className="peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out"
+          />
+          <label className="absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 bg-[#F3F3F3] peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm">
+            Base Price *
+          </label>
+        </div>
+      </div>
+
+      {/* Percentage & Selling Price */}
+      <div className="flex lg:flex-row flex-col gap-5 w-full">
+        {/* Percentage */}
+        <div className="flex flex-col lg:w-1/2 w-full">
+          <div className="flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm">
+            <FaMoneyBill color="#A5B7C0" size={26} />
+            <input
+              type="number"
+              name="percentage"
+              value={newUser.base_and_selling_price_difference_in_percent || ""}
+              onChange={(e) => {
+                const percentage = parseFloat(e.target.value);
+                const basePrice = parseFloat(isParentProductdata?.basePrice) || 0;
+                if (e.target.value === "") {
+                  setNewUser((prev:any) => ({
+                    ...prev,
+                    base_and_selling_price_difference_in_percent: "",
+                    selling_price: "",
+                  }));
+                } else if (!isNaN(percentage)) {
+                  const sellingPrice = basePrice * (1 + percentage / 100);
+                  setNewUser((prev:any) => ({
+                    ...prev,
+                    base_and_selling_price_difference_in_percent: percentage,
+                    selling_price: sellingPrice.toFixed(2),
+                  }));
+                }
+              }}
+              className="peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out"
+              required
+            />
+            <label className="absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 bg-[#F3F3F3] peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm">
+              Enter Percentage *
+            </label>
+          </div>
+        </div>
+
+        {/* Selling Price */}
+        <div className="flex flex-col lg:w-1/2 w-full">
+          <div className="flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm">
+            <FaMoneyBill color="#A5B7C0" size={26} />
+            <input
+              type="number"
+              name="selling_price"
+              value={newUser.selling_price || ""}
+              onChange={(e) => {
+                const sellingPrice = parseFloat(e.target.value);
+                const basePrice = parseFloat(isParentProductdata?.basePrice) || 0;
+                if (e.target.value === "") {
+                  setNewUser((prev:any) => ({
+                    ...prev,
+                    base_and_selling_price_difference_in_percent: "",
+                    selling_price: "",
+                  }));
+                } else if (!isNaN(sellingPrice) && basePrice > 0) {
+                  const percentage = ((sellingPrice - basePrice) / basePrice) * 100;
+                  setNewUser((prev:any) => ({
+                    ...prev,
+                    base_and_selling_price_difference_in_percent: percentage.toFixed(2),
+                    selling_price: sellingPrice.toFixed(2),
+                  }));
+                }
+              }}
+              className="peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out"
+              required
+            />
+            <label className="absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 bg-[#F3F3F3] peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm">
+              Selling Price *
+            </label>
+          </div>
+        </div>
+      </div>
+      {isVarientdata && (
+        <div className={`lg:col-span-2 grid grid-cols-1 ${Object.keys(isVarientdata).length % 2 === 0 ? "lg:grid-cols-2" : "lg:grid-cols-2"} gap-4`}>
+          {Object.entries(isVarientdata).map(([key, values], index, array) => (
+            <div key={index} className={`flex rounded-md bg-admin-secondary h-12 ${array.length % 2 !== 0 && index === array.length - 1 ? "lg:col-span-2" : ""}`}>
+              <div className='p-2 rounded-md bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none'>
+                <select
+                  name={key}
+                  value={specification[key] || ""}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    setSpecification((prev: any) => ({
                       ...prev,
-                      SKU: e.target.value,
-                    }))
-                  }
-                  // placeholder="Enter Variant SKU *"
-                  className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
+                      [name]: value,
+                    }));
+                  }}
                   required
-                />
-                <label
-                  htmlFor='tag'
-                  className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
+                  className='px-1 rounded-md bg-admin-secondary focus:outline-none w-full'
                 >
-                  Enter Variant SKU *
-                </label>
+                  <option value='' className='bg-white text-black w-full mt-2'>Select {key.charAt(0).toUpperCase() + key.slice(1)}</option>
+                  {values.map((value: any, valueIndex: any) => (
+                    <option key={valueIndex} value={value} className='bg-white text-black'>
+                      {value}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
-            {/* <div className='flex flex-col lg:col-span-2'>
-              <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-                <FaShoppingBag color='#A5B7C0' size={26} />
-                <textarea
-                  name='Varient Description'
-                  // value={newUser.description}
-                  value={isParentProductdata?.description || ""}
-                  readOnly
-                  onChange={(e) =>
-                    setNewUser((prev: any) => ({
-                      ...prev,
-                      description: e.target.value,
-                    }))
-                  }
-                  // placeholder="Enter Variant description"
-                  className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
-                  rows={3}
-                ></textarea>
-                <label
-                  htmlFor='tag'
-                  className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-                >
-                  Enter Variant description
-                </label>
-              </div>
-            </div> */}
+          ))}
+        </div>
+      )}
 
-            <div className='flex flex-col'>
-      
-              <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-                <FaMoneyBill color='#A5B7C0' size={26} />
-                <input
-                  type='number'
-                  name='Base Price'
-                  value={isParentProductdata?.base_price || ""}
-                  readOnly
-                  className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
-                  required
-                />
-                <label
-                  htmlFor='Base Price'
-                  className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-                >
-                  Base Price *
-                </label>
-              </div>
-            </div>
+      {/* ColorInput */}
+      <ColorInput
+        label="Color Code"
+        value={newUser.colorcode}
+        onChange={(value) =>
+          setNewUser((prev:any) => ({ ...prev, colorcode: value }))
+        }
+      />
 
-            <div className='flex lg:flex-row flex-col gap-5 w-full'>
-            
-              <div className='flex flex-col lg:w-1/2 w-full'>
-                <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-                  <FaMoneyBill color='#A5B7C0' size={26} />
-                  <input
-                    type='number'
-                    name='percentage'
-                    // value={
-                    //   newUser?.base_and_selling_price_difference_in_percent ??
-                    //   ""
-                    // }
-                    value={isParentProductdata?.base_and_selling_price_difference_in_percent || ""}
-                    readOnly
-                    onChange={(e) => {
-                      const percentage = parseFloat(e.target.value);
-                      const basePrice =
-                        parseFloat(isParentProductdata?.base_price) || 0;
+      {/* Stock */}
+      <div className="flex flex-col">
+        <div className="flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm">
+          <TbAlignBoxBottomLeftFilled color="#A5B7C0" size={26} />
+          <input
+            type="number"
+            name="Product Stock"
+            value={newUser.stock || ""}
+            onChange={(e) =>
+              setNewUser((prev:any) => ({ ...prev, stock: e.target.value }))
+            }
+            className="peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out"
+            required
+          />
+          <label className="absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 bg-[#F3F3F3] peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm">
+            Enter Variant Stock *
+          </label>
+        </div>
+      </div>
 
-                      if (e.target.value === "") {
-                        setNewUser((prev: any) => ({
-                          ...prev,
-                          base_and_selling_price_difference_in_percent: "",
-                          selling_price: "",
-                        }));
-                      } else if (!isNaN(percentage)) {
-                        const sellingPrice = basePrice * (1 + percentage / 100);
-                        setNewUser((prev: any) => ({
-                          ...prev,
-                          base_and_selling_price_difference_in_percent:
-                            percentage,
-                          selling_price: sellingPrice.toFixed(2),
-                        }));
-                      }
-                    }}
-                    className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
-                    required
-                  />
-                  <label
-                    htmlFor='percentage'
-                    className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-                  >
-                    Enter Percentage *
-                  </label>
-                </div>
-              </div>
+      {/* Low Stock Threshold */}
+      <div className="flex flex-col">
+        <div className="flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm">
+          <TbAlignBoxBottomLeftFilled color="#A5B7C0" size={26} />
+          <input
+            type="number"
+            name="Product Low Stock Threshold"
+            value={newUser.low_stock_threshold || ""}
+            onChange={(e) => {
+              const value = parseFloat(e.target.value);
+              setNewUser((prev:any) => ({
+                ...prev,
+                low_stock_threshold: isNaN(value) ? "" : value,
+              }));
+            }}
+            className="peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out"
+            required
+          />
+          <label className="absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 bg-[#F3F3F3] peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm">
+            Enter Product Low Stock Threshold
+          </label>
+        </div>
+      </div>
 
-              <div className='flex flex-col lg:w-1/2 w-full'>
-                <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-                  <FaMoneyBill color='#A5B7C0' size={26} />
-                  <input
-                    type='number'
-                    name='selling_price'
-                    // value={newUser?.selling_price ?? ""}
-                    value={isParentProductdata?.selling_price || ""}
-                    readOnly
-                    onChange={(e) => {
-                      const sellingPrice = parseFloat(e.target.value);
-                      const basePrice =
-                        parseFloat(isParentProductdata?.base_price) || 0;
-
-                      if (e.target.value === "") {
-                        setNewUser((prev: any) => ({
-                          ...prev,
-                          base_and_selling_price_difference_in_percent: "",
-                          selling_price: "",
-                        }));
-                      } else if (!isNaN(sellingPrice) && basePrice > 0) {
-                        const percentage =
-                          ((sellingPrice - basePrice) / basePrice) * 100;
-                        setNewUser((prev: any) => ({
-                          ...prev,
-                          base_and_selling_price_difference_in_percent:
-                            percentage.toFixed(2),
-                          selling_price: sellingPrice,
-                        }));
-                      }
-                    }}
-                    className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
-                    required
-                  />
-                  <label
-                    htmlFor='selling_price'
-                    className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-                  >
-                    Selling Price *
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            {isVarientdata && (
-              <div
-                className={`lg:col-span-2 grid grid-cols-1 ${
-                  Object.keys(isVarientdata).length % 2 === 0
-                    ? "lg:grid-cols-2"
-                    : "lg:grid-cols-2"
-                } gap-4`}
-              >
-                {Object.entries(isVarientdata).map(
-                  ([key, values], index, array) => (
-                    <div
-                      key={index}
-                      className={`flex rounded-md bg-admin-secondary h-12 ${
-                        array.length % 2 !== 0 && index === array.length - 1
-                          ? "lg:col-span-2"
-                          : ""
-                      }`}
-                    >
-                      <div className='p-2 rounded-md bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none'>
-                        <select
-                          name={key}
-                          value={specification[key] || ""}
-                          onChange={(e) => {
-                            const { name, value } = e.target;
-                            setSpecification((prev: any) => ({
-                              ...prev,
-                              [name]: value,
-                            }));
-                          }}
-                          required
-                          className='px-1 rounded-md bg-admin-secondary focus:outline-none w-full'
-                        >
-                          <option
-                            value=''
-                            className='bg-white text-black w-full mt-2'
-                          >
-                            Select {key.charAt(0).toUpperCase() + key.slice(1)}
-                          </option>
-                          {values.map((value: any, valueIndex: any) => (
-                            <option
-                              key={valueIndex}
-                              value={value}
-                              className='bg-white text-black'
-                            >
-                              {value}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  )
-                )}
-              </div>
-            )}
-            <ColorInput
-              label='Color Code'
-              value={newUser.colorcode}
-              onChange={(value) =>
-                setNewUser((prev: any) => ({
+      {/* Checkboxes */}
+      <div className="flex items-center justify-between gap-2 bg-[#F3F3F3] rounded-lg h-12 w-full lg:p-4 p-2">
+        <label className="text-sm text-[#577C8E] px-3">Is Selected?</label>
+        <div className="switch">
+          <label>
+            <input
+              type="checkbox"
+              checked={newUser.is_selected}
+              onChange={(e) =>
+                setNewUser((prev:any) => ({
                   ...prev,
-                  colorcode: value,
+                  is_selected: e.target.checked,
                 }))
               }
             />
-            <div className='flex flex-col'>
-              <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-                <TbAlignBoxBottomLeftFilled color='#A5B7C0' size={26} />
-                <input
-                  type='number'
-                  name='Product Stock'
-                  value={newUser.stock}
-                  onChange={(e) =>
-                    setNewUser((prev: any) => ({
-                      ...prev,
-                      stock: e.target.value,
-                    }))
-                  }
-                  // placeholder="Enter Variant Stock *"
-                  className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
-                  required
-                />
-                <label
-                  htmlFor='tag'
-                  className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-                >
-                  Enter Variant Stock *
-                </label>
-              </div>
-            </div>
-            <div className='flex flex-col'>
-              <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
-                <TbAlignBoxBottomLeftFilled color='#A5B7C0' size={26} />
-                <input
-                  type='number'
-                  name=' Product Low Stock Threshold'
-                  value={newUser.low_stock_threshold}
-                  onChange={(e) => {
-                    const value = parseFloat(e.target.value);
-                    if (!isNaN(value) && value >= 0) {
-                      setNewUser((prev: any) => ({
-                        ...prev,
-                        low_stock_threshold: value,
-                      }));
-                    } else if (e.target.value === "") {
-                      setNewUser((prev: any) => ({
-                        ...prev,
-                        low_stock_threshold: "",
-                      }));
-                    }
-                  }}
-                  // placeholder="Enter Product Stock *"
-                  className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out'
-                  required
-                />
-                <label
-                  htmlFor='tag'
-                  className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-                >
-                  Enter Product Low Stock Threshold
-                </label>
-              </div>
-            </div>
+            <span className="slider"></span>
+          </label>
+        </div>
+      </div>
 
-            {/* <div className='flex gap-2'>
-              <div className='flex  items-center justify-between gap-2 bg-[#F3F3F3] rounded-lg h-12 w-full lg:p-4 p-2'>
-                <label className='text-sm text-[#577C8E] px-3'>
-                  Is New Arrival?
-                </label>
-                <div className='switch'>
-                  <label>
-                    <input
-                      type='checkbox'
-                      checked={newUser.is_new_arrival}
-                      onChange={(e) =>
-                        setNewUser((prev: any) => ({
-                          ...prev,
-                          is_new_arrival: e.target.checked,
-                        }))
-                      }
-                    />
-                    <span className='slider'></span>
-                  </label>
-                </div>
-              </div>
-            </div> */}
-            <div className='flex  items-center justify-between gap-2 bg-[#F3F3F3] rounded-lg h-12 w-full lg:p-4 p-2'>
-              <label className='text-sm text-[#577C8E] px-3'>
-                Is Selected?
-              </label>
-              <div className='switch'>
-                <label>
-                  <input
-                    type='checkbox'
-                    checked={newUser.is_selected}
-                    onChange={(e) =>
-                      setNewUser((prev: any) => ({
-                        ...prev,
-                        is_selected: e.target.checked,
-                      }))
-                    }
-                  />
-                  <span className='slider'></span>
-                </label>
-              </div>
-            </div>
+      <div className="flex items-center justify-between gap-2 bg-[#F3F3F3] rounded-lg h-12 w-full lg:p-4 p-2">
+        <label className="text-sm text-[#577C8E] px-3">Is Active?</label>
+        <div className="switch">
+          <label>
+            <input
+              type="checkbox"
+              checked={newUser.is_active}
+              onChange={(e) =>
+                setNewUser((prev:any) => ({
+                  ...prev,
+                  is_active: e.target.checked,
+                }))
+              }
+            />
+            <span className="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
 
-            <div className='flex  items-center justify-between gap-2 bg-[#F3F3F3] rounded-lg h-12 w-full lg:p-4 p-2'>
-              <label className='text-sm text-[#577C8E] px-3'>Is Active?</label>
-              <div className='switch'>
-                <label>
-                  <input
-                    type='checkbox'
-                    checked={newUser.is_active}
-                    onChange={(e) =>
-                      setNewUser((prev: any) => ({
-                        ...prev,
-                        is_active: e.target.checked,
-                      }))
-                    }
-                  />
-                  <span className='slider'></span>
-                </label>
-              </div>
-            </div>
-          </div>
-          <div className='m-6 flex gap-3 justify-center items-center'>
-            <button
-              type='submit'
-              className={`text-lg lg:w-[200px] mt-3  ${
-                isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
-              } text-white px-6 lg:py-3 py-2 rounded-md`}
-            >
-              {isEdit ? "Update" : "Create"}
-            </button>
-            {isEdit ? (
-              <>
-                <button
-                  onClick={handleCancelEdit}
-                  className='text-lg lg:w-[200px] mt-3 bg-admin-buttonprimary text-white px-6 lg:py-3 py-2 rounded-md'
-                >
-                  Cancel
-                </button>
-              </>
-            ) : null}
-          </div>
-        </form>
+    {/* Buttons */}
+    <div className="m-6 flex gap-3 justify-center items-center">
+      <button
+        type="submit"
+        className={`text-lg lg:w-[200px] mt-3 ${
+          isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
+        } text-white px-6 lg:py-3 py-2 rounded-md`}
+      >
+        {isEdit ? "Update" : "Create"}
+      </button>
+      {isEdit && (
+        <button
+          onClick={handleCancelEdit}
+          className="text-lg lg:w-[200px] mt-3 bg-admin-buttonprimary text-white px-6 lg:py-3 py-2 rounded-md"
+        >
+          Cancel
+        </button>
       )}
+    </div>
+  </form>
+)}
+
     </div>
   );
 };

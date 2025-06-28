@@ -27,6 +27,8 @@ type Props = {
 
 const ChildProductDataComponent: React.FC<Props> = ({ products, productdata, handleEdit, isParentProductId, isParentProductdata }) => {
 
+  console.log(products,"prod========================")
+  console.log(productdata,"pdat---------------------------")
   const [isOpenDeletePopup, setOpenDeletePopup] = useState<boolean>(false)
   const [isSelectedProductvarientId, setSelectedProductvarientId] = useState("")
   const updated_by = useSelector((state: any) => state?.user?.details?.id);
@@ -48,12 +50,12 @@ const ChildProductDataComponent: React.FC<Props> = ({ products, productdata, han
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await productVArientDeleteApi(id, isParentProductId, token);
-      if (response?.success) {
+      if (response?.body.success) {
         toast.success("Variant deleted successfully");
         setOpenDeletePopup(false);
         productdata()
 
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.body.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again")
         router.push("/");
@@ -145,23 +147,23 @@ const ChildProductDataComponent: React.FC<Props> = ({ products, productdata, han
                 <tr key={index} className="border-b">
                   <td className="p-4 text-center" onClick={() => handleimgPOpup(product?.id)}>
                     <div className="relative ">
-                      {product?.variant_image ? (
-                        <div className="lg:h-16 lg:w-16 h-12 w-12 bg-gray-200 flex items-center justify-center rounded-full">
-                          <img
-                            src={`${process.env.NEXT_PUBLIC_BASE_URL}${product?.variant_image}`}
-                            alt="Profile"
-                            className="lg:h-16 lg:w-16 h-12 w-12 object-cover rounded-full"
-                          />
-                        </div>
-                      ) : (
-                        <div className="lg:h-16 lg:w-16 h-12 w-12 bg-gray-200 flex items-center justify-center rounded-full">
-                          <img
-                            src='/product .png'
-                            alt="Profile"
-                            className="lg:h-16 lg:w-16 h-12 w-12 object-contain p-2 rounded-full"
-                          />
-                        </div>
-                      )}
+                       {product?.images?.[0]?.url ? (
+          <div className="lg:h-16 lg:w-16 h-12 w-12 bg-gray-200 flex items-center justify-center rounded-full">
+            <img
+              src={product.images[0].url}
+              alt="Variant"
+              className="lg:h-16 lg:w-16 h-12 w-12 object-cover rounded-full"
+            />
+          </div>
+        ) : (
+          <div className="lg:h-16 lg:w-16 h-12 w-12 bg-gray-200 flex items-center justify-center rounded-full">
+            <img
+              src="/product.png"
+              alt="No Image"
+              className="lg:h-16 lg:w-16 h-12 w-12 object-contain p-2 rounded-full"
+            />
+          </div>
+        )}
                       <div className="absolute -bottom-2 left-8 text-white rounded-full p-1 flex items-center justify-center bg-[#577C8E]">
                         <FaPlus className="h-p-4 w-p-4" />
                       </div>

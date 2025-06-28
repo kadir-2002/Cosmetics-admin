@@ -62,10 +62,10 @@ const ImageVarientUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploa
     const fetchimgData = async () => {
         try {
             const response = await imgAllVArientDataApi(isSelectedProductImgId, token);
-            if (response?.data?.product_images) {
-                const filteredImages = response.data.product_images.filter((data: any) => data.image);
+            if (response?.body?.images) {
+                const filteredImages = response.body.images.filter((data: any) => data.url);
                 setImgData(filteredImages);
-            } else if (response?.data?.detail === "Invalid token") {
+            } else if (response?.body?.detail === "Invalid token") {
                 dispatch(clearUserDetails());
                 toast.error("Session Expired, Please Login Again")
                 router.push("/");
@@ -85,12 +85,12 @@ const ImageVarientUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploa
     const handleDeleteConfirm = async (isSelectedProductImgIds: any) => {
         try {
             const response = await imgVarientDeleteApi(isSelectedProductImgIds, isSelectedProductImgId, token);
-            if (response?.success) {
+            if (response?.body.success) {
                 toast.success("Image deleted successfully");
                 productdata()
                 fetchimgData();
                 setOpenDeletePopup(false);
-            } else if (response?.detail === "Invalid token") {
+            } else if (response?.body.detail === "Invalid token") {
                 dispatch(clearUserDetails());
                 toast.error("Session Expired, Please Login Again")
                 router.push("/");
@@ -226,7 +226,7 @@ const ImageVarientUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploa
                                             {imgData.map((image, index) => (
                                                 <div key={index} className="relative flex-shrink-0 w-28 h-28 border border-gray-300 rounded-lg overflow-hidden P-3">
                                                     <img
-                                                        src={`${process.env.NEXT_PUBLIC_BASE_URL}${image?.image}`}
+                                                        src={`${image?.url}`}
                                                         alt={`Uploaded ${index + 1}`}
                                                         className="w-full h-full object-cover"
                                                     />

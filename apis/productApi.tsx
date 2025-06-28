@@ -81,6 +81,24 @@ export const createProductApi = async (
   seoDescription: string,
   seoKeyword: string,
 ) => {
+  // ✅ Force transform even if user passes an object
+  let transformedVariants: any[] = [];
+
+  if (Array.isArray(variant_specifications)) {
+    transformedVariants = variant_specifications;
+  } else if (
+    typeof variant_specifications === 'object' &&
+    variant_specifications !== null
+  ) {
+    transformedVariants = Object.entries(variant_specifications).flatMap(
+      ([key, values]) =>
+        Array.isArray(values)
+          ? values.map((val) => ({ name: key, value: val }))
+          : [{ name: key, value: values }]
+    );
+  }
+  console.log("createproductapi");
+
   const payload: any = {
     name,
     SKU,
@@ -88,7 +106,7 @@ export const createProductApi = async (
     basePrice,
     sellingPrice,
     priceDifferencePercent,
-    variant_specifications,
+    variant_specifications: transformedVariants,
     stock,
     is_active,
     isNewArrival,
@@ -109,6 +127,9 @@ export const createProductApi = async (
   } else {
     payload.categoryId = categoryId;
   }
+
+  console.log("🟢 Final payload:", payload);
+
   const response = await apiCoreNode("/product/", payload, "POST", token);
   return response;
 };
@@ -368,24 +389,24 @@ export const ChildproductAllDataApi = async (
   page_size: number,
   token: string
 ) => {
-  const queryParams = new URLSearchParams({
-    parent: isParentProductId.toString(),
-    page: current_page.toString(),
-    page_size: page_size.toString(),
-  });
-  const endpoint = `/product-variant/?${queryParams.toString()}`;
-  const response = await apiCoreGet(endpoint, "GET", token);
+  // const queryParams = new URLSearchParams({
+  //   parent: isParentProductId.toString(),
+  //   page: current_page.toString(),
+  //   page_size: page_size.toString(),
+  // });
+  const endpoint = `/product/variant/product/${isParentProductId.toString()}`;
+  const response = await apiCoreNode(endpoint,{}, "GET");
   return response;
 };
 
 export const createProductVarientApi = async (
   product: string,
   description: string,
-  SKU: string,
-  selling_price: string,
+  SKU: number,  
+  selling_price: number,
   base_and_selling_price_difference_in_percent: string,
   specification: any,
-  stock: string,
+  stock: number,
   colorcode: string,
   is_selected: boolean,
   is_active: boolean,
@@ -395,14 +416,14 @@ export const createProductVarientApi = async (
   token: string
 ) => {
   const payload: any = {
-    product: product,
-    description: description,
+    description:description,
+    productId:product,
     SKU: SKU,
-    selling_price: selling_price,
+    selling_price: Number(selling_price),
     base_and_selling_price_difference_in_percent:
-      base_and_selling_price_difference_in_percent,
+    base_and_selling_price_difference_in_percent,
     specification: specification,
-    stock: stock,
+    stock: Number(stock),
     colour_code: colorcode,
     is_selected: is_selected,
     is_active: is_active,
@@ -410,7 +431,7 @@ export const createProductVarientApi = async (
     created_by: created_by,
     low_stock_threshold: low_stock_threshold,
   };
-  const response = await apiCores("/product-variant/", payload, "POST", token);
+  const response = await apiCoreNode(`/product/variant/${product}`,payload, "POST", token);
   return response;
 };
 
@@ -456,12 +477,14 @@ export const ProductUpdatedVarientApi = async (
   );
   return response;
 };
+
+// specification
 export const VarientTabApi = async (product: string, token: string) => {
-  const queryParams = new URLSearchParams({
-    product: product.toString(),
-  });
-  const endpoint = `/product-variant-specs/?${queryParams.toString()}`;
-  const response = await apiCoreGet(endpoint, "GET", token);
+  
+  
+  const endpoint = `/product/spec/${product}`;
+  const response = await apiCoreNode(endpoint,{}, "GET");
+  console.log(response)
   return response;
 };
 export const productVArientDeleteApi = async (
@@ -469,8 +492,10 @@ export const productVArientDeleteApi = async (
   isSelectedProductId: any,
   token: string
 ) => {
-  const response = await apiCoreDelete(
-    `/product-variant/${id}/?parent=${isSelectedProductId}`,
+  const response = await apiCoreNode(
+    `/product/variant/${id}`,
+    {},
+    "DELETE",
     token
   );
   return response;
@@ -485,16 +510,15 @@ export const productVarientImgApi = async (
   token: string
 ) => {
   const formData = new FormData();
-  formData.append("product_variant", isSelectedProductImgId);
+  formData.append("variantId", isSelectedProductImgId);
   formData.append("sequence_number", sequence_number);
-  formData.append("created_by", created_by);
   if (image) {
-    formData.append("image", image);
+    formData.append("images", image);
   }
 
   formData.append("is_active", isActive.toString());
   const response = await apiCoreFormData(
-    "/product-variant-image/",
+    `/product/variant/images/${isSelectedProductImgId}`,
     formData,
     "POST",
     token
@@ -506,15 +530,19 @@ export const imgVarientDeleteApi = async (
   isSelectedProductImgId: any,
   token: string
 ) => {
-  const response = await apiCoreDelete(
-    `/product-variant-image/${isSelectedProductImgIds}/?variant=${isSelectedProductImgId}`,
+  const response = await apiCoreNode(
+    `/product/variant/images/${isSelectedProductImgId}/${isSelectedProductImgIds}`,
+    {},
+    "DELETE",
+
     token
   );
   return response;
 };
 export const imgAllVArientDataApi = async (id: any, token: string) => {
-  const response = await apiCoregetid(
-    `/product-variant-image/?variant=${id}`,
+  const response = await apiCoreNode(
+    `/product/variant/images/${id}`,
+    {},
     "GET",
     token
   );
