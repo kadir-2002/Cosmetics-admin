@@ -523,9 +523,9 @@ const BlogFormComponent = () => {
     const fetchData = async () => {
       try {
         const response = await catagoryDataApi(token);
-        if (response?.product_categories) {
-          setCategories(response?.product_categories);
-        } else if (response?.data?.detail === "Invalid token") {
+        if (response?.body.categories) {
+          setCategories(response?.body.categories);
+        } else if (response?.body?.detail === "Invalid token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");

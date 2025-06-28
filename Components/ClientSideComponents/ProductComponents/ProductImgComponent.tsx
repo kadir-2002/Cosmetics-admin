@@ -40,6 +40,7 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploadImg, i
         e.preventDefault();
         const { id, sequence_number, image, is_active } = newImg;
         try {
+            console.log(setSelectedImgId,"id")
             const response = await productImgApi(isSelectedProductImgId, sequence_number, image, is_active, created_by, token);
             console.log("response------------------>>>.", response)
             if (response?.error === "This sequence number already exists for this product image") {
@@ -66,10 +67,10 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploadImg, i
     const fetchimgData = async () => {
         try {
             const response = await imgAllDataApi(isSelectedProductImgId, token);
-            if (response?.data?.product_images) {
-                const filteredImages = response.data.product_images.filter((data: any) => data.image);
+            if (response?.body.images) {
+                const filteredImages = response.body.images.filter((data: any) => data.image);
                 setImgData(filteredImages);
-            } else if (response?.data?.detail === "Invalid token") {
+            } else if (response?.body?.detail === "Invalid token") {
                 dispatch(clearUserDetails());
                 toast.error("Session Expired, Please Login Again")
                 router.push("/");
@@ -89,12 +90,12 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploadImg, i
     const handleDeleteConfirm = async (isSelectedImgId: any) => {
         try {
             const response = await imgDeleteApi(isSelectedImgId, isSelectedProductImgId, token);
-            if (response?.success) {
+            if (response?.body.success) {
                 toast.success("Image deleted successfully");
                 productdata()
                 fetchimgData();
                 setOpenDeletePopup(false);
-            } else if (response?.detail === "Invalid token") {
+            } else if (response?.body.detail === "Invalid token") {
                 dispatch(clearUserDetails());
                 toast.error("Session Expired, Please Login Again")
                 router.push("/");
@@ -116,7 +117,7 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploadImg, i
                         ...prev, image: file,
                     }));
                     setFileName(file.name);
-                    console.log("reader.result ", reader.result)
+                    // console.log("reader.result ", reader.result)
                 }
             };
             reader.readAsDataURL(file);
@@ -225,7 +226,7 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploadImg, i
                                             {imgData.map((image, index) => (
                                                 <div key={index} className="relative flex-shrink-0 w-28 h-28 border border-gray-300 rounded-lg overflow-hidden P-3">
                                                     <img
-                                                        src={`${process.env.NEXT_PUBLIC_BASE_URL}${image?.image}`}
+                                                        src={`${image?.image}`}
                                                         alt={`Uploaded ${index + 1}`}
                                                         className="w-full h-full object-cover"
                                                     />

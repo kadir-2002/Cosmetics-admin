@@ -121,11 +121,11 @@ const ProductAllDataComponent: React.FC<Props> = ({
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await productDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body.success) {
         toast.success("Product deleted successfully");
         setOpenDeletePopup(false);
         productdata();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.body.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -325,7 +325,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
                         {isfiltervalue === "" ? "Status" : isfiltervalue}
                         <FaAngleDown className='inline ml-1' />
                       </th>
-                      <th className='p-4 text-center'>Is Stackable</th>
+                      <th className='p-4 text-center'>Is NewArrival</th>
                       <th className='p-4 text-center'>Variant</th>{" "}
                       {/* Shortened "Add Variant" */}
                       <th className='p-4 text-center'>Actions</th>
@@ -337,7 +337,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
                       <SortableRow key={product.id} id={product.id}>
                         {/* <td className="p-3 text-center"> <LuGrip size={24} className="text-black" /></td> */}
                         <td className='p-4 text-center'>
-                          <p>{product?.sequence_number}</p>
+                          <p>{product?.sequenceNumber}</p>
                         </td>
                         <td className='p-4'>
                           <div className='flex items-center gap-2'>
@@ -348,9 +348,9 @@ const ProductAllDataComponent: React.FC<Props> = ({
                               <div className='h-12 w-12 lg:h-16 lg:w-16 bg-gray-200 rounded-full flex justify-center items-center overflow-hidden'>
                                 <img
                                   src={
-                                    product?.product_image
-                                      ? `${process.env.NEXT_PUBLIC_BASE_URL}${product?.product_image}`
-                                      : "/product.png"
+                                    product?.images[0]
+                                      ? `${product?.images[0].image}`:""
+                                
                                   }
                                   alt='Product'
                                   className='object-cover w-full h-full'
@@ -369,12 +369,12 @@ const ProductAllDataComponent: React.FC<Props> = ({
                         </td>
                         <td className='p-4 text-left'>{product?.SKU}</td>
                         <td className='p-4 text-right'>
-                          {product?.selling_price}
+                          {product?.sellingPrice}
                         </td>
                         <td className='p-4 text-left capitalize'>
-                          {product?.category_info?.sub_category_name
-                            ? `${product?.category_info?.sub_category_name}`
-                            : product?.category_info?.parent_category_name}
+                          {product?.category
+                            ? `${product?.category?.name}`
+                            : product?.category?.name}
                         </td>
                         <td className='p-4 text-right'>{product?.stock}</td>
                         <td
@@ -392,17 +392,17 @@ const ProductAllDataComponent: React.FC<Props> = ({
                             onChange={() =>
                               activeHandler(
                                 product,
-                                !product.is_active,
-                                product.is_stackable
+                                !product.isActive,
+                                product.isNewArrival
                               )
                             }
                             className={`${
-                              product.is_active ? "bg-green-500" : "bg-gray-300"
+                              product.isActive ? "bg-green-500" : "bg-gray-300"
                             } relative inline-flex h-6 w-12 items-center rounded-full transition-colors`}
                           >
                             <span
                               className={`${
-                                product.is_active
+                                product.isActive
                                   ? "translate-x-6"
                                   : "translate-x-1"
                               } inline-block h-5 w-5 transform bg-white rounded-full transition`}
@@ -411,23 +411,23 @@ const ProductAllDataComponent: React.FC<Props> = ({
                         </td>
                         <td className='text-center'>
                           <Switch
-                            checked={product.is_stackable}
+                            checked={product.isNewArrival}
                             onChange={() =>
                               activeHandler(
                                 product,
-                                product.is_active,
-                                !product.is_stackable
+                                product.isActive,
+                                !product.isNewArrival
                               )
                             }
                             className={`${
-                              product.is_stackable
+                              product.isNewArrival
                                 ? "bg-green-500"
                                 : "bg-gray-300"
                             } relative inline-flex h-6 w-12 items-center rounded-full transition-colors`}
                           >
                             <span
                               className={`${
-                                product.is_stackable
+                                product.isNewArrival
                                   ? "translate-x-6"
                                   : "translate-x-1"
                               } inline-block h-5 w-5 transform bg-white rounded-full transition`}

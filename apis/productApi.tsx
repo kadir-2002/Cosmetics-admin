@@ -114,7 +114,7 @@ export const createProductApi = async (
 };
 
 export const productDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(`/product/${id}/`, token);
+  const response = await apiCoreNode(`/product/${id}/`, {},"DELETE",token);
   return response;
 };
 
@@ -295,21 +295,21 @@ export const productImgApi = async (
   created_by: string,
   token: string
 ) => {
+  console.log(isSelectedProductImgId,"image id -----------------------")
   const formData = new FormData();
-  formData.append("product", isSelectedProductImgId);
-  formData.append("sequence_number", sequence_number);
-  formData.append("created_by", created_by);
+  formData.append("productId", isSelectedProductImgId);
+  formData.append("sequence", sequence_number);
   if (image) {
     formData.append("image", image);
   }
 
-  formData.append("is_active", isActive.toString());
   const response = await apiCoreFormData(
-    "/product-image/",
+    "/product/image/",
     formData,
     "POST",
     token
   );
+  console.log(response,"rs")
   return response;
 };
 export const imgUpdatedApi = async (
@@ -341,19 +341,23 @@ export const imgDeleteApi = async (
   isParentProductId: any,
   token: string
 ) => {
-  const response = await apiCoreDelete(
-    `/product-image/${setSelectedImgId}/?product=${isParentProductId}`,
+  const response = await apiCoreNode(
+    `/product/image/${setSelectedImgId}`,
+    {},
+    "DELETE",
     token
   );
   return response;
 };
 
 export const imgAllDataApi = async (isParentProductId: any, token: string) => {
-  const response = await apiCoregetid(
-    `/product-image/?product=${isParentProductId}`,
+  const response = await apiCoreNode(
+    `/product/image/${isParentProductId}`,
+    {},
     "GET",
     token
   );
+  console.log(response,"img")
   return response;
 };
 //--------------------------------------------------------
