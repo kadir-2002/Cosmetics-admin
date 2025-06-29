@@ -20,6 +20,16 @@ import { IoMdArrowDropdown } from "react-icons/io";
 interface Order {
   id: string;
   purchased_item_count: string;
+  totalAmount:number,
+  createdAt:string,
+  status:string,
+  items:[],
+  address:{
+  fullName:string
+  }
+  payment?:{
+    method:string
+  }
   customer_info?: {
     first_name: string;
   };
@@ -32,7 +42,11 @@ interface Order {
     is_payment_done: boolean;
     payment_type: string;
   };
+  user?:{
+    email:string
+  }
 }
+
 const formatDate = (date: Date | null): string => {
   if (!date) return ""; // Return an empty string instead of null
   const year = date.getFullYear();
@@ -112,7 +126,7 @@ const OrderAllDataComponent = () => {
         page_size: pageSize, token: token, isfiltervalue: status ? status : isfiltervalue, ordering: ordering,
       });
 
-      if (data?.detail === "Invalid token") {
+      if (data?.body.message ===  "Authorization header missing or malformed") {
         if (!tokenErrorShown.current) {
           tokenErrorShown.current = true; // Prevent further toasts
           dispatch(clearUserDetails());
@@ -122,9 +136,15 @@ const OrderAllDataComponent = () => {
         return;
       }
 
-      if (data?.results) {
-        setOrders(data?.results || []);
-        setTotalPages(data?.total_pages);
+      // if (data) {
+      //   setOrders(data?.body.data || []);
+      //   console.log(data.body,"------=================---------")
+      //   setTotalPages(data?.body.pagination.totalPages);
+      // } 
+      if (data?.body?.success) {
+        setOrders(data.body.data || []);
+        console.log(data.body.data, "------=================---------");
+        setTotalPages(data.body.pagination?.totalPages || 1);
       }
 
     } catch (error) {
@@ -423,26 +443,26 @@ const handleEndDateChange = (date: Date | null) => {
                 orders.map((order, index) => (
                   <tr key={index} className="border-b-[1px] hover:bg-blue-100">
                     <td className="py-3 px-4 text-end">{order?.id}</td>
-                    <th className="py-3 px-4 text-end">{order?.order_info?.created_at_formatted}</th>
+                    <th className="py-3 px-4 text-end">{order?.createdAt}</th>
                     <td className="py-3 px-4 text-start">
-                      {order?.customer_info?.first_name || "N/A"}
+                      {order?.address?.fullName || "N/A"}
                     </td>
                   <td className="py-3 px-4 text-end">
-  {order?.order_info?.final_total != null
-    ? `${currency}${Number(order.order_info.final_total).toFixed(2)}`
+  {order?.totalAmount != null
+    ? `${Number(order.totalAmount).toFixed(2)}`
     : "N/A"}
 </td>
                     <td className="py-3 px-4 text-start">
-                      {order?.payment_info?.payment_type ? order?.payment_info?.payment_type : "Cash on Delivery"}
+                      {order?.payment?.method? order.payment.method : "Cash on Delivery"}
                     </td>
                     <td className="py-3 px-4 text-center cursor-pointer">
                       <div className="relative inline-block lg:w-[176px] w-[176px]">
                         <select
                           // id={`select-${order?.id}`}
                           className={`border w-full text-md text-white font-medium rounded-md px-3 py-2 pr-10 appearance-none focus:outline-none ${getStatusClass(
-                            order?.order_info?.order_status || "Default"
+                            order?.status || "Default"
                           )}`}
-                          value={order?.order_info?.order_status}
+                          value={order?.status}
                           onChange={async (e) => {
                             const status = e.target.value;
                             const userInformation = { id: order?.id };
@@ -482,7 +502,7 @@ const handleEndDateChange = (date: Date | null) => {
                         </div>
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-end">{order?.purchased_item_count}</td>
+                    <td className="py-3 px-4 text-end">{order?.items.length}</td>
                     <td className="py-3 px-4 text-center">
                       <button onClick={() => openPopup(order.id)}>
                         <IoEye size={26} />

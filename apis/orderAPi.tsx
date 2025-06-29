@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCoreGet } from "./apiCoreGet";
 import { apiCoreUpdate } from "./apiCoreUpdate";
 
@@ -44,11 +45,11 @@ export const orderAllDataApi = async (searchParams: { search: string, startDates
     }
 
     endpoint = `/order/get-orders/?${queryParams}`;
-
+    console.log(endpoint,":::::::::::::::::::::")
   }
 
 
-  const response = await apiCoreGet(endpoint, "GET", searchParams?.token);
+  const response = await apiCoreNode(endpoint,{}, "GET",searchParams.token);
   return response;
 };
 

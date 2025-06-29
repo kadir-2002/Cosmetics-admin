@@ -3,7 +3,7 @@ export const apiCoreForPost = async (
     requestBody: any,
     token: string
 ) => {
-    return await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`, {
+    return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

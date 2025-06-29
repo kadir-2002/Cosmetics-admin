@@ -7,6 +7,24 @@ import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
+type OrderItem = {
+  id: number;
+  orderId: number;
+  productId: number;
+  variantId: number | null;
+  quantity: number;
+  price: number;
+  product: {
+    id: number;
+    name: string;
+    SKU: string;
+    image?: string; 
+    category?: string; 
+    specification?: string; 
+  variant: any;
+};
+}
+
 const OrderPopup = ({
   isVisible,
   onClose,
@@ -84,17 +102,17 @@ const OrderPopup = ({
                 <div className='flex gap-3 text-lg font-semibold mt-5'>
                   <p className='text-white'>Payment Method:</p>
                   <p className='text-white'>
-                    {role?.payment_info?.payment_type}
+                    {role?.payment.method}
                   </p>
                 </div>
                 <div className='flex gap-3 text-lg font-semibold mt-5'>
                   <p className='text-white'>Order Status:</p>
                   <p
                     className={`text-white py-1 px-3 rounded-md ${getStatusClass(
-                      role?.order_info?.order_status
+                      role?.status
                     )}`}
                   >
-                    {role?.order_info?.order_status}
+                    {role?.status}
                   </p>
                 </div>
                 <button
@@ -153,16 +171,16 @@ const OrderPopup = ({
                   <div className='lg:text-lg text-sm border-b-[1px] p-3'>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Customer Name:</strong>{" "}
-                      {role?.customer_info?.first_name}
+                      {role?.address?.fullName}
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Phone No:</strong>{" "}
-                      {role?.customer_info?.phone_number}
+                      {role?.address?.phone}
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Email:</strong>{" "}
                       <span className='w-full break-words'>
-                        {role?.customer_info?.email}
+                        {role?.user?.email}
                       </span>
                     </p>
                     <p className=' border-b-[1px] py-2'>
@@ -191,79 +209,64 @@ const OrderPopup = ({
                         </tr>
                       </thead>
                       <tbody className='bg-white'>
-                        {role?.items?.map((item: any, index: number) => (
-                          <tr
-                            key={index}
-                            className='border cursor-pointer hover:bg-gray-100 text-gray-700'
-                            onClick={() =>
-                              router.push(`/product?id=${item?.id}`)
-                            }
-                          >
-                            <td className='border p-3 text-center'>
-                              {index + 1}
-                            </td>
-                            <td className='border p-3'>
-                              {item.image ? (
-                                <>
-                                  <img
-                                    src={`${process.env.NEXT_PUBLIC_BASE_URL}${item.image}`}
-                                    alt='Profile'
-                                    className='w-16 h-16 object-cover rounded'
-                                  />
-                                </>
-                              ) : (
-                                <div className='h-12 w-12 bg-gray-200 flex items-center justify-center rounded-full'>
-                                  <img
-                                    src='/product .png'
-                                    alt='Profile'
-                                    className='lg:h-16 lg:w-16 h-12 w-12 object-contain p-2 rounded-full'
-                                  />
-                                </div>
-                              )}
-                            </td>
-                            <td className='border p-3 text-center'>
-                              {item.SKU || "N/A"}
-                            </td>
-                            <td className='border p-3'>
-                              <span className='text-blue-600 font-semibold'>
-                                {item.name || "N/A"}
-                              </span>
-                              <br />
-                              <div className=' lg:text-lg text-sm py-3'>
-                                {item?.specification &&
-                                  typeof item.specification === "string" &&
-                                  Object.entries(
-                                    JSON.parse(
-                                      item.specification.replace(/'/g, '"')
-                                    )
-                                  ).map(([key, value], specIndex) => (
-                                    <div key={specIndex} className='flex gap-2'>
-                                      <p className='font-semibold'>
-                                        {key.charAt(0).toUpperCase() +
-                                          key.slice(1)}
-                                        :
-                                      </p>
-                                      <span>{String(value) || "N/A"}</span>
-                                    </div>
-                                  ))}
-                              </div>
-                            </td>
-                            <td className='border p-3 text-center'>
-                              {item?.category || "N/A"}
-                            </td>
-                            <td className='border p-3 text-center'>
-                              {currency}
-                              {item.unit_price || "N/A"}/-
-                            </td>
-                            <td className='border p-3 text-center'>
-                              {item?.quantity || "N/A"}
-                            </td>
-                            <td className='border p-2 text-center'>
-                              {currency}
-                             {item?.quantity? (item.unit_price * item.quantity).toFixed() + " /-": "N/A"}
-                            </td>
-                          </tr>
-                        ))}
+                     {role?.items?.map((item: OrderItem, index: number) => (
+  <tr
+    key={index}
+    className='border cursor-pointer hover:bg-gray-100 text-gray-700'
+    onClick={() =>
+      router.push(`/product?id=${item.product?.id}`)
+    }
+  >
+    <td className='border p-3 text-center'>{index + 1}</td>
+
+    <td className='border p-3'>
+      {item.product.image ? (
+        <img
+          src={`${item.product.image}`}
+          alt='Product'
+          className='w-16 h-16 object-cover rounded'
+        />
+      ) : (
+        <div className='h-12 w-12 bg-gray-200 flex items-center justify-center rounded-full'>
+          <img
+            src='/product.png'
+            alt='Default'
+            className='lg:h-16 lg:w-16 h-12 w-12 object-contain p-2 rounded-full'
+          />
+        </div>
+      )}
+    </td>
+
+    <td className='border p-3 text-center'>
+      {item.product.SKU || 'N/A'}
+    </td>
+
+    <td className='border p-3'>
+      <span className='text-blue-600 font-semibold'>
+        {item.product.name || 'N/A'}
+      </span>
+    </td>
+
+    <td className='border p-3 text-center'>
+      {item.product.category || 'N/A'}
+    </td>
+
+    <td className='border p-3 text-center'>
+      {currency}
+      {item.price || 'N/A'}
+    </td>
+
+    <td className='border p-3 text-center'>
+      {item.quantity || 'N/A'}
+    </td>
+
+    <td className='border p-3 text-center'>
+      {currency}
+      {(item.price * item.quantity).toFixed(2)} 
+    </td>
+  </tr>
+))}
+
                       </tbody>
                     </table>
                   </div>
@@ -272,11 +275,11 @@ const OrderPopup = ({
                   <div className='gap-2 py-2 lg:text-lg text-sm'>
                     <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                       <p>Total Product:</p>
-                      <p>{role.purchased_item_count}</p>
+                      <p>{role.items.length}</p>
                     </div>
                     <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                       <p>Total Price:</p>
-                      <p>{role?.order_info?.sub_total || "N/A"}</p>
+                      <p>{role?.totalAmount|| "N/A"}</p>
                     </div>
 
                     {role?.order_info?.delivery_charge === 0 ? null : (
@@ -292,17 +295,17 @@ const OrderPopup = ({
                       </div>
                     )}
 
-                    {role?.order_info?.discount_coupon_code ? (
+                    {role?.discountCode ? (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Coupon Code:</p>
-                        <p>{role?.order_info?.discount_coupon_code || "N/A"}</p>
+                        <p>{role?.discountCode || "N/A"}</p>
                       </div>
                     ) : null}
-                    {role?.order_info?.discount_coupon_value === 0 ? null : (
+                    {role?.discountAmount === 0 ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Coupon Discount:</p>
                         <p>
-                          {role?.order_info?.discount_coupon_value || "N/A"}%
+                          &#8377;{role?.discountAmount || "N/A"}  
                         </p>
                       </div>
                     )}
@@ -337,7 +340,7 @@ const OrderPopup = ({
                       </p>
                       <p className='lg:text-xl text-lg font-semibold'>
                         {currency}
-                        {(role?.order_info?.final_total).toFixed(2)}
+                        {(role?.totalAmount)}
                       </p>
                     </div>
                     {role?.payment_info?.payment_transaction_id ? (
@@ -346,7 +349,7 @@ const OrderPopup = ({
                           Transaction ID:
                         </p>
                         <p className='text-black'>
-                          {role?.payment_info?.payment_transaction_id || "N/A"}
+                          {role?.payment?.transactionId || "N/A"}
                         </p>
                       </div>
                     ) : null}

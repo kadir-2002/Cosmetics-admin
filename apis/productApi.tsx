@@ -178,46 +178,38 @@ export const ProductUpdatedApi = async (
     name: name,
     SKU: SKU,
     description: description,
-    base_price: base_price,
-    selling_price: selling_price,
-    base_and_selling_price_difference_in_percent:
+    basePrice: base_price,
+    sellingPrice: selling_price,
+    priceDifferencePercent:
       base_and_selling_price_difference_in_percent,
     variant_specifications: variant_specifications,
     stock: stock,
     is_active: is_active,
-    is_new_arrival: is_new_arrival,
-    minimum_order_quantity: minimum_order_quantity,
-    tag_list: tag_list,
-    updated_by: updated_by,
-    low_stock_threshold: low_stock_threshold,
+    isNewArrival: is_new_arrival,
+    updatedById: updated_by,
     weight: weight,
     length: length,
     width: width,
     height: height,
-    product_details: product_details,
-    care_instruction: care_instruction,
-    seo_title: seo_title,
-    seo_description: seo_description,
-    seo_keyword: seo_keyword,
+    productDetails: product_details,
+    seoTitle: seo_title,
+    seoDescription: seo_description,
+    seoKeyword: seo_keyword,
     warranty: warranty,
-    delivery_or_installation_tips: delivery_or_installation_tips,
-    material: material,
-    weight_bearing_number: weight_bearing_number,
-    is_stackable: is_stackable,
-    stackable_pieces_number: stackable_pieces_number,
   };
   if (sub_catogry) {
-    requestBody.category = sub_catogry;
+    requestBody.subcategoryId = sub_catogry;
   } else {
-    requestBody.category = category;
+    requestBody.categoryId = category;
   }
-  const response = await apiCoreUpdate(
+  const response = await apiCoreNode(
     `/product/${id}/`,
-    "",
+    
     requestBody,
     "PATCH",
     token
   );
+  console.log(response,"update product")
   return response;
 };
 export const ProductToggleUpdatedApi = async (
