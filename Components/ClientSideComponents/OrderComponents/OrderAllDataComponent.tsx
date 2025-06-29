@@ -469,20 +469,21 @@ const handleEndDateChange = (date: Date | null) => {
                             await activeHandler(userInformation, status);
                           }}
                         >
-                          <option value="Pending" className="bg-[#D1D5DB] text-black">
-                            Pending
+                          <option value="PENDING" className="bg-[#D1D5DB] text-black">
+                            PENDING
                           </option>
-                          <option value="Processing" className="bg-[#D1D5DB] text-black">
-                            Processing
+                            <option value="CONFIRMED" className="bg-[#D1D5DB] text-black">
+                            CONFIRMED
                           </option>
-                          <option value="Out for Delivery" className="bg-[#D1D5DB] text-black">
-                            Out for Delivery
+                
+                          <option value="SHIPPED" className="bg-[#D1D5DB] text-black">
+                            SHIPPED
                           </option>
-                          <option value="Complete" className="bg-[#D1D5DB] text-black">
-                            Complete
+                          <option value="DELIVERED" className="bg-[#D1D5DB] text-black">
+                            DELIVERED
                           </option>
-                          <option value="Cancel" className="bg-[#D1D5DB] text-black">
-                            Cancel
+                          <option value="CANCELLED" className="bg-[#D1D5DB] text-black">
+                            CANCELLED
                           </option>
                         </select>
 

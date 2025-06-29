@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
 import { apiCoreGet } from "./apiCoreGet";
@@ -66,13 +67,13 @@ export const userAllDataApi = async (params: { search?: string; category?: any; 
     queryParams.append("ordering", params.ordering);
   }
 
-  const endpoint = `/user/panel/?${queryParams.toString()}`;
-  const response = await apiCoreGet(endpoint, "GET", params?.token);
+  const endpoint = `/admin/adminlist/?${queryParams.toString()}`;
+  const response = await apiCoreNode(endpoint, {},"GET", params?.token);
   return response;
 };
 
 export const userDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(`/user/panel/${id}/`, token);
+  const response = await apiCoreNode(`/admin/delete/${id}/`,{},"DELETE" ,token);
   return response;
 };
 
@@ -115,6 +116,7 @@ export const roleDataApi = async (token: string) => {
   const response = await apiCoreGet("/user/role/?is_active=true", "GET", token);
   return response;
 };
+
 export const roleFilterDataApi = async (token: string) => {
   const response = await apiCoreGet("/user/role/", "GET", token);
   return response;

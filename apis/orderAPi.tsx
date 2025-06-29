@@ -67,7 +67,8 @@ export const orderAllDataApi = async (searchParams: { search: string, startDates
 
 
 export const orderUpdatedApi = async (id: string, status: string, updated_by: string, token: string) => {
-  const requestBody = { order_id: id, status: status, updated_by: updated_by, };
-  const response = await apiCoreUpdate(`/order/edit-status/`, "", requestBody, "PATCH", token);
+  const requestBody = {  status: status };
+  const response = await apiCoreNode(`/order/${id}/status/`, requestBody, "PATCH", token);
+  console.log(response ,"staus")
   return response;
 };

@@ -7,6 +7,13 @@ import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
+type ProductImage = {
+  id: number;
+  image: string;
+  sequence?: number;
+  productId?: number;
+};
+
 type OrderItem = {
   id: number;
   orderId: number;
@@ -18,12 +25,13 @@ type OrderItem = {
     id: number;
     name: string;
     SKU: string;
-    image?: string; 
-    category?: string; 
-    specification?: string; 
-  variant: any;
+    image?: string;
+    category?: string;
+    specification?: string;
+    variant: any;
+    images: ProductImage[];
+  };
 };
-}
 
 const OrderPopup = ({
   isVisible,
@@ -220,12 +228,12 @@ const OrderPopup = ({
     <td className='border p-3 text-center'>{index + 1}</td>
 
     <td className='border p-3'>
-      {item.product.image ? (
-        <img
-          src={`${item.product.image}`}
-          alt='Product'
-          className='w-16 h-16 object-cover rounded'
-        />
+     {item?.product?.images?.[0]?.image ? (
+    <img
+      src={item.product.images[0].image}
+      alt='Product'
+      className='w-16 h-16 object-cover rounded'
+    />
       ) : (
         <div className='h-12 w-12 bg-gray-200 flex items-center justify-center rounded-full'>
           <img

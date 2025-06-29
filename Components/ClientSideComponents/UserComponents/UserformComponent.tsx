@@ -317,10 +317,10 @@ const UserFormComponent = () => {
         apiParams.category = "";
       }
       const response = await userAllDataApi(apiParams);
-      if (response?.results) {
-        setUsers(response?.results);
-        setTotalPages(response?.total_pages);
-      } else if (response?.detail === "Invalid token") {
+      if (response?.body.results) {
+        setUsers(response?.body.results);
+        setTotalPages(response?.body.total_pages);
+      } else if (response?.body.detail === "Invalid token") {
         if (!tokenErrorShown.current) {
           tokenErrorShown.current = true; // Prevent further toasts
           dispatch(clearUserDetails());
@@ -379,11 +379,11 @@ const UserFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await userDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body.success) {
         toast.success("User deleted successfully");
         setIsLogoutPopup(false);
         fetchUser();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.body.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
