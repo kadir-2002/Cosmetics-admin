@@ -185,7 +185,7 @@ const ProductFormComponent: React.FC<props> = ({
             is_stackable: false,
             stackable_pieces_number: "",
           });
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.body?.detail === "Invalid token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -1177,14 +1177,14 @@ const ProductFormComponent: React.FC<props> = ({
               <div
                 className={`w-full  ${
                   variantSpecifications &&
-                  Object.keys(variantSpecifications).length > 0
+                  Object.keys(variantSpecifications||{}).length > 0
                     ? "h-60"
                     : "h-20"
                 } transition-height duration-300 overflow-y-auto`}
               >
-                {Object.keys(variantSpecifications).length > 0 ? (
+                {Object.keys(variantSpecifications|| {}).length > 0 ? (
                   <div className='overflow-y-scroll bg-[#F3F3F3] rounded-md border-[1px]'>
-                    {Object.entries(variantSpecifications).map(
+                    {Object.entries(variantSpecifications || {}).map(
                       ([attribute, values]) => (
                         <div
                           key={attribute}

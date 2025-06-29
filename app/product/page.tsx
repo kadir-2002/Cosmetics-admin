@@ -56,7 +56,6 @@ const Page: React.FC = () => {
     is_active: false,
     is_new_arrival: false,
     minimum_order_quantity: "",
-    tag_list: [],
     variants: { attribute: "", value: "" },
     low_stock_threshold: 5,
     weight: "",
@@ -123,7 +122,6 @@ const Page: React.FC = () => {
       is_active: false,
       is_new_arrival: false,
       minimum_order_quantity: "",
-      tag_list: [],
       variants: { attribute: "", value: "" },
       low_stock_threshold: 5,
       weight: "",
@@ -148,7 +146,6 @@ const Page: React.FC = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
     setOpenForm(true)
     setProductID(product?.id)
-    const formattedTagList = product?.tags?.filter((tag: any) => tag?.id).map((tag: any) => Number(tag.id)) || []
     if (topRef.current) {
       topRef.current.scrollIntoView({
         behavior: "smooth",
@@ -157,38 +154,38 @@ const Page: React.FC = () => {
     }
     setVariantSpecifications(product?.variant_specifications)
     setNewUser({
-      id: product?.id,
-      name: product?.name,
-      SKU: product?.SKU,
-      description: product?.description,
-      category: product?.category_info?.parent_category_id,
-      sub_catogry: product?.category_info?.sub_category_id,
-      base_price: product?.base_price,
-      selling_price: product?.selling_price,
-      base_and_selling_price_difference_in_percent: product?.base_and_selling_price_difference_in_percent,
-      stock: product?.stock,
-      is_active: product?.is_active,
-      is_new_arrival: product?.is_new_arrival,
-      minimum_order_quantity: product?.minimum_order_quantity,
-      tag_list: formattedTagList,
-      variants: product?.variant_specifications,
-      low_stock_threshold: product?.low_stock_threshold,
-      weight: product?.weight,
-      length: product?.length,
-      width: product?.width,
-      height: product?.height,
-      product_details: product?.product_details,
-      care_instruction: product?.care_instruction,
-      seo_title: product?.seo_title,
-      seo_description: product?.seo_description,
-      seo_keyword: product?.seo_keyword,
-      warranty: product?.warranty,
-      delivery_or_installation_tips: product?.delivery_or_installation_tips,
-      material: product?.material,
-      weight_bearing_number: product?.weight_bearing_number,
-      is_stackable: product?.is_stackable,
-      stackable_pieces_number: product?.stackable_pieces_number,
-    })
+  id: product?.id,
+  name: product?.name,
+  SKU: product?.SKU,
+  description: product?.description,
+  category: product?.category?.id,
+  sub_catogry: product?.subcategoryId,
+  base_price: product?.basePrice,
+  selling_price: product?.sellingPrice,
+  base_and_selling_price_difference_in_percent: product?.priceDifferencePercent,
+  stock: product?.stock,
+  is_active: product?.isActive,
+  is_new_arrival: product?.isNewArrival,
+  minimum_order_quantity: product?.minimum_order_quantity,
+  variants: product?.variants,
+  low_stock_threshold: product?.low_stock_threshold,
+  weight: product?.weight,
+  length: product?.length,
+  width: product?.width,
+  height: product?.height,
+  product_details: product?.productDetails,
+  care_instruction: product?.care_instruction,
+  seo_title: product?.seoTitle,
+  seo_description: product?.seoDescription,
+  seo_keyword: product?.seoKeyword,
+  warranty: product?.warranty,
+  delivery_or_installation_tips: product?.delivery_or_installation_tips,
+  material: product?.material,
+  weight_bearing_number: product?.weight_bearing_number,
+  is_stackable: product?.is_stackable,
+  stackable_pieces_number: product?.stackable_pieces_number,
+});
+
     const selectedCategory = categories.find((category) => category.id === product?.category_info?.parent_category_id)
     setSubCategories(selectedCategory?.subcategories || [])
     setIsEdit(true)
