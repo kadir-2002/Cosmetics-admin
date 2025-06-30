@@ -242,7 +242,7 @@ export const ProductToggleUpdatedApi = async (
   delivery_or_installation_tips: string,
   material: string,
   weight_bearing_number: string,
-  is_stackable: boolean,
+  isNewArrival: boolean,
   stackable_pieces_number: string
 ) => {
   const requestBody = {
@@ -274,12 +274,11 @@ export const ProductToggleUpdatedApi = async (
     delivery_or_installation_tips: delivery_or_installation_tips,
     material: material,
     weight_bearing_number: weight_bearing_number,
-    is_stackable: is_stackable,
+    isNewArrival: isNewArrival,
     stackable_pieces_number: stackable_pieces_number,
   };
-  const response = await apiCoreUpdate(
+  const response = await apiCoreNode(
     `/product/${id}/`,
-    "",
     requestBody,
     "PATCH",
     token

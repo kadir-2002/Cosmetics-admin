@@ -50,11 +50,11 @@ const Header = ({ sidebarOpen, setSidebarOpen ,userDetails}: props) => {
       </button>
       <div className="flex items-center justify-between  lg:w-[70%]">
         <Link href="/">
-        <div className="flex h-28 w-[130px] lg:w-[170px] relative bg-transparent">
+        <div className="flex h-28 w-[130px] lg:w-[200px] relative bg-transparent">
             <Image
               width={100}
               height={20}
-              src="/SuperbBlackWhiteLogo.png"
+              src="/cosmeticLogo.png"
               alt="Logo"
               priority
               className="h-full w-full  absolute object-contain"

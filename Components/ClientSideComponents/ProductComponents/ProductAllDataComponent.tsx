@@ -149,11 +149,12 @@ const ProductAllDataComponent: React.FC<Props> = ({
   const activeHandler = async (
     product: any,
     isActive: boolean,
-    is_stackable: boolean
+    isNewArrival: boolean
   ) => {
     const tagListIds = product?.tags?.map((tag: any) => tag.id);
     const response = await ProductToggleUpdatedApi(
       product?.id,
+      product?.isNewArrival,
       product?.name,
       product?.description,
       product?.SKU,
@@ -182,12 +183,11 @@ const ProductAllDataComponent: React.FC<Props> = ({
       product?.delivery_or_installation_tips,
       product?.material,
       product?.weight_bearing_number,
-      is_stackable,
       product?.stackable_pieces_number
     );
     if (response?.status === 200) {
       productdata();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.body?.detail === "Invalid token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

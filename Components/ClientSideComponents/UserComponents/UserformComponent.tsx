@@ -317,8 +317,9 @@ const UserFormComponent = () => {
         apiParams.category = "";
       }
       const response = await userAllDataApi(apiParams);
-      if (response?.body.results) {
-        setUsers(response?.body.results);
+      if (response?.body) {
+        setUsers(response?.body);
+        setuserrole(response.body)
         setTotalPages(response?.body.total_pages);
       } else if (response?.body.detail === "Invalid token") {
         if (!tokenErrorShown.current) {
@@ -887,10 +888,10 @@ const UserFormComponent = () => {
               {users.map((user: any, index: any) => (
                 <tr key={index} className='border-b'>
                   <td className='p-3'>
-                    {user?.profile_picture ? (
+                    {user?.profile? (
                       <>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL}${user?.profile_picture}`}
+                          src={`${user?.profile.imageUrl}`}
                           alt='Profile'
                           className='lg:h-16 lg:w-16 h-12 w-12 object-cover rounded-full'
                         />
@@ -902,10 +903,10 @@ const UserFormComponent = () => {
                     )}
                   </td>
                   <td className='p-3 capitalize text-start'>
-                    {user?.first_name} {user?.last_name}
+                    {user?.profile?.firstName} {user?.profile?.lastName}
                   </td>
                   <td className='p-3 capitalize text-start'>
-                    {user?.category_name}
+                    {user?.role}
                   </td>
                   <td className='p-3 text-end'>
                     {user?.phone_number ? (
@@ -918,19 +919,21 @@ const UserFormComponent = () => {
                   <td className='p-3 text-start'>{user?.email}</td>
                   <td className='p-3 text-center'>
                     <div className='text-center'>
-                      <Switch
-                        checked={user?.is_active}
-                        onChange={() => activeHandler(user, !user?.is_active)}
-                        className={`${
-                          user?.is_active ? "bg-green-500" : "bg-gray-300"
-                        } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
-                      >
-                        <span
-                          className={`${
-                            user?.is_active ? "translate-x-6" : "translate-x-1"
-                          } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}
-                        />
-                      </Switch>
+                     <Switch
+  checked={!user?.isDeleted}
+  onChange={() => activeHandler(user, !user?.isDeleted)}
+  className={`
+    ${!user?.isDeleted ? "bg-green-500" : "bg-gray-300"} 
+    relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out
+  `}
+>
+  <span
+    className={`
+      ${!user?.isDeleted ? "translate-x-6" : "translate-x-1"} 
+      inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out
+    `}
+  />
+</Switch>
                     </div>
                   </td>
                   <td className='p-3 text-right'>

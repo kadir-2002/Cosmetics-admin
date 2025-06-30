@@ -128,7 +128,7 @@ const LoginFormComponent = () => {
       <div className='flex flex-col w-full lg:h-[86%] lg:w-[80%] h-full  bg-white shadow-2xl lg:-mt-28 lg:rounded-b-3xl'>
         <div className='flex h-40 w-[250px] relative'>
           <Image
-            src='/SuperbStoreLog.png'
+            src='/cosmeticLogo.png'
             alt='logo'
             fill={true}
             className='h-full w-full  absolute object-contain'

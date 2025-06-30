@@ -143,7 +143,6 @@ const OrderAllDataComponent = () => {
       // } 
       if (data?.body?.success) {
         setOrders(data.body.data || []);
-        console.log(data.body.data, "------=================---------");
         setTotalPages(data.body.pagination?.totalPages || 1);
       }
 

@@ -67,7 +67,7 @@ export const userAllDataApi = async (params: { search?: string; category?: any; 
     queryParams.append("ordering", params.ordering);
   }
 
-  const endpoint = `/admin/adminlist/?${queryParams.toString()}`;
+  const endpoint = `/admin/userlist/?${queryParams.toString()}`;
   const response = await apiCoreNode(endpoint, {},"GET", params?.token);
   return response;
 };
@@ -90,25 +90,25 @@ export const userUpdatedApi = async (
   token: string
 ) => {
   const formData = new FormData();
-  formData.append("first_name", firstName);
-  formData.append("last_name", lastName);
-  if (phone_number) {
-    formData.append("phone_number", phone_number);
-  } else {
-    formData.append("phone_number", "");
-  }
+  formData.append("firstName", firstName);
+  formData.append("lastName", lastName);
+  // if (phone_number) {
+  //   formData.append("phone_number", phone_number);
+  // } else {
+  //   formData.append("phone_number", "");
+  // }
   formData.append("email", email);
   if (phone_number) {
     formData.append("country_code_for_phone_number", county_code);
   }
 
-  formData.append("category", category);
+  formData.append("role", category);
 
   if (profile_picture) {
-    formData.append("profile_picture", profile_picture);
+    formData.append("image", profile_picture);
   }
-  formData.append("is_active", isActive.toString());
-  const response = await apiCoreUpdateuser(`/user/panel/${id}/`, formData, "PATCH", token);
+  formData.append("isDeleted", isActive.toString());
+  const response = await apiCoreUpdateuser(`/admin/update/${id}/`, formData, "PATCH", token);
   return response;
 };
 

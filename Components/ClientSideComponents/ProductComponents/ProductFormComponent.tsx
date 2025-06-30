@@ -256,7 +256,7 @@ const ProductFormComponent: React.FC<props> = ({
             is_stackable: false,
             stackable_pieces_number: "",
           });
-        } else if (response?.body?.data?.detail === "Invalid token") {
+        } else if (response?.status === 401) {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");

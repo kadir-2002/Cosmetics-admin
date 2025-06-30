@@ -15,20 +15,20 @@ type ProductImage = {
 };
 
 type OrderItem = {
-  id: number;
-  orderId: number;
-  productId: number;
+  id: number | null;
+  orderId: number | null;
+  productId: number | null;
   variantId: number | null;
-  quantity: number;
-  price: number;
+  quantity: number ;
+  price: number ;
   product: {
-    id: number;
-    name: string;
-    SKU: string;
-    image?: string;
-    category?: string;
-    specification?: string;
-    variant: any;
+    id: number | null;
+    name: string | null;
+    SKU: string | null;
+    image?: string | null;
+    category?: string | null;
+    specification?: string | null;
+    variant: any | null;
     images: ProductImage[];
   };
 };
@@ -246,26 +246,26 @@ const OrderPopup = ({
     </td>
 
     <td className='border p-3 text-center'>
-      {item.product.SKU || 'N/A'}
+      {item.product?.SKU || 'N/A'}
     </td>
 
     <td className='border p-3'>
       <span className='text-blue-600 font-semibold'>
-        {item.product.name || 'N/A'}
+        {item.product?.name || 'N/A'}
       </span>
     </td>
 
     <td className='border p-3 text-center'>
-      {item.product.category || 'N/A'}
+      {item.product?.category || 'N/A'}
     </td>
 
     <td className='border p-3 text-center'>
       {currency}
-      {item.price || 'N/A'}
+      {item?.price || 'N/A'}
     </td>
 
     <td className='border p-3 text-center'>
-      {item.quantity || 'N/A'}
+      {item?.quantity || 'N/A'}
     </td>
 
     <td className='border p-3 text-center'>
