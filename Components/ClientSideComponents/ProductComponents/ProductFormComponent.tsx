@@ -1132,7 +1132,7 @@ const ProductFormComponent: React.FC<props> = ({
 
                     {dropdownVisible && (
                       <ul className='absolute left-0  w-full mt-2 bg-white rounded-sm  max-h-40 overflow-y-auto z-10'>
-                        {Object.keys(variantSpecifications).map((attr) => (
+                        {Object.keys(variantSpecifications || {}).map((attr) => (
                           <li
                             key={attr}
                             onClick={() => handleOptionClick(attr)} // Set selected attribute on click
