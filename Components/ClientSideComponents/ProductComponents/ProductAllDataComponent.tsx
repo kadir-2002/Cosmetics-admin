@@ -153,9 +153,9 @@ const ProductAllDataComponent: React.FC<Props> = ({
   ) => {
     const response = await ProductToggleUpdatedApi(
       product?.id,
+      isActive,
       isNewArrival,
-       token,
-      isActive
+       token
     
     );
     if (response?.status === 200) {
