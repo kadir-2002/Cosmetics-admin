@@ -67,7 +67,7 @@ export const userAllDataApi = async (params: { search?: string; category?: any; 
     queryParams.append("ordering", params.ordering);
   }
 
-  const endpoint = `/admin/userlist/?${queryParams.toString()}`;
+  const endpoint = `/admin/adminlist/?${queryParams.toString()}`;
   const response = await apiCoreNode(endpoint, {},"GET", params?.token);
   return response;
 };
@@ -107,7 +107,6 @@ export const userUpdatedApi = async (
   if (profile_picture) {
     formData.append("image", profile_picture);
   }
-  formData.append("isDeleted", isActive.toString());
   const response = await apiCoreUpdateuser(`/admin/update/${id}/`, formData, "PATCH", token);
   return response;
 };

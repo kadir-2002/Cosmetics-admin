@@ -161,7 +161,7 @@ const CustomerFormComponent = () => {
         endDates: formattedEndDate,
         isActiveInactive: isActiveInactive,
       });
-      if (response?.detail === "Invalid token") {
+      if (response?.body.detail === "Invalid token") {
         if (!tokenErrorShown.current) {
           tokenErrorShown.current = true; // Prevent further toasts
           dispatch(clearUserDetails());
@@ -170,9 +170,9 @@ const CustomerFormComponent = () => {
         }
         return;
       }
-      if (response?.results) {
-        setUsers(response?.results);
-        setTotalPages(response?.total_pages);
+      if (response?.body) {
+        setUsers(response?.body);
+        setTotalPages(response?.body.total_pages);
       }
     } catch (error) {
       console.error("Error fetching roles:", error);
@@ -464,7 +464,7 @@ const CustomerFormComponent = () => {
                       </div>
                     </th>
                     <th className='p-3 text-left w-[14%]'>Email</th>
-                    <th className='p-3 text-right w-[14%]'>Phone Number</th>
+                    {/* <th className='p-3 text-right w-[14%]'>Phone Number</th> */}
                     <th className='p-3 text-left'>Guest</th>
                     <th
                       className='p-3 w-[14%] text-center cursor-pointer transition-colors duration-200'
@@ -490,10 +490,10 @@ const CustomerFormComponent = () => {
                   {users?.map((user: any, index: any) => (
                     <tr key={index} className='border-b'>
                       <td className='p-3 text-center flex justify-start items-center'>
-                        {user?.profile_picture ? (
+                        {user?.profile? (
                           <>
                             <img
-                              src={`${process.env.NEXT_PUBLIC_BASE_URL}${user?.profile_picture}`}
+                              src={`${user?.profile.imageUrl}`}
                               alt='Profile'
                               className='lg:h-16 lg:w-16 h-10 w-12 object-cover rounded-full'
                             />
@@ -505,10 +505,10 @@ const CustomerFormComponent = () => {
                         )}
                       </td>
                       <td className='p-3 capitalize text-left'>
-                        {user?.first_name} {user?.last_name}
+                        {user?.profile?.firstName} {user?.profile?.lastName}
                       </td>
                       <td className='p-3 text-left '>{user?.email}</td>
-                      <td className='p-3 text-right'>
+                      {/* <td className='p-3 text-right'>
                         {user?.country_code_for_phone_number ? (
                           <>
                             {user?.country_code_for_phone_number}
@@ -517,22 +517,22 @@ const CustomerFormComponent = () => {
                         ) : (
                           <>{user?.phone_number}</>
                         )}
-                      </td>
+                      </td> */}
                       <td className='p-3 text-left '>{user?.is_guest ? "Yes":"No"}</td>
                       <td className='p-3 text-center'>
                         <div className='flex flex-col items-center'>
                           <Switch
-                            checked={user?.is_active}
+                            checked={!user?.isDeleted}
                             onChange={() =>
-                              activeHandler(user, !user?.is_active)
+                              activeHandler(user, !user?.isDeleted)
                             }
                             className={`${
-                              user?.is_active ? "bg-green-500" : "bg-gray-300"
+                              !user?.isDeleted ? "bg-green-500" : "bg-gray-300"
                             } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                           >
                             <span
                               className={`${
-                                user?.is_active
+                                !user?.isDeleted
                                   ? "translate-x-6"
                                   : "translate-x-1"
                               } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}

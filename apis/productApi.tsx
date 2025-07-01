@@ -76,7 +76,7 @@ export const createProductApi = async (
   length: string,
   width: string,
   height: string,
-  product_details: string,
+  productDetails: string,
   seoTitle: string,
   seoDescription: string,
   seoKeyword: string,
@@ -106,7 +106,7 @@ export const createProductApi = async (
     basePrice,
     sellingPrice,
     priceDifferencePercent,
-    variant_specifications: transformedVariants,
+    variant_specifications: variant_specifications,
     stock,
     is_active,
     isNewArrival,
@@ -115,7 +115,7 @@ export const createProductApi = async (
     length,
     width,
     height,
-    product_details,
+    productDetails,
     sequenceNumber: null,
     seoTitle,
     seoDescription,
@@ -174,6 +174,21 @@ export const ProductUpdatedApi = async (
   is_stackable: boolean,
   stackable_pieces_number: string
 ) => {
+  let transformedVariants: any[] = [];
+
+  if (Array.isArray(variant_specifications)) {
+    transformedVariants = variant_specifications;
+  } else if (
+    typeof variant_specifications === 'object' &&
+    variant_specifications !== null
+  ) {
+    transformedVariants = Object.entries(variant_specifications).flatMap(
+      ([key, values]) =>
+        Array.isArray(values)
+          ? values.map((val) => ({ name: key, value: val }))
+          : [{ name: key, value: values }]
+    );
+  }
   const requestBody: any = {
     name: name,
     SKU: SKU,
@@ -182,7 +197,7 @@ export const ProductUpdatedApi = async (
     sellingPrice: selling_price,
     priceDifferencePercent:
       base_and_selling_price_difference_in_percent,
-    variant_specifications: variant_specifications,
+    variant_specifications: transformedVariants,
     stock: stock,
     is_active: is_active,
     isNewArrival: is_new_arrival,

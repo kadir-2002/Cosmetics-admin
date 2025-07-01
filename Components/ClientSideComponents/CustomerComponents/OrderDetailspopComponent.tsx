@@ -2,17 +2,32 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { RxCross2 } from "react-icons/rx";
 import { useSelector } from "react-redux";
+
+
+type OrderItem = {
+  quantity: number;
+  name?: string;
+  SKU?: string;
+  selling_price?: number;
+  specification?: string;
+  variant?: {
+    name?: string;
+    SKU?: string;
+    selling_price?: number;
+  };
+};
+
 type OrderInfo = {
   id: string;
   purchased_item_count: number;
   order_info: {
-    discount:string;
-    discount_speding_title:string;
-    discount_coupon_type: string,
-    discount_coupon_code: string,
-    discount_coupon_value: string,
-    discount_speding_discount_percentage: string,
-    discount_speding_discount_price: string,
+    discount: string;
+    discount_speding_title: string;
+    discount_coupon_type: string;
+    discount_coupon_code: string;
+    discount_coupon_value: string;
+    discount_speding_discount_percentage: string;
+    discount_speding_discount_price: string;
     sub_total: number;
     tax: number;
     delivery_charge: number;
@@ -20,11 +35,13 @@ type OrderInfo = {
     created_at: string;
     updated_at: string;
   };
+  totalAmount: number;
   payment_info: {
     payment_type: string;
   };
-  items: [];
+  items: OrderItem[]; 
 };
+
 type Props = {
   selectedOrder: OrderInfo | null;
   setPopupVisible: (visible: boolean) => void;
@@ -76,50 +93,50 @@ const OrderDetailsPopup = ({
                   Order Items
                 </h2>
                 <div className=''>
-                  {selectedOrder?.items?.map((data: any, index: number) => (
-                    <div key={index} className=' border-b-[1px] p-4'>
-                      <div className='flex justify-between items-center'>
-                        <h3 className='text-lg'>
-                          {index + 1}) {data?.name}
-                        </h3>
-                        <div className='flex gap-2'>
-                          <p>Quantity:</p>
-                          <p>{data.quantity}</p>
-                        </div>
-                      </div>
-                      <div className='lg:flex  justify-between items-center'>
-                        <div className='flex gap-2'>
-                          <p>SKU:</p>
-                          <p>{data.SKU}</p>
-                        </div>
-                        <div className='flex gap-2'>
-                          <p>Price {currency}</p>
-                          <p>{data.unit_price}</p>
-                        </div>
-                      </div>
-                      {/* <div className="flex gap-2"><p>Category:</p><p>{data?.category}</p></div> */}
+                 {selectedOrder?.items?.map((data: any, index: number) => (
+  <div key={index} className="border-b-[1px] p-4">
+    <div className="flex justify-between items-center">
+      <h3 className="text-lg">
+        {index + 1}) {data?.variant?.name || data?.name || "Unnamed Product"}
+      </h3>
+      <div className="flex gap-2">
+        <p>Quantity:</p>
+        <p>{data.quantity}</p>
+      </div>
+    </div>
 
-                      <ul className='text-md grid lg:grid-cols-3 grid-cols-2 justify-center items-center gap-2'>
-                        {data.specification &&
-                          Object.entries(
-                            JSON.parse(data.specification.replace(/'/g, '"'))
-                          ).map(([key, value]: [string, any]) => (
-                            <li key={key} className='flex gap-2'>
-                              <p className='font-semibold'>
-                                {key.charAt(0).toUpperCase() + key.slice(1)}:
-                              </p>
-                              <p>{value}</p>
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                  ))}
+    <div className="lg:flex justify-between items-center">
+      <div className="flex gap-2">
+        <p>SKU:</p>
+        <p>{data?.variant?.SKU || data?.SKU || "N/A"}</p>
+      </div>
+      <div className="flex gap-2">
+        <p>Price {currency}</p>
+        <p>{data.selling_price || data.variant.selling_price}</p>
+      </div>
+    </div>
+
+    <ul className="text-md grid lg:grid-cols-3 grid-cols-2 justify-center items-center gap-2">
+      {data.specification &&
+        Object.entries(
+          JSON.parse(data.specification.replace(/'/g, '"'))
+        ).map(([key, value]: [string, any]) => (
+          <li key={key} className="flex gap-2">
+            <p className="font-semibold">
+              {key.charAt(0).toUpperCase() + key.slice(1)}:
+            </p>
+            <p>{value}</p>
+          </li>
+        ))}
+    </ul>
+  </div>
+))}
                 </div>
               </div>
               <div className='px-3 text-lg'>
                 <div className='flex justify-between items-center'>
                   <p>Total Items:</p>
-                  <p>{selectedOrder?.purchased_item_count ?? "N/A"}</p>
+                  <p>{selectedOrder?.items[0]?.quantity || "N/A"}</p>
                 </div>
                 <div className='flex justify-between items-center'>
                   <p>Sub Total:</p>{" "}
@@ -184,8 +201,8 @@ const OrderDetailsPopup = ({
                   <p className=''>Final Total:</p>{" "}
                   <p>
                     {currency}
-                  {selectedOrder?.order_info?.final_total != null 
-  ? Number(selectedOrder.order_info.final_total).toFixed(2) 
+                  {selectedOrder?.totalAmount != null 
+  ? Number(selectedOrder.totalAmount)
   : "0"}
                   </p>
                 </div>

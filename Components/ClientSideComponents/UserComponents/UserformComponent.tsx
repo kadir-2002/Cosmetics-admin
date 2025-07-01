@@ -61,7 +61,7 @@ const UserFormComponent = () => {
     county_code: "",
     is_active: false,
     profile_picture: "",
-    category: "",
+    category_name: "",
   });
   const [isOpenDeletePopup, setIsLogoutPopup] = useState<boolean>(false);
   const [selectedUserId, setSelectedUserId] = useState("");
@@ -113,7 +113,7 @@ const UserFormComponent = () => {
       email,
       is_active,
       profile_picture,
-      category,
+      category_name,
     } = newUser;
     if (emailError === "Please enter a valid email address.") {
       return;
@@ -135,7 +135,7 @@ const UserFormComponent = () => {
           county_code,
           profile_picture,
           is_active,
-          category,
+          category_name,
           token
         );
         if (response?.data?.error === "User with this email already exists") {
@@ -163,7 +163,7 @@ const UserFormComponent = () => {
             county_code: "",
             is_active: false,
             profile_picture: "",
-            category: "",
+            category_name: "",
           });
         } else if (response?.data?.detail === "Invalid token") {
           dispatch(clearUserDetails());
@@ -180,7 +180,7 @@ const UserFormComponent = () => {
           county_code,
           profile_picture,
           is_active,
-          category,
+          category_name,
           token
         );
         if (response?.error === "User with this email already exists") {
@@ -208,7 +208,7 @@ const UserFormComponent = () => {
             county_code: "",
             is_active: false,
             profile_picture: "",
-            category: "",
+            category_name: "",
           });
         } else if (response?.data?.detail === "Invalid token") {
           dispatch(clearUserDetails());
@@ -231,7 +231,7 @@ const UserFormComponent = () => {
     country_code_for_phone_number: string;
     profile_picture: string;
     is_active: boolean;
-    category: string;
+    category_name: string;
   }) => {
     setOpenForm(true);
     setFileName(users?.profile_picture);
@@ -257,7 +257,7 @@ const UserFormComponent = () => {
       county_code: users?.country_code_for_phone_number,
       is_active: users.is_active,
       profile_picture: isfile,
-      category: users.category,
+      category_name: users.category_name,
     });
     window.scrollTo({
       top: 0,
@@ -265,7 +265,7 @@ const UserFormComponent = () => {
     });
     setIsEdit(true);
     setSelectedUserId(users.id);
-    console.log("users.category", users.category);
+    console.log("users.category", users.category_name);
   };
 
   const searchParams = useSearchParams();
@@ -318,8 +318,8 @@ const UserFormComponent = () => {
       }
       const response = await userAllDataApi(apiParams);
       if (response?.body) {
-        setUsers(response?.body);
-        setuserrole(response.body)
+        setUsers(response?.body.results);
+        setuserrole(response.body.results.role)
         setTotalPages(response?.body.total_pages);
       } else if (response?.body.detail === "Invalid token") {
         if (!tokenErrorShown.current) {
@@ -452,7 +452,7 @@ const UserFormComponent = () => {
       county_code: "",
       is_active: false,
       profile_picture: "",
-      category: "",
+      category_name: "",
     });
   };
   const handleopenform = () => {
@@ -470,7 +470,7 @@ const UserFormComponent = () => {
       county_code: "",
       is_active: false,
       profile_picture: "",
-      category: "",
+      category_name: "",
     });
   };
 
@@ -740,7 +740,7 @@ const UserFormComponent = () => {
                     name='img'
                     type='file'
                     placeholder='Upload Image'
-                    // value={newUser?.profile_picture}
+                    value={newUser?.profile_picture}
                     onChange={handleFileChange}
                     accept='.jpeg,.png,'
                     className='block w-full text-sm text-admin-secondary file:mr-4 file:py-1 file:h-12 file:px-4  file:rounded-l-md file:border-0 file:text-sm file:font-semibold file:bg-admin-secondary bg-admin-secondary file:text-white hover:file:bg-gray-700'
@@ -758,9 +758,9 @@ const UserFormComponent = () => {
               </div>
             </div>
             <div className='lg:flex gap-6 h-12 '>
-              <select
+              {/* <select
                 name='role'
-                value={newUser?.category}
+                value={newUser?.category_name}
                 onChange={(e) =>
                   setNewUser((prev) => ({ ...prev, category: e.target.value }))
                 }
@@ -773,7 +773,7 @@ const UserFormComponent = () => {
                     {data?.name}
                   </option>
                 ))}
-              </select>
+              </select> */}
               <div className='flex items-center gap-4 w-full lg:mt-0 mt-4'>
                 <div className='flex  items-center justify-center gap-2 bg-[#F3F3F3] rounded-lg h-12 w-46 p-4'>
                   <label className='text-sm text-[#577C8E] px-3'>
@@ -888,10 +888,10 @@ const UserFormComponent = () => {
               {users.map((user: any, index: any) => (
                 <tr key={index} className='border-b'>
                   <td className='p-3'>
-                    {user?.profile? (
+                    {user?.profile_picture? (
                       <>
                         <img
-                          src={`${user?.profile.imageUrl}`}
+                          src={`${user?.profile_picture}`}
                           alt='Profile'
                           className='lg:h-16 lg:w-16 h-12 w-12 object-cover rounded-full'
                         />
@@ -903,10 +903,10 @@ const UserFormComponent = () => {
                     )}
                   </td>
                   <td className='p-3 capitalize text-start'>
-                    {user?.profile?.firstName} {user?.profile?.lastName}
+                    {user?.first_name} {user?.last_name}
                   </td>
                   <td className='p-3 capitalize text-start'>
-                    {user?.role}
+                    {user?.category_name}
                   </td>
                   <td className='p-3 text-end'>
                     {user?.phone_number ? (
@@ -921,15 +921,15 @@ const UserFormComponent = () => {
                     <div className='text-center'>
                      <Switch
   checked={!user?.isDeleted}
-  onChange={() => activeHandler(user, !user?.isDeleted)}
+  onChange={() => activeHandler(user, user?.is_active)}
   className={`
-    ${!user?.isDeleted ? "bg-green-500" : "bg-gray-300"} 
+    ${user?.is_active ? "bg-green-500" : "bg-gray-300"} 
     relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out
   `}
 >
   <span
     className={`
-      ${!user?.isDeleted ? "translate-x-6" : "translate-x-1"} 
+      ${user?.is_active ? "translate-x-6" : "translate-x-1"} 
       inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out
     `}
   />

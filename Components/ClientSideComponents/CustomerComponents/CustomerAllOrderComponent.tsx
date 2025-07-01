@@ -42,7 +42,7 @@ const CustomerAllOrderComponent = ({ isCustomerSelectId }: props) => {
                 id,
                 isfiltervalue, SingleCustomerDateSorting
             });
-            if (response?.detail === "Invalid token") {
+            if (response?.status === 401) {
                 if (!tokenErrorShown.current) {
                     tokenErrorShown.current = true;
                     dispatch(clearUserDetails());
@@ -51,8 +51,8 @@ const CustomerAllOrderComponent = ({ isCustomerSelectId }: props) => {
                 }
                 return;
             }
-            setSingleCustomerOrder(response?.results);
-            setTotalPages(response?.total_pages);
+            setSingleCustomerOrder(response?.body.data);
+            setTotalPages(response?.body.pagination.totalPages);
         } catch (error) {
             console.error("Error fetching orders:", error);
         }
@@ -138,16 +138,16 @@ const CustomerAllOrderComponent = ({ isCustomerSelectId }: props) => {
                         {singleCustomerOrder?.map((order) => (
                             <tr key={order.id} className="hover:bg-gray-50">
                                 <td className="px-4 text-start py-3">{order.id}</td>
-                                <td className="px-0 text-start py-3">{order.order_info?.created_at || "N/A"}</td>
-                                <td className="px-4 text-center py-3">{order.payment_info?.payment_transaction_id || "N/A"}</td>
-                                <td className="px-4 text-center py-3">{currency}{(order.order_info?.final_total).toFixed(2)}</td>
-                                <td className="px-4 text-center py-3">{order.payment_info?.payment_type}</td>
+                                <td className="px-0 text-start py-3">{order.createdAt || "N/A"}</td>
+                                <td className="px-4 text-center py-3">{order.payment.transactionId|| "N/A"}</td>
+                                <td className="px-4 text-center py-3">{currency}{(order.totalAmount)}</td>
+                                <td className="px-4 text-center py-3">{order?.payment?.status}</td>
                                 <td className="px-4 text-center py-3 font-semibold text-[#577C8E]">
-                                    {order.order_info?.order_status || "N/A"}
+                                    {order?.status || "N/A"}
                                     {/* <span className={`px-2 py-1 text-lg font-semibold text-white rounded  ${getStatusClass(order.order_info?.order_status || "N/A")}`}>
                                     </span> */}
                                 </td>
-                                <td className="px-4 text-center py-3">{order.purchased_item_count}</td>
+                                <td className="px-4 text-center py-3">{order.items[0].quantity}</td>
                                
                                 <td className="px-4 text-center py-3">
                                     <button onClick={() => handleViewDetails(order)}>

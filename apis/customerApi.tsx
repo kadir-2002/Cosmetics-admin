@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCores } from "./apiCore";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
@@ -59,10 +60,10 @@ export const customerAllDataApi = async (searchParams: { search: string; total_p
     if (searchParams.is_active !== undefined) {
       queryParams.append("is_active", searchParams.is_active.toString());
     }
-    endpoint = `/user/customer/?${queryParams}`;
+    endpoint = `/admin/userlist/?${queryParams}`;
   }
  
-  const response = await apiCoreGet(endpoint, "GET", searchParams.token);
+  const response = await apiCoreNode(endpoint, {},"GET", searchParams.token);
   return response;
 };
 
@@ -77,7 +78,7 @@ export const SinglecustomerAllOrderDataApi = async (searchParams: { total_pages:
 
   });
   const endpoint = `/order/get-orders/?${queryParams}`;
-  const response = await apiCoreGet(endpoint, "GET", searchParams.token);
+  const response = await apiCoreNode(endpoint, {},"GET", searchParams.token);
   return response;
 };
 
