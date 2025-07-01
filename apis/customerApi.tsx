@@ -113,9 +113,10 @@ export const customerUpdatedApi = async (
 };
 
 export const addressApi = async (id: any, token: string) => {
-  const response = await apiCoreGet(`/user/customer-address/?customer=${id}`, "GET", token);
+  const response = await apiCoreNode(`/address/${id}`,"GET", token);
   return response;
 }
+
 export const customerAddresDeleteApi = async (id: any, user: any) => {
   const response = await apiCoreDelete(`/user/customer-address/${id}/?customer=${user}`, "DELETE");
   return response;
