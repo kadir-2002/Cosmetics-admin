@@ -151,39 +151,12 @@ const ProductAllDataComponent: React.FC<Props> = ({
     isActive: boolean,
     isNewArrival: boolean
   ) => {
-    const tagListIds = product?.tags?.map((tag: any) => tag.id);
     const response = await ProductToggleUpdatedApi(
       product?.id,
-      product?.isNewArrival,
-      product?.name,
-      product?.description,
-      product?.SKU,
-      product?.category,
-      product?.base_price,
-      product?.selling_price,
-      product?.base_and_selling_price_difference_in_percent,
-      product?.variant_specifications,
-      product?.stock,
-      isActive,
-      product?.is_new_arrival,
-      tagListIds,
-      updated_by,
-      token,
-      product?.low_stock_threshold,
-      product?.weight,
-      product?.length,
-      product?.width,
-      product?.height,
-      product?.product_details,
-      product?.care_instruction,
-      product?.seo_title,
-      product?.seo_description,
-      product?.seo_keyword,
-      product?.warranty,
-      product?.delivery_or_installation_tips,
-      product?.material,
-      product?.weight_bearing_number,
-      product?.stackable_pieces_number
+      isNewArrival,
+       token,
+      isActive
+    
     );
     if (response?.status === 200) {
       productdata();
@@ -388,7 +361,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
                         </td>
                         <td className='text-center'>
                           <Switch
-                            checked={product.is_active}
+                            checked={product.isActive}
                             onChange={() =>
                               activeHandler(
                                 product,

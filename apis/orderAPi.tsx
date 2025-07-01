@@ -23,7 +23,7 @@ export const orderAllDataApi = async (searchParams: { search: string, startDates
   let endpoint
 
   if (searchParams.id) {
-    endpoint = `/order/get-orders/?search=${searchParams.id}`;
+    endpoint = `/order/user-order/?search=${searchParams.id}`;
   } else {
     const queryParams = new URLSearchParams({
       start_date: searchParams.startDates,
@@ -44,8 +44,7 @@ export const orderAllDataApi = async (searchParams: { search: string, startDates
       queryParams.append("ordering", searchParams.ordering.toString());
     }
 
-    endpoint = `/order/get-orders/?${queryParams}`;
-    console.log(endpoint,":::::::::::::::::::::")
+    endpoint = `/order/user-order/?${queryParams}`;
   }
 
 

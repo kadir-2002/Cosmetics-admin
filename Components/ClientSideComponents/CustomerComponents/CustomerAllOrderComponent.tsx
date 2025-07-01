@@ -51,8 +51,8 @@ const CustomerAllOrderComponent = ({ isCustomerSelectId }: props) => {
                 }
                 return;
             }
-            setSingleCustomerOrder(response?.body.data);
-            setTotalPages(response?.body.pagination.totalPages);
+            setSingleCustomerOrder(response?.body.result);
+            setTotalPages(response?.body.pagination.total_pages);
         } catch (error) {
             console.error("Error fetching orders:", error);
         }
