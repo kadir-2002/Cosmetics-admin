@@ -128,4 +128,4 @@ export const addresCreateApi = async (customer: any, address: string, locality: 
 export const updateAddresApi = async (id: any, customer: any, address: string, locality: string, city: string, state: string, country: string, zipcode: string, created_by: any) => {
   const response = await apiCores(`/user/customer-address/${id}/?customer=${customer}`, { id: id, user: customer, address: address, locality: locality, city: city, state: state, country: country, zipcode: zipcode, created_by: created_by }, "PATCH")
   return response;
-}
+} 
