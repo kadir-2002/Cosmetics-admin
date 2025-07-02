@@ -119,8 +119,8 @@ const AddAddressComponent: React.FC<AddAddressComponents> = ({
                 router.push("/");
                 return;
             }
-            if (response?.body.addresses) {
-                setIsaddres(response?.body.addresses);
+            if (response?.body.address) {
+                setIsaddres(response?.body.address);
             }
         }
     };
@@ -183,7 +183,7 @@ const AddAddressComponent: React.FC<AddAddressComponents> = ({
                                             <thead>
                                                 <tr className="bg-gray-100">
                                                     <th className="p-2">Address</th>
-                                                    <th className="p-2">Locality</th>
+                                                    <th className="p-2">Type</th>
                                                     <th className="p-2">City</th>
                                                     <th className="p-2">State</th>
                                                     <th className="p-2">Country</th>
@@ -193,12 +193,12 @@ const AddAddressComponent: React.FC<AddAddressComponents> = ({
                                             <tbody>
                                                 {isaddres.map((item: any, index: any) => (
                                                     <tr key={index} className="text-left">
-                                                        <td className=" p-2">{item.address}</td>
-                                                        <td className=" p-2">{item.locality}</td>
+                                                        <td className=" p-2">{item.addressLine}</td>
+                                                        <td className=" p-2">{item.type}</td>
                                                         <td className=" p-2">{item.city}</td>
                                                         <td className=" p-2">{item.state}</td>
-                                                        <td className=" p-2">{item.country}</td>
-                                                        <td className=" p-2">{item.zipcode}</td>
+                                                        <td className=" p-2">{item.country|| "india"}</td>
+                                                        <td className=" p-2">{item.pincode}</td>
 
                                                     </tr>
                                                 ))}

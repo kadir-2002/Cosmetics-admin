@@ -112,11 +112,17 @@ export const customerUpdatedApi = async (
   return response;
 };
 
+export const safeApiGet = async (
+  endpoint: string,
+  token: string | null = null
+) => {
+  return await apiCoreNode(endpoint, {}, "GET", token);
+};
+
 export const addressApi = async (id: any, token: string) => {
-  const endpoint=`/address/user/${id}`
-  const response = await apiCoreNode(endpoint,{},"GET", token);
-  return response;
-}
+  const endpoint = `/address/user/${id}`;
+  return await safeApiGet(endpoint, token);
+};
 
 export const customerAddresDeleteApi = async (id: any, user: any) => {
   const response = await apiCoreDelete(`/user/customer-address/${id}/?customer=${user}`, "DELETE");
