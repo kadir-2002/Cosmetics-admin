@@ -418,6 +418,8 @@ const UserFormComponent = () => {
     fetchFilterdata();
   }, []);
 
+  // const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file: any = e.target.files?.[0];
     setfile(file);
@@ -435,6 +437,8 @@ const UserFormComponent = () => {
       reader.readAsDataURL(file);
     }
   };
+  
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -740,7 +744,7 @@ const UserFormComponent = () => {
                     name='img'
                     type='file'
                     placeholder='Upload Image'
-                    value={newUser?.profile_picture}
+                    // value={newUser?.profile_picture}
                     onChange={handleFileChange}
                     accept='.jpeg,.png,'
                     className='block w-full text-sm text-admin-secondary file:mr-4 file:py-1 file:h-12 file:px-4  file:rounded-l-md file:border-0 file:text-sm file:font-semibold file:bg-admin-secondary bg-admin-secondary file:text-white hover:file:bg-gray-700'
@@ -920,8 +924,8 @@ const UserFormComponent = () => {
                   <td className='p-3 text-center'>
                     <div className='text-center'>
                      <Switch
-  checked={!user?.isDeleted}
-  onChange={() => activeHandler(user, user?.is_active)}
+  checked={user?.is_active}
+  onChange={() => activeHandler(user, !user?.is_active)}
   className={`
     ${user?.is_active ? "bg-green-500" : "bg-gray-300"} 
     relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out

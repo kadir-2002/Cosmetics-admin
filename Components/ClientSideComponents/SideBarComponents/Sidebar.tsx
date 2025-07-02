@@ -36,7 +36,7 @@ const menuGroups = [
       { icon: "/categry.png", label: "Categories", route: "/categories" },
       { icon: "/customers.png", label: "Customers", route: "/customers" },
       { icon: "/product.png", label: "Product", route: "/product" },
-      { icon: "/newslatter.png", label: "Pincode", route: "/pincode" },
+      // { icon: "/newslatter.png", label: "Pincode", route: "/pincode" },
       // { icon: "/tax.png", label: "Tax", route: "/tax" },
       // { icon: "/Coupon.png", label: "Coupons", route: "/coupons" },
       { icon: "/user.png", label: "User", route: "/user" },

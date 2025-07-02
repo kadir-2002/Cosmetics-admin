@@ -19,8 +19,8 @@ export const createUserApi = async (
 
   const formData = new FormData();
   formData.append("password", password);
-  formData.append("first_name", firstName);
-  formData.append("last_name", lastName);
+  formData.append("firstName", firstName);
+  formData.append("lastName", lastName);
   // if (phone_number) {
   //   formData.append("phone_number", phone_number);
   // } else {
@@ -33,9 +33,9 @@ export const createUserApi = async (
   // } else {
   //   formData.append("country_code_for_phone_number", "");
   // }
-  formData.append("role", category);
+  formData.append("role", "ADMIN");
   if (profile_picture) {
-    formData.append("profile_picture", profile_picture);
+    formData.append("image", profile_picture);
   }
 
   formData.append("is_active", isActive.toString());
@@ -100,11 +100,11 @@ export const userUpdatedApi = async (
   //   formData.append("phone_number", "");
   // }
   formData.append("email", email);
-  if (phone_number) {
-    formData.append("country_code_for_phone_number", county_code);
-  }
+  // if (phone_number) {
+  //   formData.append("country_code_for_phone_number", county_code);
+  // }
 
-  formData.append("role", category);
+  // formData.append("role", category);
 
   if (profile_picture) {
     formData.append("image", profile_picture);
