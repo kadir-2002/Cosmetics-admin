@@ -113,14 +113,14 @@ const AddAddressComponent: React.FC<AddAddressComponents> = ({
     const loadAddress = async () => {
         if (user) {
             const response = await addressApi(user, token);
-            if (response?.detail === "Invalid token") {
+            if (response?.status === 401) {
                 dispatch(clearUserDetails());
                 toast.error("Session Expired, Please Login Again")
                 router.push("/");
                 return;
             }
-            if (response?.addresses) {
-                setIsaddres(response?.addresses);
+            if (response?.body.addresses) {
+                setIsaddres(response?.body.addresses);
             }
         }
     };

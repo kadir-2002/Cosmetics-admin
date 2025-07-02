@@ -112,7 +112,7 @@ const OrderDetailsPopup = ({
       </div>
       <div className="flex gap-2">
         <p>Price {currency}</p>
-        <p>{data.selling_price || data.variant.selling_price}</p>
+        <p>{data.selling_price || data?.variant?.selling_price || "NA"}</p>
       </div>
     </div>
 

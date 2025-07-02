@@ -565,7 +565,7 @@ const ProductFormComponent: React.FC<props> = ({
                 }
               />
             </div>
-            <div className='flex flex-col'>
+            {/* <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                 <FaShoppingBag color='#A5B7C0' size={26} />
                 <textarea
@@ -660,7 +660,7 @@ const ProductFormComponent: React.FC<props> = ({
                   Enter Product Height
                 </label>
               </div>
-            </div>
+            </div> */}
 
             
             <div className='flex flex-col'>
@@ -871,7 +871,7 @@ const ProductFormComponent: React.FC<props> = ({
               </label>
             </div>
 
-            <div className='flex bg-[#F3F3F3] p-2 relative w-full h-12 rounded-lg shadow-sm'>
+            {/* <div className='flex bg-[#F3F3F3] p-2 relative w-full h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
               <input
                 type='number'
@@ -892,8 +892,8 @@ const ProductFormComponent: React.FC<props> = ({
               >
                 Weight Bearing Number In Kg
               </label>
-            </div>
-
+            </div> */}
+{/* 
             <div className='flex bg-[#F3F3F3] p-2 relative w-full h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
               <input
@@ -937,7 +937,7 @@ const ProductFormComponent: React.FC<props> = ({
               >
                 Minimum Order Quantity
               </label>
-            </div>
+            </div> */}
             <div className='flex bg-[#F3F3F3] p-2 relative w-full h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
               <input
