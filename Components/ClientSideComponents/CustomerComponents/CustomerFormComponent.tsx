@@ -466,7 +466,7 @@ const CustomerFormComponent = () => {
                     <th className='p-3 text-left w-[14%]'>Email</th>
                     {/* <th className='p-3 text-right w-[14%]'>Phone Number</th> */}
                     <th className='p-3 text-left'>Guest</th>
-                    <th
+                    {/* <th
                       className='p-3 w-[14%] text-center cursor-pointer transition-colors duration-200'
                       onClick={() => setIsActiveInactiveFilterPopup(true)}
                     >
@@ -480,7 +480,7 @@ const CustomerFormComponent = () => {
                           <FaAngleDown className='text-admin-text-primary ' />
                         </span>
                       </div>
-                    </th>
+                    </th> */}
                     <th className='p-3 text-center'>Orders</th>
                     <th className='p-3 text-center w-[15%]'>Address</th>
                     <th className='p-3 text-center w-[14%]'>Info</th>
@@ -519,7 +519,7 @@ const CustomerFormComponent = () => {
                         )}
                       </td> */}
                       <td className='p-3 text-left '>{user?.is_guest ? "Yes":"No"}</td>
-                      <td className='p-3 text-center'>
+                      {/* <td className='p-3 text-center'>
                         <div className='flex flex-col items-center'>
                           <Switch
                             checked={!user?.isDeleted}
@@ -539,7 +539,7 @@ const CustomerFormComponent = () => {
                             />
                           </Switch>
                         </div>
-                      </td>
+                      </td> */}
 
                       <td
                         className='p-3 text-center'

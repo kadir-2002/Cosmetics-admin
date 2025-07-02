@@ -21,25 +21,25 @@ export const createUserApi = async (
   formData.append("password", password);
   formData.append("first_name", firstName);
   formData.append("last_name", lastName);
-  if (phone_number) {
-    formData.append("phone_number", phone_number);
-  } else {
-    formData.append("phone_number", "");
-  }
+  // if (phone_number) {
+  //   formData.append("phone_number", phone_number);
+  // } else {
+  //   formData.append("phone_number", "");
+  // }
 
   formData.append("email", email);
-  if (phone_number) {
-    formData.append("country_code_for_phone_number", county_code);
-  } else {
-    formData.append("country_code_for_phone_number", "");
-  }
-  formData.append("category", category);
+  // if (phone_number) {
+  //   formData.append("country_code_for_phone_number", county_code);
+  // } else {
+  //   formData.append("country_code_for_phone_number", "");
+  // }
+  formData.append("role", category);
   if (profile_picture) {
     formData.append("profile_picture", profile_picture);
   }
 
   formData.append("is_active", isActive.toString());
-  const response = await apiCoreFormData("/user/panel/", formData, "POST", token);
+  const response = await apiCoreFormData("/admin/create/", formData, "POST", token);
   return response;
 
 };
@@ -85,13 +85,15 @@ export const userUpdatedApi = async (
   email: string,
   county_code: any,
   profile_picture: string,
-  isActive: boolean,
+  is_active: boolean,
   category: string,
   token: string
 ) => {
   const formData = new FormData();
   formData.append("firstName", firstName);
   formData.append("lastName", lastName);
+  formData.append("is_active",is_active.toString() );
+  
   // if (phone_number) {
   //   formData.append("phone_number", phone_number);
   // } else {

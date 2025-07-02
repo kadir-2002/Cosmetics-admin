@@ -39,7 +39,7 @@ type OrderInfo = {
   payment_info: {
     payment_type: string;
   };
-  items: OrderItem[]; 
+  items: OrderItem[];
 };
 
 type Props = {
@@ -93,44 +93,44 @@ const OrderDetailsPopup = ({
                   Order Items
                 </h2>
                 <div className=''>
-                 {selectedOrder?.items?.map((data: any, index: number) => (
-  <div key={index} className="border-b-[1px] p-4">
-    <div className="flex justify-between items-center">
-      <h3 className="text-lg">
-        {index + 1}) {data?.variant?.name || data?.name || "Unnamed Product"}
-      </h3>
-      <div className="flex gap-2">
-        <p>Quantity:</p>
-        <p>{data.quantity}</p>
-      </div>
-    </div>
+                  {selectedOrder?.items?.map((data: any, index: number) => (
+                    <div key={index} className="border-b-[1px] p-4">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-lg">
+                          {index + 1}) {data?.variant?.name || data?.product?.name || "Unnamed Product"}
+                        </h3>
+                        <div className="flex gap-2">
+                          <p>Quantity:</p>
+                          <p>{data.quantity}</p>
+                        </div>
+                      </div>
 
-    <div className="lg:flex justify-between items-center">
-      <div className="flex gap-2">
-        <p>SKU:</p>
-        <p>{data?.variant?.SKU || data?.SKU || "N/A"}</p>
-      </div>
-      <div className="flex gap-2">
-        <p>Price {currency}</p>
-        <p>{data.selling_price || data?.variant?.selling_price || "NA"}</p>
-      </div>
-    </div>
+                      <div className="lg:flex justify-between items-center">
+                        <div className="flex gap-2">
+                          <p>SKU:</p>
+                          <p>{data?.variant?.SKU || data?.product?.SKU || "N/A"}</p>
+                        </div>
+                        <div className="flex gap-2">
+                          <p>Price {currency}</p>
+                          <p>{data?.product?.selling_price || data?.variant?.selling_price || "NA"}</p>
+                        </div>
+                      </div>
 
-    <ul className="text-md grid lg:grid-cols-3 grid-cols-2 justify-center items-center gap-2">
-      {data.specification &&
-        Object.entries(
-          JSON.parse(data.specification.replace(/'/g, '"'))
-        ).map(([key, value]: [string, any]) => (
-          <li key={key} className="flex gap-2">
-            <p className="font-semibold">
-              {key.charAt(0).toUpperCase() + key.slice(1)}:
-            </p>
-            <p>{value}</p>
-          </li>
-        ))}
-    </ul>
-  </div>
-))}
+                      <ul className="text-md grid lg:grid-cols-3 grid-cols-2 justify-center items-center gap-2">
+                        {data.specification &&
+                          Object.entries(
+                            JSON.parse(data.specification.replace(/'/g, '"'))
+                          ).map(([key, value]: [string, any]) => (
+                            <li key={key} className="flex gap-2">
+                              <p className="font-semibold">
+                                {key.charAt(0).toUpperCase() + key.slice(1)}:
+                              </p>
+                              <p>{value}</p>
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className='px-3 text-lg'>
@@ -163,47 +163,47 @@ const OrderDetailsPopup = ({
                     </p>
                   </div>
                 ) : null}
-                 {selectedOrder?.order_info?.discount_speding_title ? (
-                      <div className='flex justify-between  border-b-[1px]'>
-                        <p>Total Discount:</p>
-                        {selectedOrder?.order_info?.discount_speding_title ? (
-                          <p>
-                            {selectedOrder?.order_info?.discount_speding_title} (
-                            {selectedOrder?.order_info ?.discount_speding_discount_percentage
-                              ? `${selectedOrder.order_info.discount_speding_discount_percentage}%`
-                              : `${selectedOrder?.order_info?.discount_speding_discount_price}₹`}
-                            )
-                          </p>
-                        ) : null}
-
-                        <p>{selectedOrder?.order_info?.discount}</p>
-                      </div>
+                {selectedOrder?.order_info?.discount_speding_title ? (
+                  <div className='flex justify-between  border-b-[1px]'>
+                    <p>Total Discount:</p>
+                    {selectedOrder?.order_info?.discount_speding_title ? (
+                      <p>
+                        {selectedOrder?.order_info?.discount_speding_title} (
+                        {selectedOrder?.order_info?.discount_speding_discount_percentage
+                          ? `${selectedOrder.order_info.discount_speding_discount_percentage}%`
+                          : `${selectedOrder?.order_info?.discount_speding_discount_price}₹`}
+                        )
+                      </p>
                     ) : null}
-                     {selectedOrder?.order_info?.discount ? (
-                      <div className='flex justify-between  border-b-[1px]'>
-                        <p>Total Discount:</p>
-                        {selectedOrder?.order_info?.discount_coupon_type ? (
-                          <p>
-                            {selectedOrder?.order_info?.discount_coupon_type} (
-                            {selectedOrder?.order_info
-                              ?.discount_coupon_value
-                              ? `${selectedOrder.order_info.discount_coupon_value}₹`
-                              : `${selectedOrder?.order_info?.discount_coupon_value}₹`}
-                            )
-                          </p>
-                        ) : null}
 
-                      <p>{Number(selectedOrder?.order_info?.discount || 0).toFixed(2)}</p>
-                      </div>
+                    <p>{selectedOrder?.order_info?.discount}</p>
+                  </div>
+                ) : null}
+                {selectedOrder?.order_info?.discount ? (
+                  <div className='flex justify-between  border-b-[1px]'>
+                    <p>Total Discount:</p>
+                    {selectedOrder?.order_info?.discount_coupon_type ? (
+                      <p>
+                        {selectedOrder?.order_info?.discount_coupon_type} (
+                        {selectedOrder?.order_info
+                          ?.discount_coupon_value
+                          ? `${selectedOrder.order_info.discount_coupon_value}₹`
+                          : `${selectedOrder?.order_info?.discount_coupon_value}₹`}
+                        )
+                      </p>
                     ) : null}
+
+                    <p>{Number(selectedOrder?.order_info?.discount || 0).toFixed(2)}</p>
+                  </div>
+                ) : null}
 
                 <div className='flex justify-between items-center font-semibold text-[#577C8E]'>
                   <p className=''>Final Total:</p>{" "}
                   <p>
                     {currency}
-                  {selectedOrder?.totalAmount != null 
-  ? Number(selectedOrder.totalAmount)
-  : "0"}
+                    {selectedOrder?.totalAmount != null
+                      ? Number(selectedOrder.totalAmount)
+                      : "0"}
                   </p>
                 </div>
               </div>

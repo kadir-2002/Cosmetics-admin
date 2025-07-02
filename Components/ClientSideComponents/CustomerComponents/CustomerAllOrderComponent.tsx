@@ -90,14 +90,16 @@ const CustomerAllOrderComponent = ({ isCustomerSelectId }: props) => {
 
     const getStatusClass = (status: string) => {
         switch (status) {
-            case "Complete":
+            case "CONFIRMED":
                 return "bg-[#34A864]";
-            case "Processing":
+            case "PENDING":
                 return "bg-[#3485A8]";
-            case "Pending":
+            case "SHIPPED":
                 return "bg-[#A8A434]";
-            case "Cancel":
+            case "DELIVERED":
                 return "bg-[#A83434]";
+            case "CANCELLED":
+                return "bg-[#A83434]"
             default:
                 return "bg-[#ff7800]";
         }

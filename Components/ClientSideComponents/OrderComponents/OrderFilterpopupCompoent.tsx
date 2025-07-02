@@ -67,39 +67,39 @@ const   OrderFilterpopupCompoent: React.FC<LogoutPopupProps> = ({
                                         <li
                                             className={`w-full lg:text-lg text-xl py-2 cursor-pointer border-b-[1px] ${isfiltervalue === "Pending" ? "bg-gray-200" : "hover:bg-blue-100"
                                                 }`}
-                                            onClick={() => handlefilter("Pending")}
+                                            onClick={() => handlefilter("CONFIRMED")}
                                         >
-                                            Pending
+                                            CONFIRMED
                                         </li>
                                         <li
                                             className={`w-full lg:text-lg text-xl py-2 cursor-pointer border-b-[1px] ${isfiltervalue === "Cancle" ? "bg-gray-200" : "hover:bg-blue-100"
                                                 }`}
-                                            onClick={() => handlefilter("Processing")}
+                                            onClick={() => handlefilter("PENDING")}
                                         >
-                                            Processing
+                                            PENDING
                                         </li>
                                         <li
                                             className={`w-full lg:text-lg text-xl py-2 cursor-pointer border-b-[1px] ${isfiltervalue === "Out for Delivery"
                                                 ? "bg-gray-200"
                                                 : "hover:bg-blue-100"
                                                 }`}
-                                            onClick={() => handlefilter("Out for Delivery")}
+                                            onClick={() => handlefilter("SHIPPED")}
                                         >
-                                            Out for Delivery
+                                            SHIPPED
                                         </li>
                                         <li
                                             className={`w-full lg:text-lg text-xl py-2 cursor-pointer border-b-[1px] ${isfiltervalue === "Complete" ? "bg-gray-200" : "hover:bg-blue-100"
                                                 }`}
-                                            onClick={() => handlefilter("Complete")}
+                                            onClick={() => handlefilter("DELIVERED")}
                                         >
-                                            Complete
+                                            DELIVERED
                                         </li>
                                         <li
                                             className={`w-full lg:text-lg text-xl py-2 cursor-pointer border-b-[1px] ${isfiltervalue === "Cancle" ? "bg-gray-200" : "hover:bg-blue-100"
                                                 }`}
-                                            onClick={() => handlefilter("Cancel")}
+                                            onClick={() => handlefilter("CANCELLED")}
                                         >
-                                            Cancel
+                                            CANCELLED
                                         </li>
                                     </ul>
                                 </div>

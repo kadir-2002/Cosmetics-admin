@@ -729,14 +729,15 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                         </thead>
                         <tbody>
                           {isSubCategry?.map((item: any, index: any) => (
+                            
                             <tr key={index} className='text-center'>
                               <td className=' p-2'>{item?.sequence_number}</td>
 
                               <td className='p-3 '>
-                                {item?.image ? (
+                                {item?.imageUrl? (
                                   <>
                                     <img
-                                      src={`${item?.image}`}
+                                      src={`${item?.imageUrl}`}
                                       alt='Profile'
                                       className='lg:h-12 lg:w-12 h-12 w-12 object-cover rounded-full'
                                     />
