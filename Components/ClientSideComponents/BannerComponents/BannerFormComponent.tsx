@@ -333,12 +333,12 @@ const BannerFormComponent = () => {
       banner?.id,
       banner?.sequence_number,
       banner?.heading,
-      banner?.sub_heading,
-      banner?.description,
+      banner?.subheading??"",
+      banner?.description??"",
       image,
       mobile_banner,
       isActive,
-      banner?.button_text,
+      banner?.button,
       banner?.button_link,
       token
     );
