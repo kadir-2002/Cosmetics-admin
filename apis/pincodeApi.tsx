@@ -27,13 +27,13 @@ export const pincodeAllDataApi = async (apiParams: {
   if (apiParams.filtervalue!==undefined) {
     queryParams.append("is_active", apiParams.filtervalue.toString());
   }
-  const endpoint = `/mainapp/pincode/?${queryParams}`;
+  const endpoint = `/pincode/?${queryParams}`;
   const response = await apiCoreGet(endpoint, "GET", apiParams.token);
   return response;
 };
 
 export const pinCodeDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(`/mainapp/pincode/${id}/`, token);
+  const response = await apiCoreDelete(`/pincode/${id}/`, token);
   return response;
 };
 export const pinCodeUpdatedApi = async (
@@ -51,7 +51,7 @@ export const pinCodeUpdatedApi = async (
     zipcode: zipcode,
   };
   const response = await apiCoreUpdate(
-    `/mainapp/pincode/${id}/`,
+    `/pincode/${id}/`,
     "",
     requestBody,
     "PATCH",
@@ -68,7 +68,7 @@ export const pinCodeCreateApi = async (
   token: string
 ) => {
   const response = await apiCores(
-    `/mainapp/pincode/`,
+    `/pincode/`,
     { city: city, state: state, is_active: is_active, zipcode: zipcode },
     "POST",
     token
@@ -81,7 +81,7 @@ export const pinCodeCreateApi = async (
 
 export const pincodeCSVUploadApi = async (excel_file:  File | null | any,token: string) => {
   const formData = new FormData();
-  formData.append("excel_file", excel_file);
-  const response = await apiCoreFormData(`/mainapp/upload_pincode_data_excel/`,formData,"POST",token);
+  formData.append("file", excel_file);
+  const response = await apiCoreFormData(`/pincode/upload-csv/`,formData,"POST",token);
   return response;
 };
