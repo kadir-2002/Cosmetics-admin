@@ -6,7 +6,7 @@ export const apiCoreUpdate = async (
   token: string
 ) => {
   try {
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`;
 
     const response = await fetch(url, {
       method,
