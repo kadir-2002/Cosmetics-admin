@@ -46,8 +46,8 @@ body {
   cursor: pointer;
   display: flex;
   align-items: center;
-  border: 1px solid #fa4847;
-  background-color: #fa4847;
+  border: 1px solid #5E35B1;
+  background-color: #5E35B1;
   border-radius: 10px;
 }
 
@@ -66,7 +66,7 @@ body {
   transform: translateX(109px);
   height: 100%;
   width: 39px;
-  background-color: #fb6a6a;
+  background-color: #8256db;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@ body {
 }
 
 .button:hover {
-  background: #fb6a6a;
+  background: #5E35B1;
 }
 
 .button:hover .button__text {
