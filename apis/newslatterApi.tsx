@@ -37,7 +37,7 @@ export const contactAllDataApi = async (searchParams: {
     page_size: searchParams.page_size.toString(),
   });
 
-  const endpoint = `/frontend/contact_form/?${queryParams.toString()}`;
+  const endpoint = `/connect/contact_form/?${queryParams.toString()}`;
   const response = await apiCoreGet(endpoint, "GET", searchParams.token);
   return response;
 };
@@ -53,7 +53,7 @@ export const contactUpdatedApi = async (
     reply_given: reply_given,
   };
   const response = await apiCoreUpdate(
-    `/frontend/contact_form/${id}/`,
+    `/connect/contact_form/${id}/`,
     "",
     requestBody,
     "PATCH",
