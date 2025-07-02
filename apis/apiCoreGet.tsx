@@ -1,5 +1,5 @@
 export const apiCoreGet = async (endpoint: string, p0: string, token: string) => {
-  return await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

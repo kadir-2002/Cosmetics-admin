@@ -18,7 +18,7 @@ export const newsletterAllDataApi = async (searchParams: {
   if (searchParams.ordering) {
     queryParams.append("ordering", searchParams.ordering);
   }
-  const endpoint = `/frontend/newsletter/?${queryParams}`;
+  const endpoint = `/newsletter/?${queryParams}`;
   const response = await apiCoreGet(endpoint, "GET", searchParams.token);
   return response;
 };
