@@ -264,7 +264,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
   const loadCategry = async () => {
     if (user) {
       const response = await subCategryAlldataApi(user, token);
-      if (response) {
+      if (response.body) {
         setSubCategry(response?.body?.subcategory);
       } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());

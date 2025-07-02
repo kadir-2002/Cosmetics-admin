@@ -113,7 +113,8 @@ export const customerUpdatedApi = async (
 };
 
 export const addressApi = async (id: any, token: string) => {
-  const response = await apiCoreNode(`/address/${id}`,"GET", token);
+  const endpoint=`/address/user/${id}`
+  const response = await apiCoreNode(endpoint,{},"GET", token);
   return response;
 }
 
