@@ -191,6 +191,6 @@ export const updateSubCategryApi = async (
   return response;
 };
 export const subcategoryDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreNode(`/product-category/${id}/`,{}, 'DELETE',token);
+  const response = await apiCoreNode(`/category/subcategory/${id}/`,{}, 'DELETE',token);
   return response;
 };
