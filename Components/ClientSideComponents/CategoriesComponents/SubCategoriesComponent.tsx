@@ -265,8 +265,8 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
     if (user) {
       const response = await subCategryAlldataApi(user, token);
       if (response) {
-        setSubCategry(response?.results);
-      } else if (response?.data?.detail === "Invalid token") {
+        setSubCategry(response?.body?.subcategory);
+      } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -296,6 +296,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
     });
   };
   const activeHandler = async (item: any, isActive: boolean) => {
+    console.log("item", item)
     const image = "";
     const banner = "";
     const response = await updateSubCategryApi(
@@ -735,7 +736,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                                 {item?.image ? (
                                   <>
                                     <img
-                                      src={`${process.env.NEXT_PUBLIC_BASE_URL}${item?.image}`}
+                                      src={`${item?.image}`}
                                       alt='Profile'
                                       className='lg:h-12 lg:w-12 h-12 w-12 object-cover rounded-full'
                                     />
@@ -750,7 +751,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                                 {item?.banner ? (
                                   <>
                                     <img
-                                      src={`${process.env.NEXT_PUBLIC_BASE_URL}${item?.banner}`}
+                                      src={`${item?.banner}`}
                                       alt='Profile'
                                       className='lg:h-12 lg:w-12 h-12 w-12 object-cover rounded-full'
                                     />
@@ -768,19 +769,19 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                               <td className='py-3 px-4'>
                                 <div className='flex flex-col items-center'>
                                   <Switch
-                                    checked={item?.is_active}
+                                    checked={item?.isDeleted}
                                     onChange={() =>
-                                      activeHandler(item, !item?.is_active)
+                                      activeHandler(item, !item?.isDeleted)
                                     }
                                     className={`${
-                                      item?.is_active
+                                      item?.isDeleted
                                         ? "bg-green-500"
                                         : "bg-gray-300"
                                     } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                                   >
                                     <span
                                       className={`${
-                                        item?.is_active
+                                        item?.isDeleted
                                           ? "translate-x-6"
                                           : "translate-x-1"
                                       } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}

@@ -94,8 +94,9 @@ export const categryUpdatedApi = async (
 
 // sub-categry api
 export const subCategryAlldataApi = async (id: any, token: string) => {
-  const response = await apiCoreGet(
-    `/product-category/?parent_category=${id}`,
+  const response = await apiCoreNode(
+    `/category/subcategory/?parent_category=${id}`,
+    {},
     "GET",
     token
   );
@@ -137,7 +138,7 @@ export const createSubCategryApi = async (
   }
   formData.append("isDeleted", isDeleted.toString());
   const response = await apiCoreUpdateuser(
-    "/product-category/",
+    "/category/subcategory",
     formData,
     "POST",
     token
@@ -182,7 +183,7 @@ export const updateSubCategryApi = async (
   formData.append("isDeleted", isDeleted.toString());
 
   const response = await apiCoreUpdateuser(
-    `/product-category/${id}/`,
+    `/category/subcategory/${id}/`,
     formData,
     "PATCH",
     token
