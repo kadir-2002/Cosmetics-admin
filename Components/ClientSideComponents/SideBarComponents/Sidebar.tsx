@@ -62,8 +62,8 @@ const menuGroups = [
       },
       // { icon: "/blog.png", label: "Abandoned Email", route: "/abandonedemail" },
       // { icon: "/store.png", label: "Store Address", route: "/storeaddress" },
-      // { icon: "/contactus.png", label: "Contact Us", route: "/contactus" },
-      // { icon: "/newslatter.png", label: "Newsletter", route: "/newsletter" },
+      { icon: "/contactus.png", label: "Contact Us", route: "/contactus" },
+      { icon: "/newslatter.png", label: "Newsletter", route: "/newsletter" },
       // {
       //   icon: "/payment.png",
       //   label: "Google Analytics",
