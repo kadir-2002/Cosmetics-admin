@@ -392,7 +392,7 @@ const PinCodeFormComponent = () => {
             Error File Download
           </button>
         </a>:
-        <a href={`/Pincodes.xlsx`}   download="Pincodes.xlsx" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#D77335] rounded-md cursor-pointer'>
+        <a href={`/Pincode.csv`}   download="Pincode.csv" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#D77335] rounded-md cursor-pointer'>
           <button className='font-semibold text-lg'>
             Download File Format
           </button>
