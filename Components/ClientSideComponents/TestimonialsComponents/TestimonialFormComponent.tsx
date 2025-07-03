@@ -548,7 +548,7 @@ const TestimonialFormComponent = () => {
             </thead>
             <tbody>
               {testimonial?.map((data: any, index: any) => (
-                <tr key={index} className='border-b-[1px] hover:bg-blue-100 '>
+                <tr key={index} className='border-b-[1px] hover:bg-purple-100 '>
                   <td className='p-3 '>
                     {data?.image ? (
                       <>

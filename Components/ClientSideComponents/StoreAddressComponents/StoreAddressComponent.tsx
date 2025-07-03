@@ -857,7 +857,7 @@ const StoreAddressComponent = () => {
             </thead>
             <tbody>
               {data.map((store: any, index: any) => (
-                <tr key={index} className='border-b'>
+                <tr key={index} className='border-b hover:bg-purple-100'>
                   <td className='p-3 text-center'> {store?.name}</td>
                   <td className='p-3 text-center lg:px-7 capitalize'>
                     {store?.email}

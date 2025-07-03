@@ -181,7 +181,7 @@ const AddAddressComponent: React.FC<AddAddressComponents> = ({
 
                                         <table className="w-full mt-6 w-7xl ">
                                             <thead>
-                                                <tr className="bg-gray-100">
+                                                <tr className="bg-gray-100 ">
                                                     <th className="p-2">Address</th>
                                                     <th className="p-2">Type</th>
                                                     <th className="p-2">City</th>
@@ -192,7 +192,7 @@ const AddAddressComponent: React.FC<AddAddressComponents> = ({
                                             </thead>
                                             <tbody>
                                                 {isaddres.map((item: any, index: any) => (
-                                                    <tr key={index} className="text-left">
+                                                    <tr key={index} className="text-left hover:bg-purple-100">
                                                         <td className=" p-2">{item.addressLine}</td>
                                                         <td className=" p-2">{item.type}</td>
                                                         <td className=" p-2">{item.city}</td>

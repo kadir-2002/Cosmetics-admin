@@ -361,7 +361,7 @@ const CurrencyManager = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr className="hover:bg-purple-100">
               <td className='p-3 text-center'>
                 {currencyData === null ? (
                   "Please Add the Currency "

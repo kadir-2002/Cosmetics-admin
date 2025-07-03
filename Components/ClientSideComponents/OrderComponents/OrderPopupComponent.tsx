@@ -220,7 +220,7 @@ const OrderPopup = ({
                      {role?.items?.map((item: OrderItem, index: number) => (
   <tr
     key={index}
-    className='border cursor-pointer hover:bg-gray-100 text-gray-700'
+    className='border cursor-pointer hover:bg-purple-100 text-gray-700'
     onClick={() =>
       router.push(`/product?id=${item.product?.id}`)
     }

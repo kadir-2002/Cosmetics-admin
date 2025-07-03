@@ -35,7 +35,7 @@ const TopSellingProducts = ({ commisionData }: props) => {
                     {commisionData?.top_selling_products?.map((product: any, index: number) => (
                         <tr
                             key={index}
-                            className="hover:bg-gray-50 transition-colors"
+                            className="hover:bg-purple-100 transition-colors"
                             onClick={() => router.push(`/product?id=${product?.id}`)}
                         >
                             <td className="py-2 sm:py-3 px-4">

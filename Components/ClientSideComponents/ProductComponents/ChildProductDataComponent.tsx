@@ -144,7 +144,7 @@ const ChildProductDataComponent: React.FC<Props> = ({ products, productdata, han
             </thead>
             <tbody>
               {products.map((product, index) => (
-                <tr key={index} className="border-b">
+                <tr key={index} className="border-b hover:bg-purple-100">
                   <td className="p-4 text-center" onClick={() => handleimgPOpup(product?.id)}>
                     <div className="relative ">
                        {product?.images?.[0]?.url ? (

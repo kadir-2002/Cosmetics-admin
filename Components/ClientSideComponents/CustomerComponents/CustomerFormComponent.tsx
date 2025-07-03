@@ -488,7 +488,7 @@ const CustomerFormComponent = () => {
                 </thead>
                 <tbody>
                   {users?.map((user: any, index: any) => (
-                    <tr key={index} className='border-b'>
+                    <tr key={index} className='border-b hover:bg-purple-100'>
                       <td className='p-3 text-center flex justify-start items-center'>
                         {user?.profile? (
                           <>

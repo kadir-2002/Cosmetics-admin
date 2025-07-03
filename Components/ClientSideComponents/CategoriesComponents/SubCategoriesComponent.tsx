@@ -730,7 +730,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                         <tbody>
                           {isSubCategry?.map((item: any, index: any) => (
                             
-                            <tr key={index} className='text-center'>
+                            <tr key={index} className='text-center hover:bg-purple-100'>
                               <td className=' p-2'>{item?.sequence_number}</td>
 
                               <td className='p-3 '>

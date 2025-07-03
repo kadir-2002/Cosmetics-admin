@@ -141,7 +141,7 @@ const NewslattergetComponent = () => {
               </thead>
               <tbody>
                 {newsletter?.map((user: any, index: any) => (
-                  <tr key={index} className='border-b'>
+                  <tr key={index} className='border-b hover:bg-purple-100'>
                     <td className='p-3 text-left'>{user?.email}</td>
                     <td className='p-3 text-center'>{user?.subscribed_at}</td>
                   </tr>

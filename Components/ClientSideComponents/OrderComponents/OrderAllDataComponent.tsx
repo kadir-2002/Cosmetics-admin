@@ -440,7 +440,7 @@ const handleEndDateChange = (date: Date | null) => {
             <tbody>
               {orders.length > 0 ? (
                 orders.map((order, index) => (
-                  <tr key={index} className="border-b-[1px] hover:bg-blue-100">
+                  <tr key={index} className="border-b-[1px] hover:bg-purple-100">
                     <td className="py-3 px-4 text-end">{order?.id}</td>
                     <th className="py-3 px-4 text-end">{order?.createdAt}</th>
                     <td className="py-3 px-4 text-start">

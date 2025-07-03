@@ -850,7 +850,7 @@ const CategryFormComponent = () => {
 
             <tbody>
               {Array.isArray(categry) && categry?.map((data: any, index: any) => (
-                <tr key={index} className='border-b-[1px] hover:bg-blue-100 '>
+                <tr key={index} className='border-b-[1px] hover:bg-purple-100 '>
                   <td className='flex justify-start items-center'>
                     <div className='py-3 px-6 '>{data?.sequence_number}</div>
                   </td>

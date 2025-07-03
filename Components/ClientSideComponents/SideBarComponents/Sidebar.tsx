@@ -2,10 +2,15 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaSearchLocation } from "react-icons/fa";
 import SidebarItem from "./SidebarItem";
 import ClickOutside from "./ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
+import { MdDashboardCustomize, MdOutlineProductionQuantityLimits, MdOutlineRateReview, MdOutlineUnsubscribe } from "react-icons/md";
+import { TbCategoryPlus, TbLayoutNavbarCollapseFilled, TbListDetails } from "react-icons/tb";
+import { FaBagShopping, FaOpencart, FaRegImage, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
+import { LuGalleryVerticalEnd } from "react-icons/lu";
+import { IoIosContact } from "react-icons/io";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -16,33 +21,33 @@ const menuGroups = [
   {
     name: "MENU",
     menuItems: [
-      { icon: "/dashboard.png", label: "Dashboard", route: "/" },
-      { icon: "/payment.png", label: "Header", route: "/header" },
-      { icon: "/banner.png", label: "Banner", route: "/banner" },
-      { icon: "/customers.png", label: "Why Choose Us", route: "/whychooseus" },
-      { icon: "/gallery.png", label: "Gallery", route: "/gallery" },
+      { icon: <MdDashboardCustomize className="h-6 w-6"  />, label: "Dashboard", route: "/" },
+      { icon: <TbLayoutNavbarCollapseFilled className="h-6 w-6"  />, label: "Header", route: "/header" },
+      { icon: <FaRegImage className="h-6 w-6"  />, label: "Banner", route: "/banner" },
+      { icon: <FaUsersBetweenLines className="h-6 w-6 bg"  />, label: "Why Choose Us", route: "/whychooseus" },
+      { icon: <LuGalleryVerticalEnd className="h-6 w-6"  />, label: "Gallery", route: "/gallery" },
       {
-        icon: "/gallery.png",
+        icon: <LuGalleryVerticalEnd className="h-6 w-6"  />,
         label: "Gallery Type",
         route: "/gallery-section",
       },
       {
-        icon: "/newslatter.png",
+        icon: <MdOutlineRateReview className="h-6 w-6"  />,
         label: "Testimonials",
         route: "/testimonials",
       },
 
       // { icon: "/blog.png", label: "Counter", route: "/countersection" },
-      { icon: "/categry.png", label: "Categories", route: "/categories" },
-      { icon: "/customers.png", label: "Customers", route: "/customers" },
-      { icon: "/product.png", label: "Product", route: "/product" },
-      { icon: "/newslatter.png", label: "Pincode", route: "/pincode" },
+      { icon: <TbCategoryPlus className="h-6 w-6"  />, label: "Categories", route: "/categories" },
+      { icon: <FaUsers className="h-6 w-6"  />, label: "Customers", route: "/customers" },
+      { icon: <FaBagShopping  className="h-6 w-6"  />, label: "Product", route: "/product" },
+      { icon: <FaSearchLocation className="h-6 w-6"  />, label: "Pincode", route: "/pincode" },
       // { icon: "/tax.png", label: "Tax", route: "/tax" },
       // { icon: "/Coupon.png", label: "Coupons", route: "/coupons" },
-      { icon: "/user.png", label: "User", route: "/user" },
+      { icon: <FaUsers className="h-6 w-6"  />, label: "User", route: "/user" },
       // { icon: "/role.png", label: "Role", route: "/role" },
       // { icon: "/blog.png", label: "Blog", route: "/blog" },
-      { icon: "/payment.png", label: "Order", route: "/order" },
+      { icon: <FaOpencart className="h-6 w-6"  />, label: "Order", route: "/order" },
       // { icon: "/shipping.png", label: "Shipping", route: "/Shipping" },
       // {
       //   icon: "/payment.png",
@@ -56,14 +61,14 @@ const menuGroups = [
       // },
       // { icon: "/tag.png", label: "Tag", route: "/tag" },
       {
-        icon: "/payment.png",
+        icon: <TbListDetails className="h-6 w-6" />,
         label: "Company Details",
         route: "/companydetails",
       },
       // { icon: "/blog.png", label: "Abandoned Email", route: "/abandonedemail" },
       // { icon: "/store.png", label: "Store Address", route: "/storeaddress" },
-      { icon: "/contactus.png", label: "Contact Us", route: "/contactus" },
-      { icon: "/newslatter.png", label: "Newsletter", route: "/newsletter" },
+      { icon: <IoIosContact className="h-6 w-6"  />, label: "Contact Us", route: "/contactus" },
+      { icon: <MdOutlineUnsubscribe className="h-6 w-6"  />, label: "Newsletter", route: "/newsletter" },
       // {
       //   icon: "/payment.png",
       //   label: "Google Analytics",
@@ -137,7 +142,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           </button>
         </div>
         <div className='flex flex-col duration-300 ease-linear'>
-          <nav className='px-4 lg:p-6'>
+          <nav className='px-4 pr-0 lg:p-6'>
             <h3 className='mb-2 ml-4 text-xl font-semibold'>MENU</h3>
             <ul className='mb-24 flex flex-col gap-1.5 overflow-y-auto hidescroll'>
               {menuGroups[0].menuItems.map((menuItem, menuIndex) => (

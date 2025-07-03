@@ -31,7 +31,7 @@ const UnsolvedProductCompnent = ({ commisionData }: props) => {
                 </thead>
                 <tbody>
                     {commisionData?.unsold_products?.map((product: any, index: any) => (
-                        <tr key={index} className="hover:bg-gray-50 transition-colors text-[18px]"
+                        <tr key={index} className="hover:bg-purple-100 transition-colors text-[18px]"
                             onClick={() => router.push(`/product?id=${product?.id}`)}
                         >
 

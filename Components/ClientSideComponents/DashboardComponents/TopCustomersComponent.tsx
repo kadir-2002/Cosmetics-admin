@@ -74,7 +74,7 @@ const TopCustomers = ({ commisionData }: Props) => {
                 <tr
                   key={index}
                   className={`${index % 2 === 0 ? "bg-gray-50" : ""
-                    } hover:bg-gray-100 cursor-pointer`}
+                    } hover:bg-purple-100 cursor-pointer`}
                   onClick={() => router.push(`/customers?id=${customer?.customer__id}`)}
                 >
                   <td className="py-2 px-4 text-[18px] text-left">

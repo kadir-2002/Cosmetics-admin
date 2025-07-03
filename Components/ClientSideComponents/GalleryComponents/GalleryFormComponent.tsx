@@ -529,7 +529,7 @@ const GalleryFormComponent = () => {
             </thead>
             <tbody>
               {data.map((banner: any, index: any) => (
-                <tr key={index} className='border-b'>
+                <tr key={index} className='border-b hover:bg-purple-100'>
                   <td className='p-3 text-center'>{banner?.sequence_number}</td>
                   <td className='p-3 text-center lg:px-7'>
                     {banner?.image ? (

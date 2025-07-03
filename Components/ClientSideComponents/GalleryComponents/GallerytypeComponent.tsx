@@ -265,7 +265,7 @@ const GallerytypeComponent = () => {
             </thead>
             <tbody>
               {categry?.map((data: any, index: any) => (
-                <tr key={index} className='border-b-[1px] hover:bg-blue-100 '>
+                <tr key={index} className='border-b-[1px] hover:bg-purple-100 '>
                   <td className='py-3 px-4 text-left'>{data?.name}</td>
 
                   <td className='py-3 flex justify-center gap-4'>

@@ -618,7 +618,7 @@ const PinCodeFormComponent = () => {
             </thead>
             <tbody>
               {data.map((store: any, index: any) => (
-                <tr key={index} className='border-b'>
+                <tr key={index} className='border-b hover:bg-purple-100'>
                   <td className='p-3 capitalize text-center'>{store?.state}</td>
                   <td className='p-3 capitalize text-center'>{store?.city}</td>
                   <td className='p-3 capitalize text-center'>

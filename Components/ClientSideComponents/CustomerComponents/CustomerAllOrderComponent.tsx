@@ -138,7 +138,7 @@ const CustomerAllOrderComponent = ({ isCustomerSelectId }: props) => {
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                         {singleCustomerOrder?.map((order) => (
-                            <tr key={order.id} className="hover:bg-gray-50">
+                            <tr key={order.id} className="hover:bg-purple-100">
                                 <td className="px-4 text-start py-3">{order.id}</td>
                                 <td className="px-0 text-start py-3">{order.createdAt || "N/A"}</td>
                                 <td className="px-4 text-center py-3">{order.payment.transactionId|| "N/A"}</td>
