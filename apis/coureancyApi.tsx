@@ -33,7 +33,7 @@ export const createCoureeancyApi = async (
     formData.append("phone", phone);
     formData.append("country", country);
     formData.append("currency", currency);
-    formData.append("currency_symbol", currency_symbol);
+    formData.append("currency_symbol", '₹');
     // formData.append("product_low_stock_threshold", "20");
     if(facebook_icon){
      formData.append("facebook_icon", facebook_icon);
@@ -92,7 +92,7 @@ export const coureancyUpdatedApi = async (
     formData.append("phone", phone);
     formData.append("country", country);
     formData.append("currency", currency);
-    formData.append("currency_symbol", currency_symbol);
+    formData.append("currency_symbol", "₹");
     // formData.append("product_low_stock_threshold", "20");
     formData.append("facebook_icon", facebook_icon);
     formData.append("facebook_link", facebook_link);
@@ -104,6 +104,6 @@ export const coureancyUpdatedApi = async (
     formData.append("linkedin_link", linkedin_link);
     formData.append("product_low_stock_threshold", product_low_stock_threshold);
     formData.append("minimum_order_quantity", minimum_order_quantity);
-    const response = await apiCoreUpdateuser(`/company-settings`, formData, "POST", token);
+    const response = await apiCoreUpdateuser(`/company-settings/`, formData, "POST", token);
     return response;
 };
