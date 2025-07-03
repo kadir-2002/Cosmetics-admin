@@ -44,7 +44,7 @@ const CurrencyManager = () => {
     id: "",
     country: "India",
     currency: "INR",
-    currency_symbol: "\ub20b9",
+    currency_symbol: "₹",
     logo: "",
     address: "",
     phone: "",

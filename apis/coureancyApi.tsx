@@ -85,11 +85,11 @@ export const coureancyUpdatedApi = async (
 ) => {
     const formData = new FormData();
     formData.append("logo", logo);
-    formData.append("text", description);
+    formData.append("description", description);
     // formData.append("country_code", "+91");
     formData.append("address", address);
     formData.append("email", email);
-    formData.append("phone_number", phone);
+    formData.append("phone", phone);
     formData.append("country", country);
     formData.append("currency", currency);
     formData.append("currency_symbol", currency_symbol);
@@ -104,6 +104,6 @@ export const coureancyUpdatedApi = async (
     formData.append("linkedin_link", linkedin_link);
     formData.append("product_low_stock_threshold", product_low_stock_threshold);
     formData.append("minimum_order_quantity", minimum_order_quantity);
-    const response = await apiCoreUpdateuser(`/company-settings/${id}`, formData, "PATCH", token);
+    const response = await apiCoreUpdateuser(`/company-settings`, formData, "POST", token);
     return response;
 };
