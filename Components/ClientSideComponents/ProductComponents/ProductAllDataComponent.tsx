@@ -290,7 +290,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
                         {/* <FaAngleDown className='inline ml-1' /> */}
                       </th>
                       <th className='p-4 text-right'>Stock</th>
-                      <th className='p-4 text-center'>Rating</th>
+                      {/* <th className='p-4 text-center'>Rating</th> */}
                       <th
                         className='p-4 text-center cursor-pointer'
                         onClick={() => handleActiveFilter("all")}
@@ -350,7 +350,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
                             : product?.category?.name}
                         </td>
                         <td className='p-4 text-right'>{product?.stock}</td>
-                        <td
+                        {/* <td
                           className='p-4 text-center cursor-pointer'
                           onClick={() => handleOpenReview(product?.id)}
                         >
@@ -358,7 +358,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
                             <span>{product?.average_rating}/5</span>
                             <FaCircleArrowRight />
                           </div>
-                        </td>
+                        </td> */}
                         <td className='text-center'>
                           <Switch
                             checked={product.isActive}

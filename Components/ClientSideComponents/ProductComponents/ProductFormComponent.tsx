@@ -538,14 +538,14 @@ const ProductFormComponent: React.FC<props> = ({
                 }
               />
             </div>
-            <div className=''>
+            {/* <div className=''>
               <CareInstructionReatchTextComponent
                 value={newUser.care_instruction}
                 onChange={(care_instruction) =>
                   setNewUser((prev: any) => ({ ...prev, care_instruction }))
                 }
               />
-            </div>
+            </div> */}
             <div className=''>
               <WarrantyReatchTextFiledComponent
                 value={newUser.warranty}
@@ -554,7 +554,7 @@ const ProductFormComponent: React.FC<props> = ({
                 }
               />
             </div>
-            <div className=''>
+            {/* <div className=''>
               <DeliveryOrInstallationTipsComponent
                 value={newUser.delivery_or_installation_tips}
                 onChange={(delivery_or_installation_tips) =>
@@ -564,7 +564,7 @@ const ProductFormComponent: React.FC<props> = ({
                   }))
                 }
               />
-            </div>
+            </div> */}
             {/* <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                 <FaShoppingBag color='#A5B7C0' size={26} />
@@ -940,7 +940,7 @@ const ProductFormComponent: React.FC<props> = ({
             </div> */}
             <div className='flex bg-[#F3F3F3] p-2 relative w-full h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
-              <input
+              {/* <input
                 type='text'
                 placeholder=' Minimum Order Quantity'
                 value={newUser.seo_title}
@@ -951,7 +951,7 @@ const ProductFormComponent: React.FC<props> = ({
                     seo_title: e.target.value,
                   }))
                 }
-              />
+              /> */}
               <label
                 htmlFor='tag'
                 className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
@@ -1001,7 +1001,7 @@ const ProductFormComponent: React.FC<props> = ({
                 SEO Keyword
               </label>
             </div>
-            <div className='flex flex-col'>
+            {/* <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                 <TbAlignBoxBottomLeftFilled color='#A5B7C0' size={26} />
                 <input
@@ -1033,8 +1033,8 @@ const ProductFormComponent: React.FC<props> = ({
                   Enter Product Low Stock Threshold
                 </label>
               </div>
-            </div>
-            <div className='flex  items-center justify-between gap-2 bg-[#F3F3F3] rounded-lg h-12 w-full lg:p-4 p-2'>
+            </div> */}
+            {/* <div className='flex  items-center justify-between gap-2 bg-[#F3F3F3] rounded-lg h-12 w-full lg:p-4 p-2'>
               <label className='lg:text-md text-sm text-[#577C8E] lg:px-3 px-1'>
                 Is Stackable?
               </label>
@@ -1053,7 +1053,7 @@ const ProductFormComponent: React.FC<props> = ({
                   <span className='slider'></span>
                 </label>
               </div>
-            </div>
+            </div> */}
             <div className='flex gap-2 '>
               <div className='flex  items-center justify-between gap-2 bg-[#F3F3F3] rounded-lg h-12 w-full lg:p-4 p-2'>
                 <label className='lg:text-md text-sm text-[#577C8E] lg:px-3 px-1'>

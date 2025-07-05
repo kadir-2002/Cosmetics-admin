@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCores } from "./apiCore";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
@@ -63,13 +64,15 @@ export const pinCodeUpdatedApi = async (
 export const pinCodeCreateApi = async (
   state: string,
   city: string,
-  is_active: boolean,
   zipcode: string,
+  estimated_delivery_days:number,
+  is_active: boolean,
+  id:string,
   token: string
 ) => {
-  const response = await apiCores(
+  const response = await apiCoreNode(
     `/pincode/`,
-    { city: city, state: state, is_active: is_active, zipcode: zipcode },
+    { city: city, state: state, is_active: is_active, zipcode: Number(zipcode) ,estimated_delivery_days:Number(estimated_delivery_days),created_by:"ADMIN"},
     "POST",
     token
   );

@@ -30,8 +30,8 @@ type data = {
   id: string;
   city: string;
   state: string;
-  zipcode: string;
-  estimated_delivery_days: string;
+  zipcode: number
+  estimated_delivery_days: number;
   is_active: boolean;
 };
 
@@ -42,7 +42,7 @@ const PinCodeFormComponent = () => {
     state: "",
     city: "",
     zipcode: "",
-    estimated_delivery_days: "",
+    estimated_delivery_days: 0,
     is_active: false,
   });
   const [isOpenDeletePopup, setIsLogoutPopup] = useState<boolean>(false);
@@ -66,7 +66,7 @@ const PinCodeFormComponent = () => {
 
   const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { id, city, state, zipcode, is_active } = newUser;
+    const { id, city, state, zipcode, is_active ,estimated_delivery_days} = newUser;
     try {
       if (isEdit) {
         const response = await pinCodeUpdatedApi(
@@ -88,7 +88,7 @@ const PinCodeFormComponent = () => {
             state: "",
             city: "",
             zipcode: "",
-            estimated_delivery_days:"",
+            estimated_delivery_days:0,
             is_active: false,
           });
         } else if (response?.data?.error === "This zipcode already exists") {
@@ -102,11 +102,13 @@ const PinCodeFormComponent = () => {
         const response = await pinCodeCreateApi(
           state,
           city,
-          is_active,
           zipcode,
+          estimated_delivery_days,
+          is_active,
+          id,
           token
         );
-        if (response?.data?.error === "This zipcode already exists") {
+        if (response?.body?.error === "This zipcode already exists") {
           toast.error("This Zipcode already exists");
         } else if (response?.status === 201) {
           toast.success("Created successfully!");
@@ -118,10 +120,10 @@ const PinCodeFormComponent = () => {
             state: "",
             city: "",
             zipcode: "",
-            estimated_delivery_days:"",
+            estimated_delivery_days:0,
             is_active: false,
           });
-        } else if (response?.detail === "Invalid token") {
+        } else if (response?.body.detail === "Invalid token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -147,7 +149,7 @@ const PinCodeFormComponent = () => {
       state: store?.state,
       city: store?.city,
       zipcode: store?.zipcode,
-      estimated_delivery_days: store?.estimated_delivery_days,
+      estimated_delivery_days: Number(store?.estimated_delivery_days),
       is_active: store?.is_active,
     });
     setIsEdit(true);
@@ -235,7 +237,7 @@ const PinCodeFormComponent = () => {
       state: "",
       city: "",
       zipcode: "",
-      estimated_delivery_days: "",
+      estimated_delivery_days: 0,
       is_active: false,
     });
   };
@@ -248,7 +250,7 @@ const PinCodeFormComponent = () => {
       state: "",
       city: "",
       zipcode: "",
-      estimated_delivery_days: "",
+      estimated_delivery_days: 0,
       is_active: false,
     });
   };
@@ -392,12 +394,12 @@ const PinCodeFormComponent = () => {
             Error File Download
           </button>
         </a>:
-        <a href={`/Pincode.csv`}   download="Pincode.csv" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#D77335] rounded-md cursor-pointer'>
+        <a href={`/Pincode.csv`}   download="Pincode.csv" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-purple-900 rounded-md cursor-pointer'>
           <button className='font-semibold text-lg'>
             Download File Format
           </button>
         </a>}
-        <div className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#D77335] rounded-md cursor-pointer'>
+        <div className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-purple-900 rounded-md cursor-pointer'>
           <p className='font-semibold text-lg px-4'>Upload CSV</p>
           <input
             type='file'
@@ -414,11 +416,11 @@ const PinCodeFormComponent = () => {
             </p>
           )}
         </div>
-        <div className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#D77335] rounded-md cursor-pointer'>
+        <div className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-purple-900 rounded-md cursor-pointer'>
           <button
             className='font-semibold text-lg'
             onClick={handleCsvFileUpload}>
-            Submite
+            Submit
           </button>
         </div>
       </div>
@@ -457,7 +459,7 @@ const PinCodeFormComponent = () => {
                 </label>
               </div>
             </div>
-
+selling_price
             <div className='relative w-full bg-[#F3F3F3] rounded-lg shadow-sm'>
               <div className='flex bg-[#F3F3F3] p-3 h-12 rounded-md'>
                 <RiArticleFill color='#A5B7C0' size={26} />
@@ -527,7 +529,7 @@ const PinCodeFormComponent = () => {
                     setNewUser((prev) => ({
                       ...prev,
 
-                      estimated_delivery_days: e.target.value,
+                      estimated_delivery_days: Number(e.target.value),
                     }))
                   }
                   // placeholder="Enter Sequence Number"
