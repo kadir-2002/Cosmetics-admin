@@ -171,7 +171,7 @@ const CustomerFormComponent = () => {
         return;
       }
       if (response?.body) {
-        setUsers(response?.body);
+        setUsers(response?.body.users);
         setTotalPages(response?.body.total_pages);
       }
     } catch (error) {
