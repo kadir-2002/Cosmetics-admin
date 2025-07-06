@@ -115,7 +115,7 @@ const BannerFormComponent = () => {
           response?.data?.error === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.detail === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");

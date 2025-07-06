@@ -459,7 +459,6 @@ const PinCodeFormComponent = () => {
                 </label>
               </div>
             </div>
-selling_price
             <div className='relative w-full bg-[#F3F3F3] rounded-lg shadow-sm'>
               <div className='flex bg-[#F3F3F3] p-3 h-12 rounded-md'>
                 <RiArticleFill color='#A5B7C0' size={26} />
