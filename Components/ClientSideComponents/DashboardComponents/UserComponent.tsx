@@ -38,7 +38,7 @@ const UserComponent = ({ commisionData }: Props) => {
         </Link>
         <Link className="flex justify-between pb-2" href="/customers?is_active=false">
           <span className="font-semibold text-lg text-[#E1C01F]">Inactive Customers:</span>
-          <span className="font-semibold text-xl text-[#E1C01F]">{userSummary?.inactive_customers}</span>
+          <span className="font-semibold text-xl text-[#E1C01F]">{0}</span>
         </Link>
       </div>
     </div >

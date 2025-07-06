@@ -29,10 +29,10 @@ const OrderSummary = ({ commisionData, startDate, endDate }: props) => {
         <Link className="flex items-center justify-between" href={`/order?order_status=Complete&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-[#01B8E1] rounded-lg"><FaBox className="text-white text-xl" /></div>
-            <span className="font-semibold text-md text-[#01B8E1]">Completed</span>
+            <span className="font-semibold text-md text-[#01B8E1]">CONFIRMED</span>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="text-gray-800 font-semibold">{commisionData?.order_summary?.complete_orders}</span>
+            <span className="text-gray-800 font-semibold">{commisionData?.order_summary?.confirmed_orders}</span>
           </div>
         </Link>
       </div>
@@ -40,10 +40,10 @@ const OrderSummary = ({ commisionData, startDate, endDate }: props) => {
         <Link className="flex items-center justify-between" href={`/order?order_status=Processing&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-[#E10101] rounded-lg"><FaHourglassHalf className="text-white text-xl" /></div>
-            <span className="text-[#E10101] font-semibold text-md">Processing</span>
+            <span className="text-[#E10101] font-semibold text-md">SHIPPED</span>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="text-gray-800 font-semibold">{commisionData?.order_summary?.processing_orders}</span>
+            <span className="text-gray-800 font-semibold">{commisionData?.order_summary?.shipped_orders}</span>
           </div>
         </Link>
       </div>
@@ -51,7 +51,7 @@ const OrderSummary = ({ commisionData, startDate, endDate }: props) => {
         <Link className="flex items-center justify-between" href={`/order?order_status=Cancel&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-[#E1C001] rounded-lg"><FaTimesCircle className="text-white text-xl" /></div>
-            <span className="text-[#E1C001] font-semibold text-md">Cancel</span>
+            <span className="text-[#E1C001] font-semibold text-md">CANCELLED</span>
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-gray-800 font-semibold">{commisionData?.order_summary?.cancelled_orders}</span>
@@ -62,7 +62,7 @@ const OrderSummary = ({ commisionData, startDate, endDate }: props) => {
         <Link className="flex items-center justify-between" href={`/order?order_status=Pending&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-[#E19301] rounded-lg"><MdPendingActions className="text-white text-xl" /></div>
-            <span className="text-[#E19301] font-semibold text-md">Pending</span>
+            <span className="text-[#E19301] font-semibold text-md">PENDING</span>
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-gray-800 font-semibold">{commisionData?.order_summary?.pending_orders}</span>
@@ -73,10 +73,10 @@ const OrderSummary = ({ commisionData, startDate, endDate }: props) => {
         <Link className="flex items-center justify-between" href={`/order?order_status=Out for Delivery&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-[#C0E101] rounded-lg"><TbTruckDelivery className="text-white text-xl" /></div>
-            <span className="text-gray-700 font-semibold text-md">Out For Delivery Orders</span>
+            <span className="text-gray-700 font-semibold text-md">DELIVERED</span>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="text-gray-800 font-semibold">{commisionData?.order_summary?.out_for_delivery_orders}</span>
+            <span className="text-gray-800 font-semibold">{commisionData?.order_summary?.delivered_orders}</span>
           </div>
         </Link>
       </div>
