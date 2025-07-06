@@ -28,10 +28,10 @@ const LatestPaymentTransactions = ({ commisionData, startDate, endDate }: props)
                         <tr className="text-[#577C8E] text-left border-b-[1px] border-gray-100">
                             <th className="px-4 py-2 ">Order Id</th>
                             <th className="px-4 py-2 ">Date & Time</th>
-                            <th className="px-4 py-2 ">Customer Name</th>
+                            {/* <th className="px-4 py-2 ">Customer id</th> */}
                             <th className="px-4 py-2 ">Transaction Status</th>
-                            <th className="px-4 py-2 ">Transaction Id</th>
-                            <th className="px-4 py-2 ">Total</th>
+                            <th className="px-4 py-2 ">Payment Type</th>
+                            {/* <th className="px-4 py-2 ">Total</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -44,12 +44,12 @@ const LatestPaymentTransactions = ({ commisionData, startDate, endDate }: props)
                                 </td>
 
                                 <td className="px-4 py-2 text-left">{transaction?.createdAt}</td>
-                                <td className="px-4 py-2 text-left">
+                                {/* <td className="px-4 py-2 text-left">
                                     <span className="px-2  font-medium">{transaction?.customer_first_name}</span>
-                                </td>
-                                <td className="px-4 py-2 text-left"> {transaction?.payment_type}</td>
-                                <td className="px-4 py-2 text-left">{transaction?.payment_type === "Cash on Delivery" ? "-" : transaction?.payment_transaction_id}</td>
-                                <td className="px-4 py-2 text-left">{currency}{transaction?.final_total}</td>
+                                </td> */}
+                                <td className="px-4 py-2 text-left"> {transaction?.status}</td>
+                                <td className="px-4 py-2 text-left">{transaction?.method}</td>
+                                {/* <td className="px-4 py-2 text-left">{currency}{transaction?.final_total}</td> */}
                             </tr>
                         ))}
                     </tbody>
