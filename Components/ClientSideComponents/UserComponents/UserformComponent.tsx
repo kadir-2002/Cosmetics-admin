@@ -869,9 +869,7 @@ const UserFormComponent = () => {
                   className='p-4 flex gap-1 justify-start items-center'
                   onClick={() => SetIsOpenRoleFilterPopup(true)}
                 >
-                  {/* <span>Role</span> */}
-                  {isfiltervalue === "" ? "All Role" : isfiltervalue?.name}{" "}
-                  <FaAngleDown className='text-admin-text-primary' />
+                  Role
                 </th>
                 <th className='p-3 text-end'>Phone Number</th>
                 <th className='p-3 text-start'>Email</th>

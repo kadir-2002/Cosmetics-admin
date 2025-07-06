@@ -37,7 +37,7 @@ const UnsolvedProductCompnent = ({ commisionData }: props) => {
 
                             <td className="py-2 flex gap-3 sm:py-3 px-4">
                                 {product.image ? <img
-                                    src={`${process.env.NEXT_PUBLIC_BASE_URL}${product.image}`}
+                                    src={`${product.image}`}
                                     alt="img"
                                     className="w-12 h-12 bg-[#F5F5F5] rounded-md p-1 object-cover"
                                 /> :
