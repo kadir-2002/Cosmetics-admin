@@ -78,7 +78,7 @@ const TopCustomers = ({ commisionData }: Props) => {
                   onClick={() => router.push(`/customers?id=${customer?.id}`)}
                 >
                   <td className="py-2 px-4 text-[18px] text-left">
-                    {customer.name}
+                    {customer.name||"Guest"}
                   </td>
                   <td className="py-2 px-4 text-[18px] text-left">
                     {customer.total_spent}
@@ -96,7 +96,7 @@ const TopCustomers = ({ commisionData }: Props) => {
                 >
                   <td className="py-2 px-4 text-[18px] text-center">
                     <Link href={`/customers?id=${customer?.id}`}>
-                       {customer.name}
+                       {customer.name||"Guest"}
                     </Link>
                   </td>
                   <td className="py-2 px-4 text-md text-center">{customer.total_orders}</td>

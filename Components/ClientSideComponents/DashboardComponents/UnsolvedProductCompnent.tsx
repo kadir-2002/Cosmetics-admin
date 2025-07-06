@@ -52,7 +52,7 @@ const UnsolvedProductCompnent = ({ commisionData }: props) => {
                                     <p className="text-gray-500 text-xs">Category: {product?.category}</p>
                                 </div>
                             </td>
-                            <td className="py-3 text-center">{product?.sellingPrice}</td>
+                            <td className="py-3 text-center">{product?.selling_price}</td>
                             <td className="py-3 text-center">{product?.stock}</td>
                             {/* <td className="py-3 text-center text-green-500 font-semibold">
                                 {product?.category}
