@@ -46,7 +46,7 @@ const TopSellingProducts = ({ commisionData }: props) => {
                                     <div className="flex-shrink-0">
                                         <img
                                             src={product.image
-                                                ? `${process.env.NEXT_PUBLIC_BASE_URL}${product.image}`
+                                                ? `${product.image}`
                                                 : '/product.png'
                                             }
                                             alt={product.name || 'Product'}
@@ -66,7 +66,7 @@ const TopSellingProducts = ({ commisionData }: props) => {
 
                             <td className="py-2 sm:py-3 px-4 text-center">
                                 <span className="text-base sm:text-lg whitespace-nowrap">
-                                    {currency}{product?.unit_price}
+                                    {currency}{product?.sellingPrice}
                                 </span>
                             </td>
 

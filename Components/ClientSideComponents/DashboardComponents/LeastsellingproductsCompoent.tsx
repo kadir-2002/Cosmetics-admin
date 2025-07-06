@@ -62,7 +62,7 @@ const LeastsellingproductsCompoent = ({ commisionData }: props) => {
 
                             <td className="py-2 sm:py-3 px-3 sm:px-4 text-center">
                                 <span className="text-base sm:text-lg whitespace-nowrap">
-                                    {currency}{product?.unit_price}
+                                    {currency}{product?.sellingPrice}
                                 </span>
                             </td>
 

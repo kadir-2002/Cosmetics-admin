@@ -28,17 +28,17 @@ const RecentOrdersDataComponent = ({ commisionData }: Props) => {
                 key={index}
                 className={`text-center text-[18px] ${index % 2 === 0 ? "bg-gray-50" : "bg-white"
                   }`}
-                onClick={() => router.push(`/order?id=${order?.order_id}`)}
+                onClick={() => router.push(`/order?id=${order?.id}`)}
               >
                 <td className="px-4 py-5 text-md">
-                  {order?.order_id}
+                  {order?.id}
                 </td>
                 <td className="px-4 py-5 text-center">
                   <span className="px-py-5 font-medium">
-                    {order?.customer_first_name}
+                    {order?.customer_name || "Guest User"}
                   </span>
                 </td>
-                <td className="px-4 py-5 text-center">{currency}{order?.final_total}</td>
+                <td className="px-4 py-5 text-center">{currency}{order?.total_amount}</td>
 
                 <td className="px-4 py-5 text-center">{order?.item_count}</td>
               </tr>

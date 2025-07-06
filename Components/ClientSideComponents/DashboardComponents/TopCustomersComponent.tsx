@@ -4,18 +4,18 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
 type CustomerByOrders = {
-  customer__id: number;
-  customer__first_name: string;
-  customer__last_name: string;
+  id: number;
+  name: string;
+  // customer__last_name: string;
   total_orders: number; // Adjusted type if it's always a number
-  money_spent: number
+  total_spent: number
 };
 
 type CustomerBySpending = {
-  customer__id: number;
-  customer__first_name: string;
-  customer__last_name: string;
-  money_spent: number; // Adjusted type if it's always a number
+id: number;
+ name: string;
+  // customer__last_name: string;
+total_spent: number; // Adjusted type if it's always a number
   total_orders: number
 };
 
@@ -75,14 +75,13 @@ const TopCustomers = ({ commisionData }: Props) => {
                   key={index}
                   className={`${index % 2 === 0 ? "bg-gray-50" : ""
                     } hover:bg-purple-100 cursor-pointer`}
-                  onClick={() => router.push(`/customers?id=${customer?.customer__id}`)}
+                  onClick={() => router.push(`/customers?id=${customer?.id}`)}
                 >
                   <td className="py-2 px-4 text-[18px] text-left">
-                    {customer.customer__first_name} {customer.customer__last_name}
+                    {customer.name}
                   </td>
                   <td className="py-2 px-4 text-[18px] text-left">
-                    {currency}
-                    {customer.money_spent}
+                    {customer.total_spent}
                   </td>
                   <td className="py-2 px-4 text-md font-semibold text-center">
                     {customer.total_orders}
@@ -96,14 +95,14 @@ const TopCustomers = ({ commisionData }: Props) => {
                   className={`${index % 2 === 0 ? "bg-gray-50" : ""} hover:bg-gray-100`}
                 >
                   <td className="py-2 px-4 text-[18px] text-center">
-                    <Link href={`/customers?id=${customer?.customer__id}`}>
-                      {customer.customer__first_name} {customer.customer__last_name}
+                    <Link href={`/customers?id=${customer?.id}`}>
+                       {customer.name}
                     </Link>
                   </td>
                   <td className="py-2 px-4 text-md text-center">{customer.total_orders}</td>
 
                   <td className="py-2 px-4 text-md text-center">
-                    {currency}{customer.money_spent}
+                    {currency}{customer.total_spent}
                   </td>
                 </tr>
               ))}

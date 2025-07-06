@@ -28,7 +28,7 @@ const LowStockProductComonent = ({ commisionData }: props) => {
                             onClick={() => router.push(`/product?id=${product?.id}`)}>
                             <td className="py-3 px-4 flex items-center space-x-3">
                                 {product.image ? <img
-                                    src={`${process.env.NEXT_PUBLIC_BASE_URL}${product.image}`}
+                                    src={`${product.image}`}
                                     alt="img"
                                     className="w-12 h-12 bg-[#F5F5F5] rounded-md p-1 object-cover"
                                 /> :
@@ -44,7 +44,7 @@ const LowStockProductComonent = ({ commisionData }: props) => {
                                 </div>
                             </td>
 
-                            <td className="py-3 px-4 text-center w-[180px]">{currency}{product?.selling_price}</td>
+                            <td className="py-3 px-4 text-center w-[180px]">{currency}{product?.sellingPrice}</td>
                             <td className="py-3 px-4 text-center">{product?.stock}</td>
                             {/* <td className="py-3 text-center text-green-500 font-semibold">
                                 {product?.stock}
