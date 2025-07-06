@@ -838,8 +838,7 @@ const CategryFormComponent = () => {
                   className='p-4 flex gap-1 justify-center items-center'
                   onClick={() => setIsActiveInactiveFilterPopup(true)}
                 >
-                  {isfiltervalue === "" ? "Status" : isfiltervalue}{" "}
-                  <FaAngleDown className='text-admin-text-primary' />
+                 Status
                 </th>
                 <th className='p-3 text-center'>Sub-Category</th>
                 <th className='py-3 px-6'>Action</th>

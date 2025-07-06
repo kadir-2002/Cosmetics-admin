@@ -26,7 +26,7 @@ export const categryAllDataApi = async (params: {
     queryParams.append("isDeleted", params.filtervalue.toString());
   }
   const endpoint = `/category`;
-  const response = await apiCoreNode(endpoint, {}, "GET");
+  const response = await apiCoreNode(endpoint, {}, "GET",queryParams.toString());
   return response;
 };
 
