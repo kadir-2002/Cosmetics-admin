@@ -12,6 +12,7 @@ const LatestPaymentTransactions = ({ commisionData, startDate, endDate }: props)
     const currency = useSelector((state: any) => state?.user?.details?.currency_symbol);
     const router = useRouter();
 
+    console.log(commisionData,"payment data")
     const formatDate = (date: Date | null): string => {
         if (!date) return ""; // Return an empty string instead of null
         const year = date.getFullYear();
@@ -36,13 +37,13 @@ const LatestPaymentTransactions = ({ commisionData, startDate, endDate }: props)
                     <tbody>
                         {commisionData?.recent_payment_transactions?.map((transaction: any, index: number) => (
                             <tr key={index} className={`text-center text-[16px] ${index % 2 === 0 ? "bg-gray-50" : "bg-white"}`}
-                                onClick={() => router.push(`/order?id=${transaction?.order_id}`)}
+                                onClick={() => router.push(`/order?id=${transaction?.id}`)}
                             >
                                 <td className="px-4 py-2 text-left">
-                                    {transaction?.order_id}
+                                    {transaction?.id}
                                 </td>
 
-                                <td className="px-4 py-2 text-left">{transaction?.payment_datetime}</td>
+                                <td className="px-4 py-2 text-left">{transaction?.createdAt}</td>
                                 <td className="px-4 py-2 text-left">
                                     <span className="px-2  font-medium">{transaction?.customer_first_name}</span>
                                 </td>

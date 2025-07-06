@@ -42,7 +42,7 @@ const LeastsellingproductsCompoent = ({ commisionData }: props) => {
                                     <div className="flex-shrink-0">
                                         <img
                                             src={product.image
-                                                ? `${process.env.NEXT_PUBLIC_BASE_URL}${product.image}`
+                                                ? `${product.image}`
                                                 : '/product.png'
                                             }
                                             alt={product.name || 'Product'}
