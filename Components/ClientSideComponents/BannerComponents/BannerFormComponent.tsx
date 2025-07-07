@@ -168,10 +168,10 @@ const BannerFormComponent = () => {
     id: string;
     sequence_number: string;
     heading: string;
-    sub_heading: string;
+    subheading: string;
     banner: string;
-    button_text: string;
-    button_link: string;
+    buttonText: string;
+    buttonLink: string;
     description: string;
     image: string;
     mobile_banner:string,
@@ -185,12 +185,12 @@ const BannerFormComponent = () => {
       id: banner?.id,
       sequence_number: banner?.sequence_number,
       heading: banner?.heading,
-      sub_heading: banner?.sub_heading,
+      sub_heading: banner?.subheading,
       description: banner?.description,
       image: isfile,
       mobile_banner:"",
-      button: banner?.button_text,
-      button_link: banner?.button_link,
+      button: banner?.buttonText,
+      button_link: banner?.buttonLink,
       isActive: banner?.isActive,
     });
     setIsEdit(true);
