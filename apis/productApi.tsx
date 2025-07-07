@@ -21,9 +21,9 @@ export const productAllDataApi = async (params: {
   iscaegoryvalue: any;
 }) => {
   let endpoint;
-  if (params.id) {
-    endpoint = `/product/${params.id}/`;
-  } else {
+
+    endpoint = `/product/`;
+   
     const queryParams = new URLSearchParams({
       // page: params.current_page.toString(),
       // page_size: params.page_size.toString(),
@@ -31,7 +31,10 @@ export const productAllDataApi = async (params: {
     if (params.is_active !== undefined) {
       queryParams.append("is_active", params.is_active.toString());
     }
-
+     if (params.id !== undefined) {
+      queryParams.append("id", params.id.toString());
+    }
+     
     if (params.is_in_stock !== undefined) {
       queryParams.append("is_in_stock", params.is_in_stock.toString());
     }
@@ -52,7 +55,7 @@ export const productAllDataApi = async (params: {
     }
 
     endpoint = `/product/?parent=true&${queryParams.toString()}`;
-  }
+  
 
   const response = await apiCoreNode(endpoint, {}, "GET", params?.token);
   return response;
