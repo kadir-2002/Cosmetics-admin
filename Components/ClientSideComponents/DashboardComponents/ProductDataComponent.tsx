@@ -58,7 +58,7 @@ const ProductDataComponent = ({ commisionData }: props) => {
           </div>
         </Link>
       </div>
-      <div className="space-y-4">
+      {/* <div className="space-y-4">
         <Link className="flex items-center justify-between" href="/product?threshold=true">
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-gray-100 rounded-lg"><FaHourglassHalf className="text-yellow-500 text-xl" /></div>
@@ -68,7 +68,7 @@ const ProductDataComponent = ({ commisionData }: props) => {
             <span className="font-semiboald text-[18px]">{commisionData?.product_summary?.products_about_to_go_out_of_stock}</span>
           </div>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 };

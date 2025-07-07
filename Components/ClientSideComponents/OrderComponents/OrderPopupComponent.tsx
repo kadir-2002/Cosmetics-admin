@@ -26,10 +26,13 @@ type OrderItem = {
     name: string | null;
     SKU: string | null;
     image?: string | null;
-    category?: string | null;
+    // category?: string | null;
     specification?: string | null;
     variant: any | null;
     images: ProductImage[];
+    category:{
+      name:string;
+    };
   };
 };
 
@@ -50,13 +53,13 @@ const OrderPopup = ({
 
   const getStatusClass = (status: string) => {
     switch (status) {
-      case "Complete":
+      case "CONFIRMED":
         return "bg-[#34A864]";
-      case "Processing":
+      case "SHIPPED":
         return "bg-[#3485A8]";
-      case "Pending":
+      case "PENDING":
         return "bg-[#A8A434]";
-      case "Cancel":
+      case "CANCELLED":
         return "bg-[#A83434]";
       default:
         return "bg-[#ff7800]";
@@ -256,7 +259,7 @@ const OrderPopup = ({
     </td>
 
     <td className='border p-3 text-center'>
-      {item.product?.category || 'N/A'}
+      {item.product?.category?.name || 'N/A'}
     </td>
 
     <td className='border p-3 text-center'>

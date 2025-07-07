@@ -270,7 +270,7 @@ const isFromDashboard = !!(productIdString || status || is_stock)
         }
         const response = await productAllDataApi({
           threshold: isThreshold,
-          id: productId || 0,
+          id: productId,
           is_in_stock: isStock,
           is_active: isActive,
           search: searchText,
