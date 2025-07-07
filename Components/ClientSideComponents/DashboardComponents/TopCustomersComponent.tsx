@@ -74,7 +74,7 @@ const TopCustomers = ({ commisionData }: Props) => {
                 <tr
                   key={index}
                   className={`${index % 2 === 0 ? "bg-gray-50" : ""
-                    } hover:bg-purple-100 cursor-pointer`}
+                    } hover:bg-purple-100 `}
                  
                 >
                   <td className="py-2 px-4 text-[18px] text-left">

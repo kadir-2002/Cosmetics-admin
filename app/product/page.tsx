@@ -84,6 +84,8 @@ const Page: React.FC = () => {
   const productId = productIdString ? Number.parseInt(productIdString, 10) : undefined
   const threshold = searchParams.get("threshold") || ""
   const isThreshold = threshold === "true" ? true : threshold === "false" ? false : undefined
+const isFromDashboard = !!(productIdString || status || is_stock)
+
   const token = useSelector((state: any) => state?.user?.token)
   const dispatch = useDispatch()
   const router = useRouter()
@@ -331,44 +333,47 @@ const Page: React.FC = () => {
             setVariantSpecifications={setVariantSpecifications}
             setCurrentPage={setCurrentPage}
           />
-          <div className="flex gap-5 mb-7">
-            <div className="bg-admin-secondary px-2 rounded-md">
-              <select
-                name="Category"
-                className="p-3 rounded-md bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none overflow-y-auto"
-                value={filterCategory}
-                onChange={handleCategoryChange}
-                required
-              >
-                {categories.map((category: any) => (
-                  <option key={category.id} value={category.id} className="bg-white text-black">
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="bg-admin-secondary px-2 rounded-md">
-              <select
-                name="sub_catogry"
-                className="p-3 bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none"
-                value={filterSubCategory}
-                onChange={handleSubCategoryChange}
-                disabled={subCategories.length === 0}
-              >
-                {subCategories.length > 0 ? (
-                  subCategories.map((subCategory: any) => (
-                    <option key={subCategory.id} value={subCategory.id} className="bg-white text-black">
-                      {subCategory.name}
-                    </option>
-                  ))
-                ) : (
-                  <option value="" className="bg-white text-black">
-                    No subcategories
-                  </option>
-                )}
-              </select>
-            </div>
-          </div>
+       {!isFromDashboard && (
+  <div className="flex gap-5 mb-7">
+    <div className="bg-admin-secondary px-2 rounded-md">
+      <select
+        name="Category"
+        className="p-3 rounded-md bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none overflow-y-auto"
+        value={filterCategory}
+        onChange={handleCategoryChange}
+        required
+      >
+        {categories.map((category: any) => (
+          <option key={category.id} value={category.id} className="bg-white text-black">
+            {category.name}
+          </option>
+        ))}
+      </select>
+    </div>
+    <div className="bg-admin-secondary px-2 rounded-md">
+      <select
+        name="sub_catogry"
+        className="p-3 bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none"
+        value={filterSubCategory}
+        onChange={handleSubCategoryChange}
+        disabled={subCategories.length === 0}
+      >
+        {subCategories.length > 0 ? (
+          subCategories.map((subCategory: any) => (
+            <option key={subCategory.id} value={subCategory.id} className="bg-white text-black">
+              {subCategory.name}
+            </option>
+          ))
+        ) : (
+          <option value="" className="bg-white text-black">
+            No subcategories
+          </option>
+        )}
+      </select>
+    </div>
+  </div>
+)}
+
           <ProductAllDataComponent
             products={products}
             productdata={fetchProducts}
