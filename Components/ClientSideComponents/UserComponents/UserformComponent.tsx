@@ -871,7 +871,7 @@ const UserFormComponent = () => {
                 >
                   Role
                 </th>
-                <th className='p-3 text-end'>Phone Number</th>
+                {/* <th className='p-3 text-end'>Phone Number</th> */}
                 <th className='p-3 text-start'>Email</th>
                 <th
                   className='py-3 px-4 flex gap-1 justify-center items-center'
@@ -910,14 +910,14 @@ const UserFormComponent = () => {
                   <td className='p-3 capitalize text-start'>
                     {user?.category_name}
                   </td>
-                  <td className='p-3 text-end'>
+                  {/* <td className='p-3 text-end'>
                     {user?.phone_number ? (
                       <>
                         {user?.country_code_for_phone_number}
                         {user?.phone_number}
                       </>
                     ) : null}
-                  </td>
+                  </td> */}
                   <td className='p-3 text-start'>{user?.email}</td>
                   <td className='p-3 text-center'>
                     <div className='text-center'>

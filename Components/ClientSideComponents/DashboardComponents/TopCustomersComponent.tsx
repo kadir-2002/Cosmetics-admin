@@ -75,7 +75,7 @@ const TopCustomers = ({ commisionData }: Props) => {
                   key={index}
                   className={`${index % 2 === 0 ? "bg-gray-50" : ""
                     } hover:bg-purple-100 cursor-pointer`}
-                  onClick={() => router.push(`/customers?id=${customer?.id}`)}
+                 
                 >
                   <td className="py-2 px-4 text-[18px] text-left">
                     {customer.name||"Guest"}
@@ -95,9 +95,9 @@ const TopCustomers = ({ commisionData }: Props) => {
                   className={`${index % 2 === 0 ? "bg-gray-50" : ""} hover:bg-gray-100`}
                 >
                   <td className="py-2 px-4 text-[18px] text-center">
-                    <Link href={`/customers?id=${customer?.id}`}>
+                    {/* <Link href={`/customers?id=${customer?.id}`}> */}
                        {customer.name||"Guest"}
-                    </Link>
+                    {/* </Link> */}
                   </td>
                   <td className="py-2 px-4 text-md text-center">{customer.total_orders}</td>
 
