@@ -4,7 +4,7 @@ import { orderAllDataApi, orderUpdatedApi, } from "@/apis/orderAPi";
 import { GoSearch } from "react-icons/go";
 import { AiOutlineClose } from "react-icons/ai";
 import { IoEye } from "react-icons/io5";
-import OrderInfoComponent from "./OrderInfoComponent";
+import OrderInfoComponent, { formatIST } from "./OrderInfoComponent";
 import OrderPopup from "./OrderPopupComponent";
 import toast from "react-hot-toast";
 import { FaAngleDown } from "react-icons/fa6";
@@ -221,14 +221,16 @@ const OrderAllDataComponent = () => {
   };
   const getStatusClass = (status: string) => {
     switch (status) {
-      case "Complete":
+      case "CONFIRMED":
         return "bg-[#34A864]";
-      case "Processing":
+      case "SHIPPED":
         return "bg-[#3485A8]";
-      case "Pending":
+      case "PENDING":
         return "bg-[#A8A434]";
-      case "Cancel":
+      case "CANCELLED":
         return "bg-[#A83434]";
+         case "DELIVERED":
+        return "bg-[#ff7800]";
       default:
         return "bg-[#ff7800]";
     }
@@ -442,7 +444,7 @@ const handleEndDateChange = (date: Date | null) => {
                 orders.map((order, index) => (
                   <tr key={index} className="border-b-[1px] hover:bg-purple-100">
                     <td className="py-3 px-4 text-end">{order?.id}</td>
-                    <th className="py-3 px-4 text-end">{order?.createdAt}</th>
+                    <th className="py-3 px-4 text-end">{formatIST(order?.createdAt)}</th>
                     <td className="py-3 px-4 text-start">
                       {order?.address?.fullName || "N/A"}
                     </td>

@@ -131,7 +131,7 @@ const OrderPopup = ({
                 </button>
               </div>
               <div className='lg:px-6 m-2 px-3'>
-                <div className='lg:flex justify-between w-full border-[2px] lg:px-6 px-2 rounded-lg hidden'>
+                <div className='lg:flex justify-between w-full border-[2px] lg:px-6 px-2 rounded-lg hidden '>
                   {["Customer Details", "Order", "Order Summary"].map(
                     (item) => (
                       <div
@@ -160,9 +160,9 @@ const OrderPopup = ({
                 </div>
 
                 <div className='w-full border-2 px-2 mt-2 rounded-lg lg:hidden'>
-                  <div className='flex items-center gap-3 cursor-pointer py-3'>
+                  <div className='flex items-center gap-3 cursor-pointer py-3 '>
                     <select
-                      className='w-full bg-transparent text-lg font-semibold text-[#696AA2] py-2 border-none outline-none cursor-pointer'
+                      className='w-full bg-transparent text-lg font-semibold text-[#696AA2] py-2 border-none outline-none cursor-pointe'
                       value={selectedOption}
                       onChange={handleSelection}
                     >
@@ -193,11 +193,11 @@ const OrderPopup = ({
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Billing Address:</strong>{" "}
-                      {role?.customer_info?.billing_address}
+                      {role?.address.addressLine} {role?.address.city},{role?.address.state},{role?.address.pincode}
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Delivery Address:</strong>{" "}
-                      {role?.customer_info?.delivery_address}
+                      {role?.address.addressLine}{role?.address.city},{role?.address.state},{role?.address.pincode}
                     </p>
                   </div>
                 )}

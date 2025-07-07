@@ -10,6 +10,12 @@ interface LogoutPopupProps {
   setIsInfoPopup: (value: boolean) => void;
   setIsOpen: (value: boolean) => void;
 }
+// Define this function outside or in a utils file
+export const formatIST = (utcDateStr: string | undefined): string => {
+  if (!utcDateStr) return '';
+  return new Date(utcDateStr).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+};
+
 
 const OrderInfoComponent: React.FC<LogoutPopupProps> = ({
   role,
@@ -51,15 +57,15 @@ const OrderInfoComponent: React.FC<LogoutPopupProps> = ({
                     <div className="grid grid-cols-1">
                       <div className="flex gap-2 border-b-[1px] py-2">
                         <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Created At:</div>
-                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.order_info?.created_at}</div>
+                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]"> {formatIST(role?.createdAt)}</div>
                       </div>
                       <div className="flex gap-2 border-b-[1px] py-2">
                         <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Updated At:</div>
-                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.order_info?.updated_at}</div>
-                      </div> <div className="flex gap-2 border-b-[1px] py-2">
-                        <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Updated By:</div>
-                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.order_info?.updated_by}</div>
-                      </div>
+                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]"> {formatIST(role?.updatedAt)}</div>
+                      </div> 
+                        {/* <div  className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Updated By:</div> */}
+                        {/* <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.order_info?.updated_by}</div> */}
+                     
                     </div>
                   </div>
                 </div>

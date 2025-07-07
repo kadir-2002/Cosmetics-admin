@@ -26,7 +26,7 @@ const OrderSummary = ({ commisionData, startDate, endDate }: props) => {
         <p className="text-4xl font-bold text-gray-800">{commisionData?.order_summary?.total_orders}</p>
       </Link>
       <div className="space-y-">
-        <Link className="flex items-center justify-between" href={`/order?order_status=Complete&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
+        <Link className="flex items-center justify-between" href={`/order?order_status=CONFIRMED&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-[#01B8E1] rounded-lg"><FaBox className="text-white text-xl" /></div>
             <span className="font-semibold text-md text-[#01B8E1]">CONFIRMED</span>
@@ -37,7 +37,7 @@ const OrderSummary = ({ commisionData, startDate, endDate }: props) => {
         </Link>
       </div>
       <div className="space-y-4">
-        <Link className="flex items-center justify-between" href={`/order?order_status=Processing&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
+        <Link className="flex items-center justify-between" href={`/order?order_status=SHIPPED&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-[#E10101] rounded-lg"><FaHourglassHalf className="text-white text-xl" /></div>
             <span className="text-[#E10101] font-semibold text-md">SHIPPED</span>
@@ -48,7 +48,7 @@ const OrderSummary = ({ commisionData, startDate, endDate }: props) => {
         </Link>
       </div>
       <div className="space-y-4">
-        <Link className="flex items-center justify-between" href={`/order?order_status=Cancel&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
+        <Link className="flex items-center justify-between" href={`/order?order_status=CANCELLED&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-[#E1C001] rounded-lg"><FaTimesCircle className="text-white text-xl" /></div>
             <span className="text-[#E1C001] font-semibold text-md">CANCELLED</span>
@@ -59,7 +59,7 @@ const OrderSummary = ({ commisionData, startDate, endDate }: props) => {
         </Link>
       </div>
       <div className="space-y-4">
-        <Link className="flex items-center justify-between" href={`/order?order_status=Pending&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
+        <Link className="flex items-center justify-between" href={`/order?order_status=PENDING&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-[#E19301] rounded-lg"><MdPendingActions className="text-white text-xl" /></div>
             <span className="text-[#E19301] font-semibold text-md">PENDING</span>
@@ -70,7 +70,7 @@ const OrderSummary = ({ commisionData, startDate, endDate }: props) => {
         </Link>
       </div>
       <div className="space-y-4">
-        <Link className="flex items-center justify-between" href={`/order?order_status=Out for Delivery&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
+        <Link className="flex items-center justify-between" href={`/order?order_status=DELIVERED&start_date=${formattedStartDate}&end_date=${formattedEndDate}`}>
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-[#C0E101] rounded-lg"><TbTruckDelivery className="text-white text-xl" /></div>
             <span className="text-gray-700 font-semibold text-md">DELIVERED</span>
