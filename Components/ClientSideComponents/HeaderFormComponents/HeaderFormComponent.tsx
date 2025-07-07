@@ -105,7 +105,7 @@ const HeaderFormComponent = () => {
           token
         );
         if (response?.body?.data?.success === false) {
-          toast.error(response?.body?.data?.message);
+          toast.error(response?.body?.message);
         } else if (response?.status === 201) {
           toast.success("Created successfully!");
           fetchHeaderData();

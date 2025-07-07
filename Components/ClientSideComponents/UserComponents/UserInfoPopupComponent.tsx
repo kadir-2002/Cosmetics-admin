@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { RxCross2 } from "react-icons/rx";
+import { formatIST } from "../OrderComponents/OrderInfoComponent";
 
 interface LogoutPopupProps {
   user: any;
@@ -137,7 +138,9 @@ const UserInfoPopupComponent: React.FC<LogoutPopupProps> = ({
                           </div>
                         </div>
                       ) : null}
-                      <div className='flex border-b-[1px] py-2'>
+                      {
+                        user?.created_by?(
+                             <div className='flex border-b-[1px] py-2'>
                         <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
                           Created By:
                         </div>
@@ -145,6 +148,9 @@ const UserInfoPopupComponent: React.FC<LogoutPopupProps> = ({
                           {user?.created_by}
                         </div>
                       </div>
+                        ):null
+                      }
+                     
                       {user?.date_joined ? (
                         <div className='flex gap-2 border-b-[1px] py-2'>
                           <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
@@ -165,30 +171,30 @@ const UserInfoPopupComponent: React.FC<LogoutPopupProps> = ({
                           </div>
                         </div>
                       ) : null}
-                      {user?.created_at ? (
+                      {user?.createdAt ? (
                         <div className='flex border-b-[1px] py-2'>
                           <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
                             Created At:
                           </div>
                           <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
-                            {user?.created_at}
+                            {formatIST(user?.createdAt)}
                           </div>
                         </div>
                       ) : null}
-                      <div className='flex border-b-[1px] py-2'>
+                      {/* <div className='flex border-b-[1px] py-2'>
                         <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
                           Updated By:
                         </div>
                         <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
                           {user?.updated_by}
                         </div>
-                      </div>
+                      </div> */}
                       <div className='flex  border-b-[1px] py-2'>
                         <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
                           Updated At:
                         </div>
                         <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
-                          {user?.updated_at}
+                          {formatIST(user?.updatedAt)}
                         </div>
                       </div>
                     </div>
