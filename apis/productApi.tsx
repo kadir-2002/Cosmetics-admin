@@ -18,7 +18,7 @@ export const productAllDataApi = async (params: {
   token: string;
   ordering: string;
   filterValue: any;
-  iscaegoryvalue: any;
+  iscaegoryvalue?: any;
 }) => {
   let endpoint;
 

@@ -277,7 +277,7 @@ const isFromDashboard = !!(productIdString || status || is_stock)
           token: token,
           ordering: ordering,
           filterValue: isActivefilter,
-          iscaegoryvalue: categoryIdToUse,
+          ...(isFromDashboard ? {} : { iscaegoryvalue: categoryIdToUse }),
         })
         if (response?.body?.products) {
           setProducts(response?.body?.products)
