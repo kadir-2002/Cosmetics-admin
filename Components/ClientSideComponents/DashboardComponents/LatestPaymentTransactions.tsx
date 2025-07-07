@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { formatIST } from "../OrderComponents/OrderInfoComponent";
 
 type props = {
     commisionData: any
@@ -43,7 +44,7 @@ const LatestPaymentTransactions = ({ commisionData, startDate, endDate }: props)
                                     {transaction?.id}
                                 </td>
 
-                                <td className="px-4 py-2 text-left">{transaction?.createdAt}</td>
+                                <td className="px-4 py-2 text-left">{formatIST(transaction?.createdAt)}</td>
                                 {/* <td className="px-4 py-2 text-left">
                                     <span className="px-2  font-medium">{transaction?.customer_first_name}</span>
                                 </td> */}

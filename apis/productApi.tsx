@@ -28,9 +28,7 @@ export const productAllDataApi = async (params: {
       // page: params.current_page.toString(),
       // page_size: params.page_size.toString(),
     });
-    if (params.is_active !== undefined) {
-      queryParams.append("is_active", params.is_active.toString());
-    }
+   
      if (params.id !== undefined) {
       queryParams.append("id", params.id.toString());
     }
