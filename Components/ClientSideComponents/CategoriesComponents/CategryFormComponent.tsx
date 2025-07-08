@@ -521,7 +521,8 @@ const CategryFormComponent = () => {
                 Enter Sequence Number
               </label>
             </div>
-            <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
+            {/* title */}
+            {/* <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
               <MdCategory color='#A5B7C0' size={26} />
               <input
                 type='text'
@@ -563,7 +564,7 @@ const CategryFormComponent = () => {
               >
                 Enter Sub Heading
               </label>
-            </div>
+            </div> */}
             <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
               <MdCategory color='#A5B7C0' size={26} />
               <input
@@ -586,7 +587,7 @@ const CategryFormComponent = () => {
                 Enter Category
               </label>
             </div>
-            <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
+            {/* <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
               <BiSolidCategory color='#A5B7C0' size={26} />
               <input
                 type='text'
@@ -605,12 +606,12 @@ const CategryFormComponent = () => {
                 className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'>
                 Enter Description
               </label>
-            </div>
+            </div> */}
             <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
 
             </div>
-            <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
+            {/* <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
               <input
                 type='text'
@@ -672,7 +673,7 @@ const CategryFormComponent = () => {
               >
                 Minimum Order Quantity
               </label>
-            </div>
+            </div> */}
             <div className='flex items-center  justify-between gap-3 bg-[#F3F3F3] rounded-lg h-12 px-4 w-full '>
               <label className='text-sm text-[#577C8E]'>Is Active?</label>
               <div className='switch'>
