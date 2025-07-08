@@ -228,7 +228,7 @@ const GallerytypeComponent = () => {
                 htmlFor='tag'
                 className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
               >
-                Enter Galery Type
+                Enter Gallery Type
               </label>
             </div>
             <div className='flex justify-center items-center gap-6'>

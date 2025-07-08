@@ -466,7 +466,7 @@ const BannerFormComponent = () => {
                 htmlFor='tag'
                 className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
               >
-                Enter description
+                Enter Description
               </label>
             </div>
             <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm  mt-3'>
