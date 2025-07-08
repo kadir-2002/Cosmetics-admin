@@ -104,8 +104,9 @@ const HeaderFormComponent = () => {
           created_by,
           token
         );
-        if (response?.body?.success === false) {
-          toast.error(response?.body?.message);
+        console.log(response,"heder response")
+        if (response?.body?.message === "This sequence number already exists") {
+          toast.error("This sequence number already exists");
         } else if (response?.status === 201) {
           toast.success("Created successfully!");
           fetchHeaderData();
