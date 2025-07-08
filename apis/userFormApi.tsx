@@ -59,9 +59,9 @@ export const userAllDataApi = async (params: { search?: string; category?: any; 
     queryParams.append("is_active", params.is_active.toString());
   }
 
-  if (params.isActiveInactive !== undefined) {
-    queryParams.append("is_active", params.isActiveInactive.toString());
-  }
+  // if (params.isActiveInactive !== undefined) {
+  //   queryParams.append("is_active", params.isActiveInactive.toString());
+  // }
 
   if (params.ordering) {
     queryParams.append("ordering", params.ordering);
