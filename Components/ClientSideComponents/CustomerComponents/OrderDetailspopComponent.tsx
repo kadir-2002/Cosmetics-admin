@@ -10,10 +10,12 @@ type OrderItem = {
   SKU?: string;
   selling_price?: number;
   specification?: string;
+   price:number;
   variant?: {
     name?: string;
     SKU?: string;
     selling_price?: number;
+   
   };
 };
 
@@ -96,9 +98,12 @@ const OrderDetailsPopup = ({
                   {selectedOrder?.items?.map((data: any, index: number) => (
                     <div key={index} className="border-b-[1px] p-4">
                       <div className="flex justify-between items-center">
+                        <div className="flex gap-2">
+                        <p>Product:</p>
                         <h3 className="text-lg">
-                          {index + 1}) {data?.variant?.name || data?.product?.name || "Unnamed Product"}
+                          {data?.variant?.name || data?.product?.name || "Unnamed Product"}
                         </h3>
+                        </div>
                         <div className="flex gap-2">
                           <p>Quantity:</p>
                           <p>{data.quantity}</p>
@@ -112,7 +117,7 @@ const OrderDetailsPopup = ({
                         </div>
                         <div className="flex gap-2">
                           <p>Price {currency}</p>
-                          <p>{data?.product?.selling_price || data?.variant?.selling_price || "NA"}</p>
+                          <p>{Number(data?.product?.sellingPrice).toFixed(2)|| Number(data?.variant?.sellingPrice).toFixed(2) || "NA"}</p>
                         </div>
                       </div>
 
@@ -142,7 +147,7 @@ const OrderDetailsPopup = ({
                   <p>Sub Total:</p>{" "}
                   <p>
                     {currency}
-                    {selectedOrder?.order_info?.sub_total ?? "0.00"}
+                    {(Number(selectedOrder?.items[0]?.price) * Number(selectedOrder?.items[0]?.quantity)).toFixed(2) ||"0.00"}
                   </p>
                 </div>
                 {selectedOrder?.order_info?.tax ? (
@@ -202,7 +207,7 @@ const OrderDetailsPopup = ({
                   <p>
                     {currency}
                     {selectedOrder?.totalAmount != null
-                      ? Number(selectedOrder.totalAmount)
+                      ? Number(selectedOrder.totalAmount).toFixed(2)
                       : "0"}
                   </p>
                 </div>

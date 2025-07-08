@@ -165,7 +165,7 @@ const OrderPopup = ({
                 <div className='w-full border-2 px-2 mt-2 rounded-lg lg:hidden'>
                   <div className='flex items-center gap-3 cursor-pointer py-3 '>
                     <select
-                      className='w-full bg-transparent text-lg font-semibold text-[#696AA2] py-2 border-none outline-none cursor-pointe'
+                      className='w-full bg-transparent text-lg font-semibold text-[#2e30ac] underline py-2 border-none outline-none cursor-pointe'
                       value={selectedOption}
                       onChange={handleSelection}
                     >

@@ -124,8 +124,8 @@ const CustomerFormComponent = () => {
     isActiveInactiveValue === "Active"
       ? true
       : isActiveInactiveValue === "Inactive"
-      ? false
-      : undefined;
+        ? false
+        : undefined;
 
   const fetchCustomer = async () => {
     try {
@@ -371,52 +371,41 @@ const CustomerFormComponent = () => {
                   </button>
                 )}
               </div>
-              {status ? null: <>
-                  <div className='flex w-full lg:justify-start justify-center items-center flex-row mt-6 gap-3'>
-                    <div className='flex lg:flex-row justify-center items-center flex-col gap-2 '>
-                      <p className='text-lg'>Start Date :</p>
-                      <div className='relative border-[1px] rounded-md'>
-                        <DatePicker
-                          selected={startDate}
-                          onChange={handleStartDateChange}
-                          placeholderText='Start Date'
-                          className='text-lg lg:w-[140px] w-[150px] text-black p-2 h-10 bg-white text-right px-3 rounded-md focus:outline-none'
-                          popperClassName='custom-popper'
-                          popperPlacement='bottom-start'
-                        />
-                        <div className='absolute left-2 top-[49%] transform -translate-y-1/2 text-black'>
-                          <CiCalendar size={22} className='text-black' />
-                        </div>
+              {status ? null : <>
+                <div className='flex w-full lg:justify-start justify-center items-center flex-row mt-6 gap-3'>
+                  <div className='flex lg:flex-row justify-center items-center flex-col gap-2 '>
+                    <p className='text-lg'>Start Date :</p>
+                    <div className='relative border-[1px] rounded-md'>
+                      <DatePicker
+                        selected={startDate}
+                        onChange={handleStartDateChange}
+                        placeholderText='Start Date'
+                        className='text-lg lg:w-[140px] w-[150px] text-black p-2 h-10 bg-white text-right px-3 rounded-md focus:outline-none'
+                        popperClassName='custom-popper'
+                        popperPlacement='bottom-start'
+                      />
+                      <div className='absolute left-2 top-[49%] transform -translate-y-1/2 text-black'>
+                        <CiCalendar size={22} className='text-black' />
                       </div>
-                    </div>
-                    <div className='flex  lg:flex-row flex-col justify-center items-center rounded-md gap-2'>
-                      <p className='text-lg'>End Date :</p>
-                      <div className='relative border-[1px] rounded-md'>
-                        <DatePicker
-                          selected={endDate}
-                          onChange={handleEndDateChange}
-                          placeholderText='End Date'
-                          className='text-lg lg:w-[140px] w-[150px]  text-black p-2 h-10 bg-white text-right px-3 rounded-md focus:outline-none'
-                          popperClassName='custom-popper'
-                          popperPlacement='bottom-start'
-                        />
-                        <div className='absolute left-2 top-[49%] transform -translate-y-1/2 text-black'>
-                          <CiCalendar size={22} className='text-black' />
-                        </div>
-                      </div>
-                    </div>
-                    <div className='lg:flex hidden justify-center items-center'>
-                      {!(isToday(startDate) && isToday(endDate)) && (
-                        <button
-                          onClick={handleClear}
-                          className='px-4 py-2 w-[120px] bg-admin-buttonprimary text-white rounded-md'
-                        >
-                          Clear
-                        </button>
-                      )}
                     </div>
                   </div>
-                  <div className='flex lg:hidden justify-center items-center mt-3'>
+                  <div className='flex  lg:flex-row flex-col justify-center items-center rounded-md gap-2'>
+                    <p className='text-lg'>End Date :</p>
+                    <div className='relative border-[1px] rounded-md'>
+                      <DatePicker
+                        selected={endDate}
+                        onChange={handleEndDateChange}
+                        placeholderText='End Date'
+                        className='text-lg lg:w-[140px] w-[150px]  text-black p-2 h-10 bg-white text-right px-3 rounded-md focus:outline-none'
+                        popperClassName='custom-popper'
+                        popperPlacement='bottom-start'
+                      />
+                      <div className='absolute left-2 top-[49%] transform -translate-y-1/2 text-black'>
+                        <CiCalendar size={22} className='text-black' />
+                      </div>
+                    </div>
+                  </div>
+                  <div className='lg:flex hidden justify-center items-center'>
                     {!(isToday(startDate) && isToday(endDate)) && (
                       <button
                         onClick={handleClear}
@@ -426,7 +415,18 @@ const CustomerFormComponent = () => {
                       </button>
                     )}
                   </div>
-                </>}
+                </div>
+                <div className='flex lg:hidden justify-center items-center mt-3'>
+                  {!(isToday(startDate) && isToday(endDate)) && (
+                    <button
+                      onClick={handleClear}
+                      className='px-4 py-2 w-[120px] bg-admin-buttonprimary text-white rounded-md'
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+              </>}
             </div>
           </div>
           <div className='bg-white shadow-md rounded-lg w-full flex justify-center items-center mt-6 hidescroll'>
@@ -436,29 +436,26 @@ const CustomerFormComponent = () => {
                   <tr>
                     <th className='p-3 text-left w-[14%]'>Profile</th>
                     <th
-                      className={`w-[14%] p-3 text-center cursor-pointer transition-colors duration-200 ${
-                        ordering === "first_name" || ordering === "-first_name"
+                      className={`w-[14%] p-3 text-center cursor-pointer transition-colors duration-200 ${ordering === "first_name" || ordering === "-first_name"
                           ? "text-admin-text-primary "
                           : "text-admin-text-primary "
-                      }`}
+                        }`}
                       onClick={() => handleOrdering("first_name")}
                     >
                       <div className='flex items-center justify-start space-x-0'>
                         <span className=''>Name</span>
                         <span className='flex flex-col leading-none'>
                           <MdArrowDropUp
-                            className={`w-7 h-8 transform -mb-1 ${
-                              ordering === "first_name"
+                            className={`w-7 h-8 transform -mb-1 ${ordering === "first_name"
                                 ? "text-admin-text-primary "
                                 : "text-admin-text-primary "
-                            }`}
+                              }`}
                           />
                           <IoMdArrowDropdown
-                            className={`w-7 h-7 transform -mt-3 ${
-                              ordering === "-first_name"
+                            className={`w-7 h-7 transform -mt-3 ${ordering === "-first_name"
                                 ? "text-admin-text-primary "
                                 : "text-admin-text-primary "
-                            }`}
+                              }`}
                           />
                         </span>
                       </div>
@@ -490,7 +487,7 @@ const CustomerFormComponent = () => {
                   {users?.map((user: any, index: any) => (
                     <tr key={index} className='border-b hover:bg-purple-100'>
                       <td className='p-3 text-center flex justify-start items-center'>
-                        {user?.profile? (
+                        {user?.profile ? (
                           <>
                             <img
                               src={`${user?.profile.imageUrl}`}
@@ -518,7 +515,9 @@ const CustomerFormComponent = () => {
                           <>{user?.phone_number}</>
                         )}
                       </td> */}
-                      <td className='p-3 text-left '>{user?.is_guest ? "Yes":"No"}</td>
+                      <td className='p-3 text-left'>
+                        {user ? (user.isGuest ? "Yes" : "No") : "-"}
+                      </td>
                       {/* <td className='p-3 text-center'>
                         <div className='flex flex-col items-center'>
                           <Switch
