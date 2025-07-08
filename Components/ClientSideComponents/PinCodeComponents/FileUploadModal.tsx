@@ -65,7 +65,7 @@ const CSVActionPopup: React.FC<Props> = ({
           >
             Submit
           </button>
-          
+
           {selectFiledownload ? (
             <a
               href={`${process.env.NEXT_PUBLIC_BASE_URL}${selectFiledownload}`}
@@ -80,7 +80,7 @@ const CSVActionPopup: React.FC<Props> = ({
               download="Pincode.csv"
               className="bg-gray-700 text-white text-center py-2 rounded hover:bg-gray-800"
             >
-              Download Format File
+              Download File Format
             </a>
           )}
 

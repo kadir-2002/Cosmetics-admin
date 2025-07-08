@@ -277,7 +277,7 @@ const isFromDashboard = !!(productIdString || status || is_stock)
           token: token,
           ordering: ordering,
           filterValue: isActivefilter,
-          ...(isFromDashboard ? {} : { iscaegoryvalue: categoryIdToUse }),
+          ...(isFromDashboard || searchText ? {} : { iscaegoryvalue: categoryIdToUse }),
         })
         if (response?.body?.products) {
           setProducts(response?.body?.products)
@@ -333,7 +333,7 @@ const isFromDashboard = !!(productIdString || status || is_stock)
             setVariantSpecifications={setVariantSpecifications}
             setCurrentPage={setCurrentPage}
           />
-       {!isFromDashboard && (
+       {!isFromDashboard && searchText === "" && (
   <div className="flex gap-5 mb-7">
     <div className="bg-admin-secondary px-2 rounded-md">
       <select
