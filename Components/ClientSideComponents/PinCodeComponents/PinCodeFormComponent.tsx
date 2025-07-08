@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { TbEdit } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
 import { RiArticleFill } from "react-icons/ri";
+import { FiUpload, FiDownload, FiFile, FiX } from "react-icons/fi";
 import { FaAngleDown } from "react-icons/fa6";
 import { Switch } from "@headlessui/react";
 import "react-phone-number-input/style.css";
@@ -25,6 +26,8 @@ import { GoSearch } from "react-icons/go";
 import { AiOutlineClose } from "react-icons/ai";
 import DeletePincodeComponent from "./DeletePincodeComponent";
 import { storeCSVUploADApi } from "@/apis/storeaddresApi";
+import FileUploadModal from "./FileUploadModal";
+import CSVActionPopup from "./FileUploadModal";
 
 type data = {
   id: string;
@@ -63,6 +66,8 @@ const PinCodeFormComponent = () => {
   const token = useSelector((state: any) => state?.user?.token);
   const dispatch = useDispatch();
   const router = useRouter();
+  const [isCsvPopupOpen, setIsCsvPopupOpen] = useState(false);
+
 
   const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -335,6 +340,7 @@ const PinCodeFormComponent = () => {
           fetchPincode()
           setfile(null);
           setSelectedFileName("");
+          setIsCsvPopupOpen(false)
           setFileDownload('')
            if (fileInputRef.current) {
                       fileInputRef.current.value = ''; 
@@ -388,18 +394,40 @@ const PinCodeFormComponent = () => {
           )}
         </div>
       </div>
+<div className="flex justify-end w-full px-1 mb-4">
+  <button
+    onClick={() => setIsCsvPopupOpen(true)}
+    className="bg-[#213E5A] text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:bg-[#1a2f45] transition-all flex items-center gap-2"
+  >
+    <FiUpload />
+    CSV Actions
+  </button>
+</div>
+{isCsvPopupOpen && (
+  <CSVActionPopup
+    onClose={() => setIsCsvPopupOpen(false)}
+    selectedFileName={selectedFileName}
+    handleFileChange={handleFileChange}
+    handleCsvFileUpload={handleCsvFileUpload}
+    fileInputRef={fileInputRef}
+    selectFiledownload={selectFiledownload}
+  />
+)}
+
+
+{/* 
          <div className='flex lg:flex-row flex-col lg:justify-end justify-center gap-3 w-full px-1'>
         {selectFiledownload?  <a href={`${process.env.NEXT_PUBLIC_BASE_URL}${selectFiledownload}`} download="StoreAddress.xlsx" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-red-800 rounded-md cursor-pointer'>
           <button className='font-semibold text-lg'>
             Error File Download
           </button>
         </a>:
-        <a href={`/Pincode.csv`}   download="Pincode.csv" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-purple-900 rounded-md cursor-pointer'>
+        <a href={`/Pincode.csv`}   download="Pincode.csv" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#213E5A] rounded-md cursor-pointer'>
           <button className='font-semibold text-lg'>
             Download File Format
           </button>
         </a>}
-        <div className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-purple-900 rounded-md cursor-pointer'>
+        <div className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#213E5A] rounded-md cursor-pointer'>
           <p className='font-semibold text-lg px-4'>Upload CSV</p>
           <input
             type='file'
@@ -416,14 +444,14 @@ const PinCodeFormComponent = () => {
             </p>
           )}
         </div>
-        <div className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-purple-900 rounded-md cursor-pointer'>
+        <div className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#213E5A] rounded-md cursor-pointer'>
           <button
             className='font-semibold text-lg'
             onClick={handleCsvFileUpload}>
             Submit
           </button>
         </div>
-      </div>
+      </div> */}
       {openForm && (
         <form
           onSubmit={handleCreateOrUpdate}
