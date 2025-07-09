@@ -867,7 +867,7 @@ const UserFormComponent = () => {
                 /></th> */}
                 <th
                   className='p-4 flex gap-1 justify-start items-center'
-                  onClick={() => SetIsOpenRoleFilterPopup(true)}
+                 
                 >
                   Role
                 </th>

@@ -158,9 +158,9 @@ const CategryFormComponent = () => {
           token
         );
         if (
-          response?.error === "Product category with this name already exists"
+          response?.message === "Sequence number already exists"
         ) {
-          toast.error("Category already exists");
+          toast.error("Sequence Number already exists");
         } else if (response?.status === 201) {
           toast.success("Category created successfully");
           fetchCategory();

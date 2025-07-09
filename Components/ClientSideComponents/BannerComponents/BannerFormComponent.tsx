@@ -437,7 +437,7 @@ const BannerFormComponent = () => {
                     sub_heading: e.target.value,
                   }))
                 }
-                // placeholder="Enter description"
+               required
                 className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
               />
               <label
@@ -481,6 +481,7 @@ const BannerFormComponent = () => {
                     button: e.target.value,
                   }))
                 }
+                required
                 // placeholder="Enter description"
                 className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
               />
@@ -502,7 +503,9 @@ const BannerFormComponent = () => {
                     ...prev,
                     button_link: e.target.value,
                   }))
+                 
                 }
+                 required
                 // placeholder="Enter description"
                 className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
               />
