@@ -110,7 +110,7 @@ const GalleryFormComponent = () => {
           is_active,
           token
         );
-        if (response?.error === "This sequence number already exists") {
+        if (response?.message === "This sequence number already exists") {
           toast.error("This sequence number already exists");
         } else if (response?.status === 201) {
           toast.success("Image created successfully!");

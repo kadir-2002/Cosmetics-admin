@@ -125,7 +125,7 @@ const WhyChooseUsFormComponent = () => {
           created_by,
           token
         );
-        if (response?.error === "This sequence number already exists") {
+        if (response?.message === "Sequence number already used.") {
           toast.error("This sequence number already exists");
         } else if (response?.status === 201) {
           toast.success("Why Choose Us created successfully!");
