@@ -7,7 +7,7 @@ export const apiCores = async (
   const data = JSON.stringify(requestBody);
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}${endpoint}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, {
       method: method,
       headers: {
         "Content-Type": "application/json",

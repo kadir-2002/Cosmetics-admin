@@ -43,8 +43,8 @@ const LoginFormComponent = () => {
             userId: response,
           })
         );
-      } else if (response?.data?.message === "Invasslid login credentials") {
-        toast.error("User is deactivated Please contact support");
+      } else if (response?.data?.message === "Invalid credentials") {
+        toast.error("Invalid login credentials");
       } else if (response?.data?.message === "User not found") {
         toast.error("User is deleated Please contact support");
       } else if (response?.data?.message === "User not active") {
@@ -77,9 +77,9 @@ const LoginFormComponent = () => {
     setLoading(true);
     try {
       const response = await otpSendApi(username);
-      if (response?.data?.message === "User not found") {
-        toast.error("Enter correct Email ID");
-      } else if (response?.data?.message === "User not active") {
+      if (response?.body?.message === "User not found") {
+        toast.error("User not found");
+      } else if (response?.body?.message === "User not active") {
         toast.error("User is deactivated Please contact support");
       } else {
         toast.success("OTP sent successfully!");
@@ -301,7 +301,7 @@ const LoginFormComponent = () => {
                   <button
                     type='submit'
                     disabled={loading}
-                    className='w-full p-4 bg-admin-primary text-white rounded-lg hover:bg-white border-[2px] border-[#EA5C06] hover:text-[#EA5C06] disabled:opacity-50 lg:text-2xl text-xl font-semibold shadow-md'
+                    className='w-full p-4 bg-admin-primary text-white rounded-lg hover:bg-white border-[2px] border-[#213E5A] hover:text-[#213E5A] disabled:opacity-50 lg:text-2xl text-xl font-semibold shadow-md'
                   >
                     {loading ? "Logging in..." : "LOGIN"}
                   </button>

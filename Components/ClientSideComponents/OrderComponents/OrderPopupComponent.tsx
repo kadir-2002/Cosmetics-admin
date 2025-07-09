@@ -19,8 +19,8 @@ type OrderItem = {
   orderId: number | null;
   productId: number | null;
   variantId: number | null;
-  quantity: number ;
-  price: number ;
+  quantity: number;
+  price: number;
   product: {
     id: number | null;
     name: string | null;
@@ -30,8 +30,8 @@ type OrderItem = {
     specification?: string | null;
     variant: any | null;
     images: ProductImage[];
-    category:{
-      name:string;
+    category: {
+      name: string;
     };
   };
 };
@@ -143,19 +143,17 @@ const OrderPopup = ({
                         onClick={() => toggleDrawer(item)}
                       >
                         <h3
-                          className={`lg:text-xl text-lg font-semibold py-2 transition-colors ${
-                            activeDrawer === item
+                          className={`lg:text-xl text-lg font-semibold py-2 transition-colors ${activeDrawer === item
                               ? "text-gray-500"
                               : "text-[#696AA2]"
-                          }`}
+                            }`}
                         >
                           {item}
                         </h3>
                         <FaCircleArrowDown
                           size={25}
-                          className={`transition-transform ${
-                            activeDrawer === item ? "rotate-180" : "rotate-0"
-                          }`}
+                          className={`transition-transform ${activeDrawer === item ? "rotate-180" : "rotate-0"
+                            }`}
                         />
                       </div>
                     )
@@ -200,7 +198,7 @@ const OrderPopup = ({
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Delivery Address:</strong>{" "}
-                      {role?.address.addressLine}{role?.address.city},{role?.address.state},{role?.address.pincode}
+                      {role?.address.addressLine} {role?.address.city},{role?.address.state},{role?.address.pincode}
                     </p>
                   </div>
                 )}
@@ -220,63 +218,63 @@ const OrderPopup = ({
                         </tr>
                       </thead>
                       <tbody className='bg-white'>
-                     {role?.items?.map((item: OrderItem, index: number) => (
-  <tr
-    key={index}
-    className='border cursor-pointer hover:bg-purple-100 text-gray-700'
-    onClick={() =>
-      router.push(`/product?id=${item.product?.id}`)
-    }
-  >
-    <td className='border p-3 text-center'>{index + 1}</td>
+                        {role?.items?.map((item: OrderItem, index: number) => (
+                          <tr
+                            key={index}
+                            className='border cursor-pointer hover:bg-purple-100 text-gray-700'
+                            onClick={() =>
+                              router.push(`/product?id=${item.product?.id}`)
+                            }
+                          >
+                            <td className='border p-3 text-center'>{index + 1}</td>
 
-    <td className='border p-3'>
-     {item?.product?.images?.[0]?.image ? (
-    <img
-      src={item.product.images[0].image}
-      alt='Product'
-      className='w-16 h-16 object-cover rounded'
-    />
-      ) : (
-        <div className='h-12 w-12 bg-gray-200 flex items-center justify-center rounded-full'>
-          <img
-            src='/product.png'
-            alt='Default'
-            className='lg:h-16 lg:w-16 h-12 w-12 object-contain p-2 rounded-full'
-          />
-        </div>
-      )}
-    </td>
+                            <td className='border p-3'>
+                              {item?.product?.images?.[0]?.image ? (
+                                <img
+                                  src={item.product.images[0].image}
+                                  alt='Product'
+                                  className='w-16 h-16 object-cover rounded'
+                                />
+                              ) : (
+                                <div className='h-12 w-12 bg-gray-200 flex items-center justify-center rounded-full'>
+                                  <img
+                                    src='/product.png'
+                                    alt='Default'
+                                    className='lg:h-16 lg:w-16 h-12 w-12 object-contain p-2 rounded-full'
+                                  />
+                                </div>
+                              )}
+                            </td>
 
-    <td className='border p-3 text-center'>
-      {item.product?.SKU || 'N/A'}
-    </td>
+                            <td className='border p-3 text-center'>
+                              {item.product?.SKU || 'N/A'}
+                            </td>
 
-    <td className='border p-3'>
-      <span className='text-blue-600 font-semibold'>
-        {item.product?.name || 'N/A'}
-      </span>
-    </td>
+                            <td className='border p-3'>
+                              <span className='text-blue-600 font-semibold'>
+                                {item.product?.name || 'N/A'}
+                              </span>
+                            </td>
 
-    <td className='border p-3 text-center'>
-      {item.product?.category?.name || 'N/A'}
-    </td>
+                            <td className='border p-3 text-center'>
+                              {item.product?.category?.name || 'N/A'}
+                            </td>
 
-    <td className='border p-3 text-center'>
-      {currency}
-      {item?.price || 'N/A'}
-    </td>
+                            <td className='border p-3 text-center'>
+                              {currency}
+                              {item?.price || 'N/A'}
+                            </td>
 
-    <td className='border p-3 text-center'>
-      {item?.quantity || 'N/A'}
-    </td>
+                            <td className='border p-3 text-center'>
+                              {item?.quantity || 'N/A'}
+                            </td>
 
-    <td className='border p-3 text-center'>
-      {currency}
-      {(item.price * item.quantity).toFixed(2)} 
-    </td>
-  </tr>
-))}
+                            <td className='border p-3 text-center'>
+                              {currency}
+                              {(item.price * item.quantity).toFixed(2)}
+                            </td>
+                          </tr>
+                        ))}
 
                       </tbody>
                     </table>
@@ -290,7 +288,7 @@ const OrderPopup = ({
                     </div>
                     <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                       <p>Total Price:</p>
-                      <p>{role?.totalAmount|| "N/A"}</p>
+                      <p>{role?.totalAmount || "N/A"}</p>
                     </div>
 
                     {role?.order_info?.delivery_charge === 0 ? null : (
@@ -316,7 +314,7 @@ const OrderPopup = ({
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Coupon Discount:</p>
                         <p>
-                          &#8377;{role?.discountAmount || "N/A"}  
+                          &#8377;{role?.discountAmount || "N/A"}
                         </p>
                       </div>
                     )}
