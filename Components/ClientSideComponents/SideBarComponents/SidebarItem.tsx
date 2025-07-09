@@ -26,7 +26,7 @@ const SidebarItem = ({ item, pageName, setPageName, setSidebarOpen }: any) => {
       <Link
         href={item.route}
         onClick={handleClick}
-        className={`${isItemActive ? "bg-[#ffffff] text-[#33628e] rounded-xl shadow-sm" : ""} group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}>
+        className={`${isItemActive ? "bg-[#ffffff] text-[#61BAB0] rounded-xl shadow-sm" : ""} group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}>
         <div className="h-8 w-8 flex justify-center items-center">
           {/* <Image
             width={60}
@@ -56,7 +56,7 @@ const SidebarItem = ({ item, pageName, setPageName, setSidebarOpen }: any) => {
             </svg>
           )} 
           {isItemActive && (
-            <span className="absolute -right-1 top-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full bg-[#213E5A] shadow-md"></span>
+            <span className="absolute -right-1 top-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full bg-[#61BAB0] shadow-md"></span>
           )}
       </Link>
     {item?.children && (

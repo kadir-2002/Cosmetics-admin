@@ -36,7 +36,7 @@ const CSVActionPopup: React.FC<Props> = ({
           <p className="text-gray-600 mb-2">Drag & Drop your files here</p>
           <p className="text-gray-500 mb-4">or</p>
 
-          <label className="inline-block bg-[#213E5A] text-white px-4 py-2 rounded cursor-pointer hover:bg-[#213E5A]transition">
+          <label className="inline-block bg-[#61BAB0] text-white px-4 py-2 rounded cursor-pointer hover:bg-[#61BAB0]transition">
             Browse Files
             <input
               type="file"
@@ -52,19 +52,26 @@ const CSVActionPopup: React.FC<Props> = ({
               <span>{selectedFileName}</span>
               <FiX
                 className="cursor-pointer text-red-500"
-                onClick={() => fileInputRef.current && (fileInputRef.current.value = "")}
+                onClick={() => {
+                  if (fileInputRef.current) fileInputRef.current.value = "";
+                  handleFileChange({ target: { files: null } } as any); 
+                }}
               />
+
             </div>
           )}
         </div>
 
         <div className="mt-6 flex flex-col gap-3">
-             <button
-            onClick={handleCsvFileUpload}
-            className="bg-[#213E5A] text-white py-2 rounded hover:bg-[#213E5A]"
-          >
-            Submit
-          </button>
+          {selectedFileName && (
+            <button
+              onClick={handleCsvFileUpload}
+              className="bg-[#61BAB0] text-white py-2 rounded hover:bg-[#61BAB0]"
+            >
+              Submit
+            </button>
+          )}
+
 
           {selectFiledownload ? (
             <a
@@ -78,22 +85,17 @@ const CSVActionPopup: React.FC<Props> = ({
             <a
               href="/Pincode.csv"
               download="Pincode.csv"
-              className="bg-gray-700 text-white text-center py-2 rounded hover:bg-gray-800"
+              className="bg-[#61BAB0] text-white text-center py-2 rounded hover:bg-[#83bdb6]"
             >
               Download File Format
             </a>
           )}
 
-          {/* <button
-            onClick={handleCsvFileUpload}
-            className="bg-[#213E5A] text-white py-2 rounded hover:bg-[#213E5A]"
-          >
-            Submit
-          </button> */}
+
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default CSVActionPopup;

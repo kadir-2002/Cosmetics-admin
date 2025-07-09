@@ -397,7 +397,7 @@ const PinCodeFormComponent = () => {
 <div className="flex justify-end w-full px-1 mb-4">
   <button
     onClick={() => setIsCsvPopupOpen(true)}
-    className="bg-[#213E5A] text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:bg-[#1a2f45] transition-all flex items-center gap-2"
+    className="bg-[#61BAB0] text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:bg-[#88cec6] transition-all flex items-center gap-2"
   >
     <FiUpload />
     CSV Actions
