@@ -101,9 +101,12 @@ const CoustomerInfoPopupComponent: React.FC<LogoutPopupProps> = ({
                           Created At:
                         </div>
                         <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
-                          {formatIST(user?.createdAt)}
+                          {formatIST(user?.createdAt || user?.created_at)}
                         </div>
                       </div>
+
+
+                        
 
                       {user?.updated_by?
                         <div className='flex gap-2 border-b-[1px] py-2'>

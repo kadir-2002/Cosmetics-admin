@@ -74,7 +74,7 @@ export const bannerUpdatedApi = async (
   formData.append("buttonText", button_text);
   formData.append("buttonLink", button_link);
   if (image) {
-    formData.append("imageUrl", image);
+    formData.append("image", image);
   }
   if(mobile_banner){
     formData.append("mobile_banner", mobile_banner);
