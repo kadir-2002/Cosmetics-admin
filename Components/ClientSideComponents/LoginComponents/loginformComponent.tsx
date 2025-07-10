@@ -289,7 +289,7 @@ const LoginFormComponent = () => {
                   <div className='flex justify-end items-end mb-6'>
                     <a
                       href='#'
-                      className='text-purple-500 text-sm'
+                      className='text-gray-700 text-sm'
                       onClick={(e) => {
                         e.preventDefault();
                         handleForgetPass();
@@ -301,7 +301,7 @@ const LoginFormComponent = () => {
                   <button
                     type='submit'
                     disabled={loading}
-                    className='w-full p-4 bg-admin-primary text-white rounded-lg hover:bg-white border-[2px] border-[#213E5A] hover:text-[#213E5A] disabled:opacity-50 lg:text-2xl text-xl font-semibold shadow-md'
+                    className='w-full p-4 bg-admin-primary text-white rounded-lg hover:bg-white border-[2px] border-[#61bab0] hover:text-[#61bab0] disabled:opacity-50 lg:text-2xl text-xl font-semibold shadow-md'
                   >
                     {loading ? "Logging in..." : "LOGIN"}
                   </button>
