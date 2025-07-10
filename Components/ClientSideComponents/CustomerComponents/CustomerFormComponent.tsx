@@ -190,6 +190,40 @@ const CustomerFormComponent = () => {
       setCurrentPage(currentPage - 1);
     }
   };
+const getPageNumbers = () => {
+  const pages: (number | string)[] = [];
+
+  // Always show first page
+  pages.push(1);
+
+  // Calculate range around current page
+  let startPage = Math.max(2, currentPage - 1);
+  let endPage = Math.min(totalPages - 1, currentPage + 1);
+
+  // Add left ellipsis if needed
+  if (startPage > 2) {
+    pages.push('...');
+  }
+
+  // Add middle range
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
+
+  // Add right ellipsis if needed
+  if (endPage < totalPages - 1) {
+    pages.push('...');
+  }
+
+  // Add last page
+  if (totalPages > 1) {
+    pages.push(totalPages);
+  }
+
+  return pages;
+};
+
+
 
   useEffect(() => {
     fetchCustomer();
@@ -613,23 +647,46 @@ const CustomerFormComponent = () => {
               )}
             </div>
           </div>
-          <div className='flex justify-center mt-4'>
-            <button
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-              className='px-4 py-2 bg-admin-buttonprimary text-white rounded-md mx-1'
-            >
-              Prev
-            </button>
-            <span className='px-4 py-2'>{`Page ${currentPage} of ${totalPages}`}</span>
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className='px-4 py-2 bg-admin-buttonprimary text-white rounded-md mx-1'
-            >
-              Next
-            </button>
-          </div>
+    <div className='flex flex-wrap justify-center items-center mt-4 gap-2'>
+  <button
+    onClick={handlePreviousPage}
+    disabled={currentPage === 1}
+    className='px-3 py-1 bg-admin-buttonprimary text-white rounded-md disabled:opacity-50'
+  >
+    Prev
+  </button>
+
+  {getPageNumbers().map((page, idx) =>
+    page === '...' ? (
+      <span key={`ellipsis-${idx}`} className='px-3 py-1'>
+        ...
+      </span>
+    ) : (
+      <button
+        key={`page-${page}-${idx}`} // ensure uniqueness
+        onClick={() => setCurrentPage(Number(page))}
+        className={`px-3 py-1 rounded-md border ${
+          currentPage === page
+            ? 'bg-admin-buttonprimary text-white'
+            : 'bg-white text-gray-800'
+        }`}
+      >
+        {page}
+      </button>
+    )
+  )}
+
+  <button
+    onClick={handleNextPage}
+    disabled={currentPage === totalPages}
+    className='px-3 py-1 bg-admin-buttonprimary text-white rounded-md disabled:opacity-50'
+  >
+    Next
+  </button>
+</div>
+
+
+
           <div></div>
           {isloading && (
             <div className='fixed inset-0  flex items-center justify-center z-50'>

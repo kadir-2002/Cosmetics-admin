@@ -837,7 +837,7 @@ const CategryFormComponent = () => {
                 </th>
                 <th
                   className='p-4 flex gap-1 justify-center items-center'
-                  onClick={() => setIsActiveInactiveFilterPopup(true)}
+                  // onClick={() => setIsActiveInactiveFilterPopup(true)}
                 >
                  Status
                 </th>
