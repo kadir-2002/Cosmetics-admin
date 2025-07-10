@@ -122,7 +122,8 @@ const OrderAllDataComponent = () => {
       }
 
       const data = await orderAllDataApi({
-        search: searchText, startDates: formattedStartDate, endDates: formattedEndDate, id: OrderId, current_page: currentPage,
+        id:OrderId,
+        search: searchText, startDates: formattedStartDate, endDates: formattedEndDate,current_page: currentPage,
         page_size: pageSize, token: token, isfiltervalue: status ? status : isfiltervalue, ordering: ordering,
       });
 
