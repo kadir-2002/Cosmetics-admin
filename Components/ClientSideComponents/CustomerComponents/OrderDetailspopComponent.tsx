@@ -89,11 +89,14 @@ const OrderDetailsPopup = ({
             leaveFrom='opacity-100 translate-y-0 sm:scale-100'
             leaveTo='opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95'
           >
-            <Dialog.Panel className='bg-white rounded-lg shadow-xl max-w-3xl h-[600px] w-full relative py-5 overflow-scroll hidescroll'>
-              <div className='w-full text-lg'>
-                <h2 className='text-xl border-b-[1px] font-semibold p-2'>
+            <Dialog.Panel className='bg-white rounded-2xl shadow-xl max-w-2xl h-[500px] w-full relative  overflow-scroll hidescroll'>
+              <div className="bg-admin-primary  w-full py-2">
+                <h2 className='text-xl mx-4 font-semibold p-2 text-white'>
                   Order Items
                 </h2>
+                </div>
+              <div className='w-full text-lg mt-4 mb-2 border border-gray-200 rounded-lg'>
+                
                 <div className=''>
                   {selectedOrder?.items?.map((data: any, index: number) => (
                     <div key={index} className="border-b-[1px] p-4">
@@ -110,12 +113,12 @@ const OrderDetailsPopup = ({
                         </div>
                       </div>
 
-                      <div className="lg:flex justify-between items-center">
+                      <div className="lg:flex justify-between items-center mt-1">
                         <div className="flex gap-2">
                           <p>SKU:</p>
                           <p>{data?.variant?.SKU || data?.product?.SKU || "N/A"}</p>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 font-semibold">
                           <p>Price {currency}</p>
                           <p>{Number(data?.product?.sellingPrice).toFixed(2)|| Number(data?.variant?.sellingPrice).toFixed(2) || "NA"}</p>
                         </div>
@@ -139,17 +142,17 @@ const OrderDetailsPopup = ({
                 </div>
               </div>
               <div className='px-3 text-lg'>
-                <div className='flex justify-between items-center'>
+                {/* <div className='flex justify-between items-center'>
                   <p>Total Items:</p>
                   <p>{selectedOrder?.items[0]?.quantity || "N/A"}</p>
-                </div>
-                <div className='flex justify-between items-center'>
+                </div> */}
+                {/* <div className='flex justify-between items-center'>
                   <p>Sub Total:</p>{" "}
                   <p>
                     {currency}
                     {(Number(selectedOrder?.items[0]?.price) * Number(selectedOrder?.items[0]?.quantity)).toFixed(2) ||"0.00"}
                   </p>
-                </div>
+                </div> */}
                 {selectedOrder?.order_info?.tax ? (
                   <div className='flex justify-between items-center'>
                     <p>Tax:</p>{" "}

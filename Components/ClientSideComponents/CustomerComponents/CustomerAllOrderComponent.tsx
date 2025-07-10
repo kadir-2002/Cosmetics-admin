@@ -10,6 +10,7 @@ import { MdArrowDropUp } from "react-icons/md";
 import { IoMdArrowDropdown } from "react-icons/io";
 import OrderFilterpopupCompoent from "../OrderComponents/OrderFilterpopupCompoent";
 import { FaAngleDown } from "react-icons/fa6";
+import { formatIST } from "../OrderComponents/OrderInfoComponent";
 
 type props = {
     isCustomerSelectId: any
@@ -140,7 +141,7 @@ const CustomerAllOrderComponent = ({ isCustomerSelectId }: props) => {
                         {singleCustomerOrder?.map((order) => (
                             <tr key={order.id} className="hover:bg-purple-100">
                                 <td className="px-4 text-start py-3">{order.id}</td>
-                                <td className="px-0 text-start py-3">{order.createdAt || "N/A"}</td>
+                                <td className="px-0 text-start py-3">{formatIST(order.createdAt) || "N/A"}</td>
                                 <td className="px-4 text-center py-3">{order.payment.transactionId|| "N/A"}</td>
                                 <td className="px-4 text-center py-3">{currency}{(order.totalAmount)}</td>
                                 <td className="px-4 text-center py-3">{order?.payment?.status}</td>
@@ -149,7 +150,7 @@ const CustomerAllOrderComponent = ({ isCustomerSelectId }: props) => {
                                     {/* <span className={`px-2 py-1 text-lg font-semibold text-white rounded  ${getStatusClass(order.order_info?.order_status || "N/A")}`}>
                                     </span> */}
                                 </td>
-                                <td className="px-4 text-center py-3">{order.items[0].quantity}</td>
+                                <td className="px-4 text-center py-3">{order.items.length}</td>
                                
                                 <td className="px-4 text-center py-3">
                                     <button onClick={() => handleViewDetails(order)}>
