@@ -97,6 +97,43 @@ const CustomerFormComponent = () => {
   const startDateURL = searchParams.get("start_date");
   const endDateURL = searchParams.get("end_date");
   const router = useRouter();
+  const [pageInput, setPageInput] = useState('');
+  
+    // const [isStartDateChanged, setIsStartDateChanged] = useState(false);
+    // const [isEndDateChanged, setIsEndDateChanged] = useState(false);
+  
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+  
+    // Always show first page
+    pages.push(1);
+  
+    // Calculate range around current page
+    let startPage = Math.max(2, currentPage - 1);
+    let endPage = Math.min(totalPages - 1, currentPage + 1);
+  
+    // Add left ellipsis if needed
+    if (startPage > 2) {
+      pages.push('...');
+    }
+  
+    // Add middle range
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+  
+    // Add right ellipsis if needed
+    if (endPage < totalPages - 1) {
+      pages.push('...');
+    }
+  
+    // Add last page
+    if (totalPages > 1) {
+      pages.push(totalPages);
+    }
+  
+    return pages;
+  };
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
     setCurrentPage(1);
@@ -192,41 +229,17 @@ const CustomerFormComponent = () => {
       setCurrentPage(currentPage - 1);
     }
   };
-const getPageNumbers = () => {
-  const pages: (number | string)[] = [];
-
-  // Always show first page
-  pages.push(1);
-
-  // Calculate range around current page
-  let startPage = Math.max(2, currentPage - 1);
-  let endPage = Math.min(totalPages - 1, currentPage + 1);
-
-  // Add left ellipsis if needed
-  if (startPage > 2) {
-    pages.push('...');
+const goToPage = () => {
+  const page = Number(pageInput);
+    if (page < 1 || page > totalPages) {
+    toast.error(`Please enter a number between 1 and ${totalPages}`);
+    return;
   }
-
-  // Add middle range
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(i);
+  if (!isNaN(page) && page >= 1 && page <= totalPages) {
+    setCurrentPage(page);
+    setPageInput('');
   }
-
-  // Add right ellipsis if needed
-  if (endPage < totalPages - 1) {
-    pages.push('...');
-  }
-
-  // Add last page
-  if (totalPages > 1) {
-    pages.push(totalPages);
-  }
-
-  return pages;
 };
-
-
-
   useEffect(() => {
     fetchCustomer();
   }, [
@@ -652,7 +665,8 @@ const getPageNumbers = () => {
               )}
             </div>
           </div>
-    <div className='flex flex-wrap justify-center items-center mt-4 gap-2'>
+  <div className='flex flex-wrap justify-center items-center mt-4 gap-2'>
+
   <button
     onClick={handlePreviousPage}
     disabled={currentPage === 1}
@@ -668,7 +682,7 @@ const getPageNumbers = () => {
       </span>
     ) : (
       <button
-        key={`page-${page}-${idx}`} // ensure uniqueness
+        key={`page-${page}-${idx}`}
         onClick={() => setCurrentPage(Number(page))}
         className={`px-3 py-1 rounded-md border ${
           currentPage === page
@@ -688,6 +702,28 @@ const getPageNumbers = () => {
   >
     Next
   </button>
+
+  {
+totalPages > 5 ?
+ 
+  <div className='flex items-center gap-2 ml-4'>
+    <input
+      type='number'
+      value={pageInput}
+      onChange={(e) => setPageInput(e.target.value)}
+      min={1}
+      max={totalPages}
+       className='w-16 px-2 py-1 border-[1px] border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-admin-buttonprimary focus:border-admin-buttonprimary transition'
+      placeholder='Page'
+    />
+    <button
+      onClick={goToPage}
+      className='px-3 py-1 bg-admin-buttonprimary text-white rounded-md'
+    >
+      Go
+    </button>
+  </div> : null  }
+
 </div>
 
 
