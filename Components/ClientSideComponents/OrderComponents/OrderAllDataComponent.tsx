@@ -80,8 +80,8 @@ const OrderAllDataComponent = () => {
   const startDateURL = searchParams.get('start_date')
   const endDateURL = searchParams.get('end_date')
   const currency = useSelector((state: any) => state?.user?.details?.currency_symbol);
-  const [isStartDateChanged, setIsStartDateChanged] = useState(false);
-  const [isEndDateChanged, setIsEndDateChanged] = useState(false);
+  // const [isStartDateChanged, setIsStartDateChanged] = useState(false);
+  // const [isEndDateChanged, setIsEndDateChanged] = useState(false);
 
 const getPageNumbers = () => {
   const pages: (number | string)[] = [];
@@ -159,7 +159,7 @@ const getPageNumbers = () => {
       const data = await orderAllDataApi({
         id: OrderId,
         search: searchText,
-        ...(isStartDateChanged && { startDates: formatDate(startDate) }),
+       startDates: formatDate(startDate) ,
        endDates: formatDate(endDate) ,
         current_page: currentPage,
         page_size: pageSize, token: token, 
@@ -208,8 +208,8 @@ const getPageNumbers = () => {
     setStartDate(today);
     setEndDate(today);
     setCurrentPage(1)
-    setIsStartDateChanged(false);
-setIsEndDateChanged(false);
+//     setIsStartDateChanged(false);
+// setIsEndDateChanged(false);
 
   };
 
@@ -323,7 +323,7 @@ setIsEndDateChanged(false);
     }
 
     setStartDate(selectedDate);
-    setIsStartDateChanged(true);
+    // setIsStartDateChanged(true);
 
     const params = new URLSearchParams(searchParams.toString());
     params.delete("id");
@@ -350,7 +350,7 @@ setIsEndDateChanged(false);
     }
 
     setEndDate(selectedDate);
-    setIsEndDateChanged(true);
+    // setIsEndDateChanged(true);
 
     const params = new URLSearchParams(searchParams.toString());
     params.delete("id");

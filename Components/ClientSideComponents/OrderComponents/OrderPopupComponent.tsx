@@ -139,7 +139,9 @@ const OrderPopup = ({
                     (item) => (
                       <div
                         key={item}
-                        className='flex items-center gap-3 cursor-pointer py-3'
+                      className={`flex items-center gap-3 cursor-pointer py-3 px-4 rounded-md transition-all
+      ${activeDrawer === item ? "bg-gray-100 border-b-4 border-admin-buttonprimary" : ""}
+    `}
                         onClick={() => toggleDrawer(item)}
                       >
                         <h3
@@ -163,7 +165,7 @@ const OrderPopup = ({
                 <div className='w-full border-2 px-2 mt-2 rounded-lg lg:hidden'>
                   <div className='flex items-center gap-3 cursor-pointer py-3 '>
                     <select
-                      className='w-full bg-transparent text-lg font-semibold text-[#2e30ac] underline py-2 border-none outline-none cursor-pointe'
+                      className='w-full bg-transparent text-lg font-semibold  underline py-2 border-none outline-none cursor-pointe'
                       value={selectedOption}
                       onChange={handleSelection}
                     >
@@ -262,7 +264,7 @@ const OrderPopup = ({
 
                             <td className='border p-3 text-center'>
                               {currency}
-                              {item?.price || 'N/A'}
+                              {item?.price.toFixed(2) || 'N/A'}
                             </td>
 
                             <td className='border p-3 text-center'>
@@ -288,21 +290,21 @@ const OrderPopup = ({
                     </div>
                     <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                       <p>Total Price:</p>
-                      <p>{role?.totalAmount || "N/A"}</p>
+                      <p>{role?.totalAmount.toFixed(2) || "N/A"}</p>
                     </div>
 
-                    {role?.order_info?.delivery_charge === 0 ? null : (
+                    {/* {role?.order_info?.delivery_charge === 0 ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Delivery Charge:</p>
                         <p>{role?.order_info?.delivery_charge || "N/A"}</p>
                       </div>
-                    )}
-                    {role?.order_info?.tax === 0 ? null : (
+                    )} */}
+                    {/* {role?.order_info?.tax === 0 ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Sub Total Tax:</p>
                         <p>{role?.order_info?.tax || "N/A"}</p>
                       </div>
-                    )}
+                    )} */}
 
                     {role?.discountCode ? (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
@@ -349,7 +351,7 @@ const OrderPopup = ({
                       </p>
                       <p className='lg:text-xl text-lg font-semibold'>
                         {currency}
-                        {(role?.totalAmount)}
+                        {(role?.totalAmount.toFixed(2))}
                       </p>
                     </div>
                     {role?.payment_info?.payment_transaction_id ? (
