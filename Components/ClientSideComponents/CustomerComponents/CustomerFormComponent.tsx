@@ -91,6 +91,8 @@ const CustomerFormComponent = () => {
   const dispatch = useDispatch();
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
+   const [isStartDateChanged, setIsStartDateChanged] = useState(false);
+    const [isEndDateChanged, setIsEndDateChanged] = useState(false);
   const searchParams = useSearchParams();
   const startDateURL = searchParams.get("start_date");
   const endDateURL = searchParams.get("end_date");
@@ -157,7 +159,7 @@ const CustomerFormComponent = () => {
         page_size: pageSize,
         token: token,
         ordering: ordering,
-        startDates: formattedStartDate,
+         ...(isStartDateChanged && {startDates: formattedStartDate }),
         endDates: formattedEndDate,
         isActiveInactive: isActiveInactive,
       });
@@ -317,6 +319,7 @@ const getPageNumbers = () => {
     setStartDate(new Date(todays));
     setEndDate(new Date(todays));
     setCurrentPage(1);
+    setIsStartDateChanged(false);
 
     router.push(`?${params.toString()}`, { scroll: false });
   };
@@ -339,6 +342,7 @@ const getPageNumbers = () => {
       }
     }
     setStartDate(selectedDate);
+    setIsStartDateChanged(true)
     const params = new URLSearchParams(searchParams.toString());
     params.delete("id");
     params.delete("order_status");
@@ -361,6 +365,7 @@ const getPageNumbers = () => {
     }
 
     setEndDate(selectedDate);
+  
     const params = new URLSearchParams(searchParams.toString());
     params.delete("id");
     params.delete("order_status");

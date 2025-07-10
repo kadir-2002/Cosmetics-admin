@@ -532,7 +532,7 @@ const BannerFormComponent = () => {
                     className='block w-full text-sm text-admin-secondary file:mr-4 file:py-1 file:h-12 file:px-4  file:rounded-l-md file:border-0 file:text-sm file:font-semibold file:bg-admin-secondary bg-admin-secondary file:text-white hover:file:bg-gray-700'
                   />
                   {fileName ? (
-                    <span className='text-white px-2'>{fileName}</span>
+                    <span className='text-white px-2 '>{`${fileName.slice(0, 4)}...${fileName.split('.').pop()}`}</span>
                   ) : (
                     <BiSolidImageAdd color='white' size={27} />
                   )}
@@ -555,7 +555,7 @@ const BannerFormComponent = () => {
                     className='block w-full text-sm text-admin-secondary file:mr-4 file:py-1 file:h-12 file:px-4  file:rounded-l-md file:border-0 file:text-sm file:font-semibold file:bg-admin-secondary bg-admin-secondary file:text-white hover:file:bg-gray-700'
                   />
                   {isFileNamemobile ? (
-                    <span className='text-white px-2'>{isFileNamemobile}</span>
+                    <span className='text-white px-2'>{`${isFileNamemobile.slice(0, 4)}...${isFileNamemobile.split('.').pop()}`}</span>
                   ) : (
                     <BiSolidImageAdd color='white' size={27} />
                   )}

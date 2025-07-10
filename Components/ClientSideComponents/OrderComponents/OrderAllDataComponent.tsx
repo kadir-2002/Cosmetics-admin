@@ -20,15 +20,15 @@ import { IoMdArrowDropdown } from "react-icons/io";
 interface Order {
   id: string;
   purchased_item_count: string;
-  totalAmount:number,
-  createdAt:string,
-  status:string,
-  items:[],
-  address:{
-  fullName:string
+  totalAmount: number,
+  createdAt: string,
+  status: string,
+  items: [],
+  address: {
+    fullName: string
   }
-  payment?:{
-    method:string
+  payment?: {
+    method: string
   }
   customer_info?: {
     first_name: string;
@@ -42,8 +42,8 @@ interface Order {
     is_payment_done: boolean;
     payment_type: string;
   };
-  user?:{
-    email:string
+  user?: {
+    email: string
   }
 }
 
@@ -54,6 +54,7 @@ const formatDate = (date: Date | null): string => {
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`; // Format as "YYYY-MM-DD"
 };
+
 const OrderAllDataComponent = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [searchText, setSearchText] = useState<string>("");
@@ -79,7 +80,41 @@ const OrderAllDataComponent = () => {
   const startDateURL = searchParams.get('start_date')
   const endDateURL = searchParams.get('end_date')
   const currency = useSelector((state: any) => state?.user?.details?.currency_symbol);
+  const [isStartDateChanged, setIsStartDateChanged] = useState(false);
+  const [isEndDateChanged, setIsEndDateChanged] = useState(false);
 
+const getPageNumbers = () => {
+  const pages: (number | string)[] = [];
+
+  // Always show first page
+  pages.push(1);
+
+  // Calculate range around current page
+  let startPage = Math.max(2, currentPage - 1);
+  let endPage = Math.min(totalPages - 1, currentPage + 1);
+
+  // Add left ellipsis if needed
+  if (startPage > 2) {
+    pages.push('...');
+  }
+
+  // Add middle range
+  for (let i = startPage; i <= endPage; i++) {
+    pages.push(i);
+  }
+
+  // Add right ellipsis if needed
+  if (endPage < totalPages - 1) {
+    pages.push('...');
+  }
+
+  // Add last page
+  if (totalPages > 1) {
+    pages.push(totalPages);
+  }
+
+  return pages;
+};
   useEffect(() => {
     if (status) {
       setfiltervalue(status)
@@ -122,12 +157,17 @@ const OrderAllDataComponent = () => {
       }
 
       const data = await orderAllDataApi({
-        id:OrderId,
-        search: searchText, startDates: formattedStartDate, endDates: formattedEndDate,current_page: currentPage,
-        page_size: pageSize, token: token, isfiltervalue: status ? status : isfiltervalue, ordering: ordering,
+        id: OrderId,
+        search: searchText,
+        ...(isStartDateChanged && { startDates: formatDate(startDate) }),
+       endDates: formatDate(endDate) ,
+        current_page: currentPage,
+        page_size: pageSize, token: token, 
+        isfiltervalue: status ? status : isfiltervalue,
+         ordering: ordering,
       });
 
-      if (data?.body.message ===  "Authorization header missing or malformed") {
+      if (data?.body.message === "Authorization header missing or malformed") {
         if (!tokenErrorShown.current) {
           tokenErrorShown.current = true; // Prevent further toasts
           dispatch(clearUserDetails());
@@ -143,8 +183,8 @@ const OrderAllDataComponent = () => {
       //   setTotalPages(data?.body.pagination.totalPages);
       // } 
       if (data?.body?.success) {
-        setOrders(data.body.result );
-        setTotalPages(data.body.pagination?.totalPages || 1);
+        setOrders(data.body.result);
+        setTotalPages(data.body.pagination?.total_pages|| 1);
       }
 
     } catch (error) {
@@ -168,6 +208,9 @@ const OrderAllDataComponent = () => {
     setStartDate(today);
     setEndDate(today);
     setCurrentPage(1)
+    setIsStartDateChanged(false);
+setIsEndDateChanged(false);
+
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -230,7 +273,7 @@ const OrderAllDataComponent = () => {
         return "bg-[#A8A434]";
       case "CANCELLED":
         return "bg-[#A83434]";
-         case "DELIVERED":
+      case "DELIVERED":
         return "bg-[#ff7800]";
       default:
         return "bg-[#ff7800]";
@@ -258,61 +301,63 @@ const OrderAllDataComponent = () => {
   };
 
 
-const today = new Date();
-today.setHours(0, 0, 0, 0); // Normalize to midnight
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize to midnight
 
-const handleStartDateChange = (date: Date | null) => {
-  if (!date) return;
+  const handleStartDateChange = (date: Date | null) => {
+    if (!date) return;
 
-  const selectedDate = new Date(date);
-  selectedDate.setHours(0, 0, 0, 0);
+    const selectedDate = new Date(date);
+    selectedDate.setHours(0, 0, 0, 0);
 
-  if (selectedDate > today) return; // Disallow future dates
+    if (selectedDate > today) return; // Disallow future dates
 
-  if (endDate && selectedDate > endDate) {
-    const newEndDate = new Date(selectedDate);
-    newEndDate.setDate(selectedDate.getDate() + 1);
-    if (newEndDate <= today) {
-      setEndDate(newEndDate);
-    } else {
-      setEndDate(today);
+    if (endDate && selectedDate > endDate) {
+      const newEndDate = new Date(selectedDate);
+      newEndDate.setDate(selectedDate.getDate() + 1);
+      if (newEndDate <= today) {
+        setEndDate(newEndDate);
+      } else {
+        setEndDate(today);
+      }
     }
-  }
 
-  setStartDate(selectedDate);
+    setStartDate(selectedDate);
+    setIsStartDateChanged(true);
 
-  const params = new URLSearchParams(searchParams.toString());
-  params.delete("id");
-  params.delete("order_status");
-  params.delete("start_date");
-  router.push(`?${params.toString()}`);
-};
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("id");
+    params.delete("order_status");
+    params.delete("start_date");
+    router.push(`?${params.toString()}`);
+  };
 
-const handleEndDateChange = (date: Date | null) => {
-  if (!date) return;
+  const handleEndDateChange = (date: Date | null) => {
+    if (!date) return;
 
-  const selectedDate = new Date(date);
-  selectedDate.setHours(0, 0, 0, 0);
+    const selectedDate = new Date(date);
+    selectedDate.setHours(0, 0, 0, 0);
 
-  if (selectedDate > today) return; // Disallow future dates
+    if (selectedDate > today) return; // Disallow future dates
 
-  // If end date < start date, adjust startDate to one day before endDate
-  if (startDate && selectedDate < startDate) {
-    const newStartDate = new Date(selectedDate);
-    newStartDate.setDate(selectedDate.getDate() - 1);
-    if (newStartDate >= new Date("2000-01-01")) { // Optional lower limit
-      setStartDate(newStartDate);
+    // If end date < start date, adjust startDate to one day before endDate
+    if (startDate && selectedDate < startDate) {
+      const newStartDate = new Date(selectedDate);
+      newStartDate.setDate(selectedDate.getDate() - 1);
+      if (newStartDate >= new Date("2000-01-01")) { // Optional lower limit
+        setStartDate(newStartDate);
+      }
     }
-  }
 
-  setEndDate(selectedDate);
+    setEndDate(selectedDate);
+    setIsEndDateChanged(true);
 
-  const params = new URLSearchParams(searchParams.toString());
-  params.delete("id");
-  params.delete("order_status");
-  params.delete("end_date");
-  router.push(`?${params.toString()}`);
-};
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("id");
+    params.delete("order_status");
+    params.delete("end_date");
+    router.push(`?${params.toString()}`);
+  };
 
 
   const handlefilter = (value: any) => {
@@ -449,13 +494,13 @@ const handleEndDateChange = (date: Date | null) => {
                     <td className="py-3 px-4 text-start">
                       {order?.address?.fullName || "N/A"}
                     </td>
-                  <td className="py-3 px-4 text-end">
-  {order?.totalAmount != null
-    ? `${Number(order.totalAmount).toFixed(2)}`
-    : "N/A"}
-</td>
+                    <td className="py-3 px-4 text-end">
+                      {order?.totalAmount != null
+                        ? `${Number(order.totalAmount).toFixed(2)}`
+                        : "N/A"}
+                    </td>
                     <td className="py-3 px-4 text-start">
-                      {order?.payment?.method? order.payment.method : "Cash on Delivery"}
+                      {order?.payment?.method ? order.payment.method : "Cash on Delivery"}
                     </td>
                     <td className="py-3 px-4 text-center cursor-pointer">
                       <div className="relative inline-block lg:w-[176px] w-[176px]">
@@ -474,10 +519,10 @@ const handleEndDateChange = (date: Date | null) => {
                           <option value="PENDING" className="bg-[#D1D5DB] text-black">
                             PENDING
                           </option>
-                            <option value="CONFIRMED" className="bg-[#D1D5DB] text-black">
+                          <option value="CONFIRMED" className="bg-[#D1D5DB] text-black">
                             CONFIRMED
                           </option>
-                
+
                           <option value="SHIPPED" className="bg-[#D1D5DB] text-black">
                             SHIPPED
                           </option>
@@ -561,21 +606,43 @@ const handleEndDateChange = (date: Date | null) => {
           />
         )
       }
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className="px-4 py-2 bg-admin-buttonprimary text-white rounded-md mx-1">
-          Prev
-        </button>
-        <span className="px-4 py-2">{`Page ${currentPage} of ${totalPages}`}</span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-admin-buttonprimary text-white rounded-md mx-1">
-          Next
-        </button>
-      </div>
+    <div className='flex flex-wrap justify-center items-center mt-4 gap-2'>
+  <button
+    onClick={handlePreviousPage}
+    disabled={currentPage === 1}
+    className='px-3 py-1 bg-admin-buttonprimary text-white rounded-md disabled:opacity-50'
+  >
+    Prev
+  </button>
+
+  {getPageNumbers().map((page, idx) =>
+    page === '...' ? (
+      <span key={`ellipsis-${idx}`} className='px-3 py-1'>
+        ...
+      </span>
+    ) : (
+      <button
+        key={`page-${page}-${idx}`} // ensure uniqueness
+        onClick={() => setCurrentPage(Number(page))}
+        className={`px-3 py-1 rounded-md border ${
+          currentPage === page
+            ? 'bg-admin-buttonprimary text-white'
+            : 'bg-white text-gray-800'
+        }`}
+      >
+        {page}
+      </button>
+    )
+  )}
+
+  <button
+    onClick={handleNextPage}
+    disabled={currentPage === totalPages}
+    className='px-3 py-1 bg-admin-buttonprimary text-white rounded-md disabled:opacity-50'
+  >
+    Next
+  </button>
+</div>
       {isloading && (
         <div className="fixed inset-0  flex items-center justify-center z-50">
           <div className="dot-spinner">

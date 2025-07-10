@@ -2,53 +2,51 @@ import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCoreGet } from "./apiCoreGet";
 import { apiCoreUpdate } from "./apiCoreUpdate";
 
-export const orderAllDataApi = async (searchParams: { search: string, startDates: string, endDates: string, id: string, current_page: number, page_size: number, token: string, isfiltervalue: string, ordering: string }) => {
-  // const queryParams = new URLSearchParams({
-  //   order_status: searchParams.order_status,
-  //   start_date: searchParams.startDates,
-  //   end_date: searchParams.endDates,
-  //   page: searchParams.current_page.toString(),
-  //   page_size: searchParams.page_size.toString(),
-  // });
-  // if (searchParams.id) {
-  //   queryParams.append("search", searchParams.id.toString());
-  // } else {
-  //   queryParams.append("search", searchParams.search.toString());
-  // } if (searchParams.isfiltervalue) {
-  //   queryParams.append("order_status", searchParams.isfiltervalue.toString());
-
-  // } if (searchParams.ordering) {
-  //   queryParams.append("ordering", searchParams.ordering.toString());
-  // }
-  let endpoint
+export const orderAllDataApi = async (searchParams: {
+  search: string;
+  startDates?: string;
+  endDates?: string;
+  id: string;
+  current_page: number;
+  page_size: number;
+  token: string;
+  isfiltervalue: string;
+  ordering: string;
+}) => {
+  let endpoint: string;
 
   if (searchParams.id) {
     endpoint = `/order/user-order/?id=${searchParams.id}`;
   } else {
-    const queryParams = new URLSearchParams({
-      start_date: searchParams.startDates,
-      end_date: searchParams.endDates,
-      page: searchParams.current_page.toString(),
-      page_size: searchParams.page_size.toString(),
-    });
+    const queryParams = new URLSearchParams();
+
+    // Conditionally append if values exist
+    if (searchParams.startDates) {
+      queryParams.append("start_date", searchParams.startDates);
+    }
+    if (searchParams.endDates) {
+      queryParams.append("end_date", searchParams.endDates);
+    }
+
+    queryParams.append("page", searchParams.current_page.toString());
+    queryParams.append("page_size", searchParams.page_size.toString());
 
     if (searchParams.search) {
-      queryParams.append("search", searchParams.search.toString());
+      queryParams.append("search", searchParams.search);
     }
 
     if (searchParams.isfiltervalue) {
-      queryParams.append("order_status", searchParams.isfiltervalue.toString());
-
+      queryParams.append("order_status", searchParams.isfiltervalue);
     }
+
     if (searchParams.ordering) {
-      queryParams.append("ordering", searchParams.ordering.toString());
+      queryParams.append("ordering", searchParams.ordering);
     }
 
-    endpoint = `/order/user-order/?${queryParams}`;
+    endpoint = `/order/user-order/?${queryParams.toString()}`;
   }
 
-
-  const response = await apiCoreNode(endpoint,{}, "GET",searchParams.token);
+  const response = await apiCoreNode(endpoint, {}, "GET", searchParams.token);
   return response;
 };
 

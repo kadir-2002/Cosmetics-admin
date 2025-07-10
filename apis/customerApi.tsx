@@ -32,7 +32,7 @@ export const createCustomerApi = async (
 
 };
 
-export const customerAllDataApi = async (searchParams: { search: string; total_pages: number;startDates: string, endDates: string, current_page: number; page_size: number, is_active?: boolean, id: number, ordering: string, token: string, isActiveInactive?: boolean }) => {
+export const customerAllDataApi = async (searchParams: { search: string; total_pages: number;startDates?: string, endDates: string, current_page: number; page_size: number, is_active?: boolean, id: number, ordering: string, token: string, isActiveInactive?: boolean }) => {
   let endpoint
   if (searchParams.id) {
     endpoint = `/user/customer/${searchParams.id}/`;
