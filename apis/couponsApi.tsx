@@ -90,7 +90,7 @@ export const createCouponsApi = async (
     "/coupon/",
     {
       // type: type,
-      // code: code,
+      code: code,
       discount: Number(value),
       // usage_limit: usage_limit,
       // valid_from: valid_from,

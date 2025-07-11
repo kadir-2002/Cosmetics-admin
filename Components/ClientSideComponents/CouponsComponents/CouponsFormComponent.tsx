@@ -124,7 +124,7 @@ const CouponsFormComponent = () => {
         }
         if (response?.data?.error === "Coupon with this code already exists") {
           toast.error("Coupon already exists");
-        } else if (response?.status === 200) {
+        } else if (response?.status === 201) {
           toast.success("Coupone created successfully");
         }
       }
@@ -449,7 +449,7 @@ const CouponsFormComponent = () => {
             <div className='bg-[#F3F3F3] relative flex p-3 rounded-md lg:w-1/2 w-full'>
               <IoIosWallet color='#A5B7C0' size={26} />
               <input
-                type='text'
+                type='number'
                 // placeholder="Enter value"
                 value={newRole.value}
                 required
@@ -462,7 +462,7 @@ const CouponsFormComponent = () => {
                 htmlFor='tag'
                 className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
               >
-                Enter value
+                Enter percent
               </label>
             </div>
             <div className='flex lg:flex-row flex-col lg:w-1/2 w-full justify-between items-center gap-3'>
@@ -509,7 +509,7 @@ const CouponsFormComponent = () => {
             </div>
           </div>
           <div className='flex lg:flex-row flex-col p-4 items-center w-full lg:gap-8 gap-4'>
-            <div className='bg-[#F3F3F3] relative flex p-3 rounded-md lg:w-1/2 w-full'>
+            {/* <div className='bg-[#F3F3F3] relative flex p-3 rounded-md lg:w-1/2 w-full'>
               <IoIosWallet color='#A5B7C0' size={26} />
               <input
                 type='text'
@@ -530,9 +530,9 @@ const CouponsFormComponent = () => {
               >
                 Enter Usage limit
               </label>
-            </div>
-            {/* <div className='flex gap-2  h-12 w-1/2'>
-              <div className='flex  items-center justify-center gap-2 bg-[#F3F3F3] rounded-lg h-12 w-46 p-4'>
+            </div> */}
+            <div className='flex gap-2  h-12 w-full'>
+              {/* <div className='flex  items-center justify-center gap-2 bg-[#F3F3F3] rounded-lg h-12 w-46 p-4'>
                 <label className='text-sm text-[#577C8E] px-3'>
                   Is Active?
                 </label>
@@ -551,7 +551,7 @@ const CouponsFormComponent = () => {
                     <span className='slider'></span>
                   </label>
                 </div>
-              </div>
+              </div> */}
               <div className='flex  items-center justify-center gap-2 bg-[#F3F3F3] rounded-lg h-12 w-46 p-4'>
                 <label className='text-sm text-[#577C8E] px-3'>
                   Show On Homepage?
@@ -572,7 +572,7 @@ const CouponsFormComponent = () => {
                   </label>
                 </div>
               </div>
-            </div> */}
+            </div>
           </div>
           <div className='flex justify-center items-center lg:gap-8 gap-4 mb-3'>
             <div className='mt-2 flex gap-3 justify-center items-center'>
@@ -606,7 +606,7 @@ const CouponsFormComponent = () => {
               <tr className='bg-admin-secondary text-admin-text-primary font-semibold cursor-pointer'>
                 <th
                   className='p-3 text-center cursor-pointer transition-colors duration-200'
-                  onClick={() => setIsCouponTypeFilterPopupOpen(true)}
+                  // onClick={() => setIsCouponTypeFilterPopupOpen(true)}
                 >
                   <div className='flex items-center justify-start space-x-1'>
                     <span className=''>
@@ -615,9 +615,9 @@ const CouponsFormComponent = () => {
                         ? "Coupons Type"
                         : isfilterCouponType}
                     </span>
-                    <span className='flex flex-col leading-none'>
+                    {/* <span className='flex flex-col leading-none'>
                       <FaAngleDown className='text-admin-text-primary' />
-                    </span>
+                    </span> */}
                   </div>
                 </th>
                 <th className='py-3 px-4 text-left'>title</th>
@@ -654,7 +654,7 @@ const CouponsFormComponent = () => {
                 <th className='py-3 px-4 text-left'>Validity To</th>
                 {/* <th className='py-3 px-4 text-end'>Usage Limit</th> */}
                 <th className='py-3 px-4 text-end'>Redeem Count</th>
-                <th
+                {/* <th
                   className='p-3 text-center cursor-pointer transition-colors duration-200'
                   onClick={() => setIsActiveInactiveFilterPopup(true)}
                 >
@@ -666,8 +666,8 @@ const CouponsFormComponent = () => {
                       <FaAngleDown className='text-admin-text-primary' />
                     </span>
                   </div>
-                </th>
-                {/* <th className='py-3 px-4 text-left'>Homepage</th> */}
+                </th> */}
+                <th className='py-3 px-4 text-left'>Homepage</th>
                 <th className='py-3 px-4 text-left'>Action</th>
                 <th className='py-3 px-4 text-left'>Info</th>
               </tr>
@@ -675,7 +675,7 @@ const CouponsFormComponent = () => {
             <tbody>
               {coupons?.map((data: any, index: any) => (
                 <tr key={index} className='border-b-[1px] hover:bg-purple-100 '>
-                  <td className='py-3 px-4 text-left '>{data?.type}</td>
+                  <td className='py-3 px-4 text-left '>Percentage</td>
                   <th className='py-3 px-4 text-left'>{data?.name}</th>
                   <td className='py-3 px-4 text-left'>{data?.code}</td>
                   <td className='py-3 px-4 text-right'>{data?.discount}</td>
@@ -685,7 +685,7 @@ const CouponsFormComponent = () => {
                   <td className='py-3 px-4 text-right'>
                       {Array.isArray(data?.user) ? data.user.length : data?.user ? 1 : 0}
                   </td>
-                  <td className='p-3 text-center'>
+                  {/* <td className='p-3 text-center'>
                     <div className='flex flex-col items-center'>
                       <Switch
                         checked={data?.is_active}
@@ -701,8 +701,8 @@ const CouponsFormComponent = () => {
                         />
                       </Switch>
                     </div>
-                  </td>
-                  {/* <td className='p-3 text-center'>
+                  </td> */}
+                  <td className='p-3 text-center'>
                     <div className='flex flex-col items-center'>
                       <Switch
                         checked={data?.show_on_homepage}
@@ -718,7 +718,7 @@ const CouponsFormComponent = () => {
                         />
                       </Switch>
                     </div>
-                  </td> */}
+                  </td>
                   <td className='py-3 px-4 text-center gap-4'>
                     <div className='flex justify-center items-center'>
                       <button
