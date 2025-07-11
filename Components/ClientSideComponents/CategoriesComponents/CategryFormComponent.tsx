@@ -265,6 +265,9 @@ const CategryFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await categoryDeleteApi(id, token);
+      if(response.body.success === false){
+        toast.error("error to delete category")
+      }
       if (response?.body.message === 'Category deleted') {
         toast.success("Category deleted successfully");
         setIsLogoutPopup(false);

@@ -497,7 +497,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                               Enter Sub-Category
                             </label>
                           </div>
-                          <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
+                          {/* <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                             <MdCategory color='#A5B7C0' size={26} />
                             <input
                               type='text'
@@ -539,8 +539,8 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                             >
                               Enter Description
                             </label>
-                          </div>
-                          <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
+                          </div> */}
+                          {/* <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
                             <BsPuzzleFill color='#A5B7C0' size={26} />
                             <input
                               type='text'
@@ -581,8 +581,8 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                             >
                               Enter SEO Description
                             </label>
-                          </div>
-                          <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
+                          </div> */}
+                          {/* <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
                             <BsPuzzleFill color='#A5B7C0' size={26} />
                             <input
                               type='text'
@@ -602,7 +602,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                             >
                               Enter SEO Keyword
                             </label>
-                          </div>
+                          </div> */}
 
                           <div className='flex bg-[#F3F3F3] p-3 relative justify-between w-full h-12 rounded-lg shadow-sm'>
                             <label className='text-sm text-[#577C8E]'>
