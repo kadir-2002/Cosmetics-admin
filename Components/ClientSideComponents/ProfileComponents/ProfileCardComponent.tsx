@@ -13,30 +13,30 @@ const ProfileCard = () => {
         const token = useSelector((state: any) => state?.user?.token);
 
     const [profile, setProfile] = useState({
-        firstName: createdBy?.first_name,
-        lastName: createdBy?.last_name,
+        firstName: createdBy?.firstName,
+        lastName: createdBy?.lastName,
         email: createdBy?.email,
         phone: createdBy?.phone_number,
-        category: createdBy?.category,
+        category: createdBy?.role,
     });
+ 
+    // console.log(profile,"profile")
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setProfile((prev) => ({ ...prev, [name]: value }));
     };
- console.log("createdBy",createdBy)
+//  console.log("createdBy",createdBy)
     const handleSave = async () => {
         try {
             const response = await profileUpdatedApi(
                 id,
                 profile.firstName,
                 profile.lastName,
-                profile.phone,
                 profile.email,
-                "+91",
-                "",
+                // profile.phone,
+                profile.category,
                 true, 
-               "",
                 token
             );
 
@@ -61,10 +61,10 @@ const ProfileCard = () => {
                             className="absolute top-0 left-0 w-full h-44 bg-[url('/Wave21.png')] bg-cover bg-center">
                         </div>
                         <div className="w-full flex flex-col justify-center mt-12 items-center">
-                            {createdBy?.profile_picture ? (
+                            {createdBy?.imageUrl ? (
                                 <div className="relative flex justify-center bg-slate-200 p-2 rounded-full">
                                     <img
-                                        src={`${process.env.NEXT_PUBLIC_BASE_URL}${createdBy?.profile_picture}`}
+                                        src={`${createdBy?.imageUrl}`}
                                         alt="Profile"
                                         className="lg:h-36 lg:w-36 h-28 w-28 rounded-full border-4 border-white shadow-md"
                                     />
@@ -132,7 +132,7 @@ const ProfileCard = () => {
                                             />
                                         </div>
                                     </form>
-                                    {/* <div className="flex justify-center mt-8 gap-4">
+                                    <div className="flex justify-center mt-8 gap-4">
                                         {isEditing ? (
                                             <>
                                                 <button
@@ -159,7 +159,7 @@ const ProfileCard = () => {
                                                 Edit Profile
                                             </button>
                                         )}
-                                    </div> */}
+                                    </div>
                                 </div>
                             </div>
                         </div>
