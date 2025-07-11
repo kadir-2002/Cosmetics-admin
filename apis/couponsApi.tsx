@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCores } from "./apiCore";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreGet } from "./apiCoreGet";
@@ -19,14 +20,16 @@ export const couponsAllDataApi = async (
   if (ordering) {
     queryParams.append("ordering", ordering);
   }
-  const endpoint = `/mainapp/discount-coupon/?${queryParams}`;
-  const response = await apiCoreGet(endpoint, "GET", token);
+  const endpoint = `/coupon/discounts/`;
+  const response = await apiCoreNode(endpoint, {},"GET", token);
   return response;
 };
 
 export const couponsDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(
-    `/mainapp/discount-coupon/${id}/`,
+  const response = await apiCoreNode(
+    `/coupon/discounts/${id}/`,
+    {},
+    "DELETE",
     token
   );
   return response;
@@ -59,9 +62,9 @@ export const couponsUpdatedApi = async (
     show_on_homepage: show_on_homepage,
     created_by: created_by,
   };
-  const response = await apiCoreUpdate(
+  const response = await apiCoreNode(
     `/mainapp/discount-coupon/${id}/`,
-    "",
+  
     requestBody,
     "PATCH",
     token
@@ -84,19 +87,19 @@ export const createCouponsApi = async (
   token: string
 ) => {
   const response = await apiCores(
-    "/mainapp/discount-coupon/",
+    "/coupon/",
     {
-      type: type,
-      code: code,
-      value: value,
-      usage_limit: usage_limit,
-      valid_from: valid_from,
-      valid_till: valid_till,
-      created_by: created_by,
-      is_active: isActive,
-      title: title,
-      description: description,
-      show_on_homepage: show_on_homepage,
+      // type: type,
+      // code: code,
+      discount: Number(value),
+      // usage_limit: usage_limit,
+      // valid_from: valid_from,
+      expiresAt: valid_till,
+      // created_by: created_by,
+      // is_active: isActive,
+      name: title,
+      // description: description,
+      // show_on_homepage: show_on_homepage,
     },
     "POST",
     token

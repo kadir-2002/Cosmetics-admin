@@ -11,6 +11,7 @@ import { TbCategoryPlus, TbLayoutNavbarCollapseFilled, TbListDetails } from "rea
 import { FaBagShopping, FaOpencart, FaRegImage, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
 import { LuGalleryVerticalEnd } from "react-icons/lu";
 import { IoIosContact } from "react-icons/io";
+import { RiCoupon2Line } from "react-icons/ri";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -43,7 +44,7 @@ const menuGroups = [
       { icon: <FaBagShopping  className="h-6 w-6"  />, label: "Product", route: "/product" },
       { icon: <FaSearchLocation className="h-6 w-6"  />, label: "Pincode", route: "/pincode" },
       // { icon: "/tax.png", label: "Tax", route: "/tax" },
-      // { icon: "/Coupon.png", label: "Coupons", route: "/coupons" },
+      { icon:<RiCoupon2Line className="h-6 w-6"/> , label: "Coupons", route: "/coupons" },
       { icon: <FaUsers className="h-6 w-6"  />, label: "User", route: "/user" },
       // { icon: "/role.png", label: "Role", route: "/role" },
       // { icon: "/blog.png", label: "Blog", route: "/blog" },

@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ActiveInactiveFilterPopup from "../RoleFormComponents/ActiveInactiveFilterPopup";
 import CouponTypeFilterPopup from "./CouponTypeFilterPopup";
 import DeleteCouponComponent from "./DeleteCouponComponent";
+import { formatIST } from "../OrderComponents/OrderInfoComponent";
 
 interface Coupons {
   id: string;
@@ -104,7 +105,7 @@ const CouponsFormComponent = () => {
         const response = await createCouponsApi(
           type,
           code,
-          value,
+          value,  
           usage_limit,
           valid_from,
           valid_till,
@@ -160,14 +161,14 @@ const CouponsFormComponent = () => {
         ordering,
         isActive
       );
-      if (response?.detail === "Invalid token") {
+      if (response?.body.detail === "Invalid token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
         return;
       }
-      if (response?.discount_coupons) {
-        setRoles(response?.discount_coupons || []);
+      if (response?.body.data) {
+        setRoles(response?.body.data || []);
       }
     } catch (error) {}
   };
@@ -198,7 +199,7 @@ const CouponsFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await couponsDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body.success) {
         toast.success("Coupon deleted successfully");
         setIsLogoutPopup(false);
         fetchRoles();
@@ -368,7 +369,7 @@ const CouponsFormComponent = () => {
           className='bg-white lg:w-[100%] order-[1px] w-full rounded-lg shadow-md lg:p-6'
         >
           <div className='flex lg:flex-row flex-col p-4 items-center w-full lg:gap-8 gap-4 justify-between'>
-            <select
+            {/* <select
               name='role'
               onChange={(e) =>
                 setNewRole((prev) => ({ ...prev, type: e.target.value }))
@@ -376,11 +377,11 @@ const CouponsFormComponent = () => {
               value={newRole?.type}
               className='px-3 h-12 rounded-md bg-[#F3F3F3]  w-full'
               required
-            >
-              <option value=''>Select Coupons Type</option>
+            > */}
+              {/* <option value=''>Select Coupons Type</option>
               <option>Flat</option>
               <option>Percentage</option>
-            </select>
+            </select> */}
             <div className='bg-[#F3F3F3] relative flex p-3 rounded-md w-full'>
               <RiCoupon4Fill color='#A5B7C0' size={26} />
               <input
@@ -421,7 +422,7 @@ const CouponsFormComponent = () => {
                 Enter Title
               </label>
             </div>
-            <div className='bg-[#F3F3F3] relative flex p-3 rounded-md w-full'>
+            {/* <div className='bg-[#F3F3F3] relative flex p-3 rounded-md w-full'>
               <RiCoupon4Fill color='#A5B7C0' size={26} />
               <input
                 type='text'
@@ -442,7 +443,7 @@ const CouponsFormComponent = () => {
               >
                 Enter Description
               </label>
-            </div>
+            </div> */}
           </div>
           <div className='flex lg:flex-row flex-col p-4 items-center w-full lg:gap-8 gap-4 justify-between'>
             <div className='bg-[#F3F3F3] relative flex p-3 rounded-md lg:w-1/2 w-full'>
@@ -514,7 +515,7 @@ const CouponsFormComponent = () => {
                 type='text'
                 // placeholder="Enter Usage limit"
                 value={newRole.usage_limit}
-                required
+                // required
                 onChange={(e) =>
                   setNewRole((prev) => ({
                     ...prev,
@@ -530,7 +531,7 @@ const CouponsFormComponent = () => {
                 Enter Usage limit
               </label>
             </div>
-            <div className='flex gap-2  h-12 w-1/2'>
+            {/* <div className='flex gap-2  h-12 w-1/2'>
               <div className='flex  items-center justify-center gap-2 bg-[#F3F3F3] rounded-lg h-12 w-46 p-4'>
                 <label className='text-sm text-[#577C8E] px-3'>
                   Is Active?
@@ -571,7 +572,7 @@ const CouponsFormComponent = () => {
                   </label>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className='flex justify-center items-center lg:gap-8 gap-4 mb-3'>
             <div className='mt-2 flex gap-3 justify-center items-center'>
@@ -651,7 +652,7 @@ const CouponsFormComponent = () => {
                   </div>
                 </th>
                 <th className='py-3 px-4 text-left'>Validity To</th>
-                <th className='py-3 px-4 text-end'>Usage Limit</th>
+                {/* <th className='py-3 px-4 text-end'>Usage Limit</th> */}
                 <th className='py-3 px-4 text-end'>Redeem Count</th>
                 <th
                   className='p-3 text-center cursor-pointer transition-colors duration-200'
@@ -666,7 +667,7 @@ const CouponsFormComponent = () => {
                     </span>
                   </div>
                 </th>
-                <th className='py-3 px-4 text-left'>Homepage</th>
+                {/* <th className='py-3 px-4 text-left'>Homepage</th> */}
                 <th className='py-3 px-4 text-left'>Action</th>
                 <th className='py-3 px-4 text-left'>Info</th>
               </tr>
@@ -675,18 +676,20 @@ const CouponsFormComponent = () => {
               {coupons?.map((data: any, index: any) => (
                 <tr key={index} className='border-b-[1px] hover:bg-purple-100 '>
                   <td className='py-3 px-4 text-left '>{data?.type}</td>
-                  <th className='py-3 px-4 text-left'>{data?.title}</th>
+                  <th className='py-3 px-4 text-left'>{data?.name}</th>
                   <td className='py-3 px-4 text-left'>{data?.code}</td>
-                  <td className='py-3 px-4 text-right'>{data?.value}</td>
-                  <td className='py-3 px-4 text-left'>{data?.valid_from}</td>
-                  <td className='py-3 px-4 text-left'>{data?.valid_till}</td>
-                  <td className='py-3 px-4 text-right'>{data?.usage_limit}</td>
-                  <td className='py-3 px-4 text-right'>{data?.redeem_count}</td>
+                  <td className='py-3 px-4 text-right'>{data?.discount}</td>
+                  <td className='py-3 px-4 text-left'>{formatIST(data?.createdAt)}</td>
+                  <td className='py-3 px-4 text-left'>{formatIST(data?.expiresAt)}</td>
+                  {/* <td className='py-3 px-4 text-right'>{data?.usage_limit}</td> */}
+                  <td className='py-3 px-4 text-right'>
+                      {Array.isArray(data?.user) ? data.user.length : data?.user ? 1 : 0}
+                  </td>
                   <td className='p-3 text-center'>
                     <div className='flex flex-col items-center'>
                       <Switch
                         checked={data?.is_active}
-                        onChange={() => activeHandler(data, !data?.is_active , data?.show_on_homepage)}
+                        // onChange={() => activeHandler(data, !data?.is_active , data?.show_on_homepage)}
                         className={`${
                           data?.is_active ? "bg-green-500" : "bg-gray-300"
                         } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
@@ -699,7 +702,7 @@ const CouponsFormComponent = () => {
                       </Switch>
                     </div>
                   </td>
-                  <td className='p-3 text-center'>
+                  {/* <td className='p-3 text-center'>
                     <div className='flex flex-col items-center'>
                       <Switch
                         checked={data?.show_on_homepage}
@@ -715,7 +718,7 @@ const CouponsFormComponent = () => {
                         />
                       </Switch>
                     </div>
-                  </td>
+                  </td> */}
                   <td className='py-3 px-4 text-center gap-4'>
                     <div className='flex justify-center items-center'>
                       <button
