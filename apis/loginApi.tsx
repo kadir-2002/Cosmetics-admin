@@ -16,7 +16,7 @@ export const otpVerifyApi = async (username: string, otp: string) => {
 };
 
 export const ResetPassWordApi = async (username: string, otp: string, password: string) => {
-  const response = await apiCores("/password-reset/reset-password/", { email: username, otp: otp, password: password, confirm_password: password }, "POST");
+  const response = await apiCores("/password-reset/reset-password/", { email: username, oldPassword: password, newPassword: password }, "POST");
   return response;
 };
 

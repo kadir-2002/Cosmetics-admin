@@ -47,19 +47,19 @@ const page = ({  }) => {
             >
               Coupons
             </button>
-            <button
+            {/* <button
               className={`px-6 py-2 rounded ${
                 openTab === "discount" ? "bg-admin-buttonprimary text-white" : "bg-gray-200"
               }`}
               onClick={() => setOpenTab("discount")}
             >
               Discount
-            </button>
+            </button> */}
           </div>
 
          
           {openTab === "coupons" && <CouponsFormComponent />}
-          {openTab === "discount" && <DiscountFormComponent />}
+          {/* {openTab === "discount" && <DiscountFormComponent />} */}
         </div>
       )}
     </>
