@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCores } from "./apiCore";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreGet } from "./apiCoreGet";
@@ -20,7 +21,7 @@ export const createTagApi = async (name: string,is_active:boolean, created_by: n
 };
 
 export const tagDeleteApi = async (id: any,token:string) => {
-  const response = await apiCoreDelete(`/product-tag/${id}/`, token);
+  const response = await apiCoreNode(`/product-tag/${id}/`,{},"DELETE", token);
   return response;
 };
 export const tagUpdatedApi = async (id:string,name: string,is_active:boolean, created_by: number,token:string)=> {

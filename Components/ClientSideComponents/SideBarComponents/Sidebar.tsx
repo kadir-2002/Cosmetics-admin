@@ -8,10 +8,12 @@ import ClickOutside from "./ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { MdDashboardCustomize, MdOutlineProductionQuantityLimits, MdOutlineRateReview, MdOutlineUnsubscribe } from "react-icons/md";
 import { TbCategoryPlus, TbLayoutNavbarCollapseFilled, TbListDetails } from "react-icons/tb";
-import { FaBagShopping, FaOpencart, FaRegImage, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
+import { FaBagShopping, FaGoogle, FaOpencart, FaRegImage, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
 import { LuGalleryVerticalEnd } from "react-icons/lu";
 import { IoIosContact } from "react-icons/io";
 import { RiCoupon2Line } from "react-icons/ri";
+import { PiArrowCounterClockwise } from "react-icons/pi";
+import { BsTag } from "react-icons/bs";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -38,7 +40,7 @@ const menuGroups = [
         route: "/testimonials",
       },
 
-      // { icon: "/blog.png", label: "Counter", route: "/countersection" },
+      { icon: <PiArrowCounterClockwise className="h-6 w-6" />, label: "Counter", route: "/countersection" },
       { icon: <TbCategoryPlus className="h-6 w-6"  />, label: "Categories", route: "/categories" },
       { icon: <FaUsers className="h-6 w-6"  />, label: "Customers", route: "/customers" },
       { icon: <FaBagShopping  className="h-6 w-6"  />, label: "Product", route: "/product" },
@@ -60,7 +62,7 @@ const menuGroups = [
       //   label: "Delivery Settings",
       //   route: "/distance-avoid",
       // },
-      // { icon: "/tag.png", label: "Tag", route: "/tag" },
+      { icon: <BsTag className="h-6 w-6" />, label: "Tag", route: "/tag" },
       {
         icon: <TbListDetails className="h-6 w-6" />,
         label: "Company Details",
@@ -70,11 +72,11 @@ const menuGroups = [
       // { icon: "/store.png", label: "Store Address", route: "/storeaddress" },
       { icon: <IoIosContact className="h-6 w-6"  />, label: "Contact Us", route: "/contactus" },
       { icon: <MdOutlineUnsubscribe className="h-6 w-6"  />, label: "Newsletter", route: "/newsletter" },
-      // {
-      //   icon: "/payment.png",
-      //   label: "Google Analytics",
-      //   route: "/googleanalytics",
-      // },
+      {
+        icon: <FaGoogle className="h-6 w-6" />,
+        label: "Google Analytics",
+        route: "/googleanalytics",
+      },
       // {
       //   icon: "/newslatter.png",
       //   label: "About Us",

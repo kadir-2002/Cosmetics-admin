@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCores } from "./apiCore";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreGet } from "./apiCoreGet";
@@ -17,17 +18,17 @@ export const CounterAllDataApi = async (apiParams: {
   if (apiParams.filtervalue !== undefined) {
     queryParams.append("is_active", apiParams.filtervalue.toString());
   }
-  const endpoint = `/frontend/homepage_statistics/?${queryParams.toString()}`;
+  const endpoint = `/homepage_statistics/?${queryParams.toString()}`;
   const response = await apiCoreGet(endpoint, "GET", apiParams.token);
   return response;
 };
 export const createCounterApi = async (name: string, value: string,is_active:boolean,token:string) => {
-  const response = await apiCores("/frontend/homepage_statistics/", { title: name,  number:value,is_active:is_active }, "POST",token);
+  const response = await apiCores("/homepage_statistics/", { title: name,  number:value,is_active:is_active }, "POST",token);
   return response;
 };
 
 export const counterDeleteApi = async (id: any,token:string) => {
-  const response = await apiCoreDelete(`/frontend/homepage_statistics/${id}/`, token);
+  const response = await apiCoreNode(`/homepage_statistics/${id}/`,{},"DELETE", token);
   return response;
 };
 export const counterUpdatedApi = async (id:string,name: string, value: string,is_active:boolean,token:string)=> {
@@ -36,6 +37,6 @@ export const counterUpdatedApi = async (id:string,name: string, value: string,is
     number:value,
     is_active:is_active
   };
-  const response = await apiCoreUpdate(`/frontend/homepage_statistics/${id}/`, "", requestBody, "PATCH",token);
+  const response = await apiCoreUpdate(`/homepage_statistics/${id}/`, "", requestBody, "PATCH",token);
   return response;
 };

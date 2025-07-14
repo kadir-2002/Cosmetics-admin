@@ -9,12 +9,14 @@ export const creategoogleanalyticsApi = async (
   token: string
 ) => {
   const response = await apiCores(
-    "/mainapp/google-analytics/",
+    "/google-analytics/",
     {
       google_email: email,
       measurement_id: measurement_id,
       tag: tag,
       is_active: true,
+      created_by:token,
+      updated_by: token,
     },
     "POST",
     token
@@ -23,7 +25,7 @@ export const creategoogleanalyticsApi = async (
 };
 
 export const googleanalyticsApiAllDataApi = async (token: string) => {
-  const response = await apiCoreGet(`/mainapp/google-analytics/`, "GET", token);
+  const response = await apiCoreGet(`/google-analytics/`, "GET", token);
   return response;
 };
 
@@ -36,12 +38,13 @@ export const updategoogleanalyticsApi = async (
   token: string
 ) => {
   const response = await apiCores(
-    `/mainapp/google-analytics/${id}/`,
+    `/google-analytics/${id}/`,
     {
       google_email: email,
       measurement_id: measurement_id,
       tag: tag,
       is_active: true,
+      updated_by: token,
     },
     "PATCH",
     token
