@@ -70,7 +70,7 @@ const CounterComponent = () => {
         if (response?.status === 200) {
           toast.success("Counter updated successfully");
           setIsEdit(false);
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token ") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -79,7 +79,7 @@ const CounterComponent = () => {
         const response = await createCounterApi(name, value, is_active, token);
         if (response?.status === 201) {
           toast.success("Counter created successfully");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -220,7 +220,7 @@ const CounterComponent = () => {
     );
     if (response?.status === 200) {
       fetchTag();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

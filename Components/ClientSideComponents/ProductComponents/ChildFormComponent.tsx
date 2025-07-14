@@ -117,7 +117,7 @@ useEffect(() => {
           setOpenForm(false);
           productdata();
           setSpecification({});
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token ") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -195,7 +195,7 @@ useEffect(() => {
         });
 
         setVarientdata(groupedSpecs); // ✅ Now isVarientdata is an object with array values
-      } else if (response?.body.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

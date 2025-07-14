@@ -84,7 +84,7 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
           response?.data?.error === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -108,7 +108,7 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
           response?.data?.error === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -179,11 +179,11 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await componentDeleteApi(id, section, token);
-      if (response?.success) {
+      if (response?.body.success) {
         toast.success("Sub Categry deleted successfully");
         setSelectCategry(false);
         loadCategry();
-      } else if (response?.data?.detail === "Invalid token") {
+      } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -197,7 +197,7 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
       const response = await componentAlldataApi(section, token);
       if (response) {
         setComponent(response?.results);
-      } else if (response?.data?.detail === "Invalid token") {
+      } else if (response?.data?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -236,7 +236,7 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
     );
     if (response?.status === 200) {
       loadCategry();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

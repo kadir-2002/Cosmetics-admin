@@ -110,7 +110,7 @@ const WhyChooseUsFormComponent = () => {
           response?.data?.error === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token ") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -303,7 +303,7 @@ const WhyChooseUsFormComponent = () => {
     );
     if (response?.status === 200) {
       fetchBanner();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token ") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

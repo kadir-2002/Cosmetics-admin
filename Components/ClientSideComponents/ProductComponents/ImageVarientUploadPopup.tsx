@@ -49,7 +49,7 @@ const ImageVarientUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploa
                 setNewImg({ id: "", product: "", sequence_number: "", image: "", is_active: false, });
                 setFileName("")
                 fetchimgData()
-            } else if (response?.data?.detail === "Invalid token") {
+            } else if (response?.data?.message === "Invalid or expired token ") {
                 dispatch(clearUserDetails());
                 toast.error("Session Expired, Please Login Again")
                 router.push("/");
@@ -90,7 +90,7 @@ const ImageVarientUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploa
                 productdata()
                 fetchimgData();
                 setOpenDeletePopup(false);
-            } else if (response?.body.detail === "Invalid token") {
+            } else if (response?.body.message === "Invalid or expired token") {
                 dispatch(clearUserDetails());
                 toast.error("Session Expired, Please Login Again")
                 router.push("/");

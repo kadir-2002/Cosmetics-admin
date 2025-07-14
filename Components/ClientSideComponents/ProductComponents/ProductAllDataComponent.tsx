@@ -125,7 +125,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
         toast.success("Product deleted successfully");
         setOpenDeletePopup(false);
         productdata();
-      } else if (response?.body.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

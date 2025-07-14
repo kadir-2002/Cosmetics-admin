@@ -54,7 +54,7 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploadImg, i
                 fetchimgData();
             } else if (response?.error === "This QueryDict instance is immutable") {
                 toast.success("Image is Required");
-            } else if (response?.data?.detail === "Invalid token") {
+            } else if (response?.data?.message === "Invalid or expired token") {
                 dispatch(clearUserDetails());
                 toast.error("Session Expired, Please Login Again")
                 router.push("/");
@@ -95,7 +95,7 @@ const ImageUploadPopup: React.FC<ImageUploadPopupProps> = ({ setOPenUploadImg, i
                 productdata()
                 fetchimgData();
                 setOpenDeletePopup(false);
-            } else if (response?.body.detail === "Invalid token") {
+            } else if (response?.body.message === "Invalid or expired token ") {
                 dispatch(clearUserDetails());
                 toast.error("Session Expired, Please Login Again")
                 router.push("/");

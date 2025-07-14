@@ -165,7 +165,7 @@ const UserFormComponent = () => {
             profile_picture: "",
             category_name: "",
           });
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token ") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -210,7 +210,7 @@ const UserFormComponent = () => {
             profile_picture: "",
             category_name: "",
           });
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -321,7 +321,7 @@ const UserFormComponent = () => {
         setUsers(response?.body.results);
         setuserrole(response.body.results.role)
         setTotalPages(response?.body.total_pages);
-      } else if (response?.body.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token ") {
         if (!tokenErrorShown.current) {
           tokenErrorShown.current = true; // Prevent further toasts
           dispatch(clearUserDetails());
@@ -384,7 +384,7 @@ const UserFormComponent = () => {
         toast.success("User deleted successfully");
         setIsLogoutPopup(false);
         fetchUser();
-      } else if (response?.body.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -504,7 +504,7 @@ const UserFormComponent = () => {
     if (response?.status === 200) {
       fetchUser();
       setloading(false);
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token ") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

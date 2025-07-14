@@ -55,7 +55,7 @@ const ChildProductDataComponent: React.FC<Props> = ({ products, productdata, han
         setOpenDeletePopup(false);
         productdata()
 
-      } else if (response?.body.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token ") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again")
         router.push("/");
@@ -89,7 +89,7 @@ const ChildProductDataComponent: React.FC<Props> = ({ products, productdata, han
     );
     if (response?.status === 200) {
       productdata();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again")
       router.push("/");

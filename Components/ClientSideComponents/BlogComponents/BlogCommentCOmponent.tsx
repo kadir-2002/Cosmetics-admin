@@ -34,7 +34,7 @@ const BlogCommentCOmponent: React.FC<LogoutPopupProps> = ({
         if (response?.status === 200) {
             // fetchReview(data?.id);
             // fetchReview()
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token ") {
             dispatch(clearUserDetails());
             toast.error("Session Expired, Please Login Again")
             router.push("/");

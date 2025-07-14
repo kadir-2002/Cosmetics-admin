@@ -71,7 +71,7 @@ const BlogSEOKeywordComponent = () => {
           response?.data?.error === "Tag with this name already exists"
         ) {
           toast.error("Tag already exists");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -82,7 +82,7 @@ const BlogSEOKeywordComponent = () => {
           toast.error("Tag already exists");
         } else if (response?.status === 201) {
           toast.success("Tag created successfully");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");

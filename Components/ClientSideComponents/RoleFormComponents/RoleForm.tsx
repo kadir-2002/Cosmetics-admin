@@ -198,7 +198,7 @@ const AdminForm = () => {
           response?.data?.error === "group with this name already exists"
         ) {
           toast.error("Role already exists");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -276,7 +276,7 @@ const AdminForm = () => {
             show_pincode_page: false,
             show_abandoned_cart_settings_page: false,
           });
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -568,7 +568,7 @@ const AdminForm = () => {
     );
     if (response?.status === 200) {
       fetchRoles();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token ") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

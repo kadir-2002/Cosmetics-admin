@@ -200,7 +200,7 @@ const CustomerFormComponent = () => {
         endDates: formattedEndDate,
         isActiveInactive: isActiveInactive,
       });
-      if (response?.body.detail === "Invalid token") {
+      if (response?.body.message === "Invalid or expired token ") {
         if (!tokenErrorShown.current) {
           tokenErrorShown.current = true; // Prevent further toasts
           dispatch(clearUserDetails());

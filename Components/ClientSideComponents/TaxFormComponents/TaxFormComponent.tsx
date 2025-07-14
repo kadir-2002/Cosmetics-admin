@@ -89,7 +89,7 @@ const TaxFormComponent = () => {
         } else if (response?.status === 201) {
           toast.success("Tax created successfully");
           setOpenForm(false);
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired toke ") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");

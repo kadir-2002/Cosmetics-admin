@@ -98,7 +98,7 @@ const PinCodeFormComponent = () => {
           });
         } else if (response?.data?.error === "This zipcode already exists") {
           toast.error("This Zipcode already exists");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired toke") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -128,7 +128,7 @@ const PinCodeFormComponent = () => {
             estimated_delivery_days:0,
             is_active: false,
           });
-        } else if (response?.body.detail === "Invalid token") {
+        } else if (response?.body.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -276,7 +276,7 @@ const PinCodeFormComponent = () => {
     );
     if (response?.status === 200) {
       fetchPincode();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token ") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

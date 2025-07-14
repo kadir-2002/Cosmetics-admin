@@ -233,7 +233,7 @@ const CategryFormComponent = () => {
       if (response.body) {
         setCategry(response.body.categories);
         setTotalPages(response?.body.total_pages);
-      } else if (response?.body.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -272,7 +272,7 @@ const CategryFormComponent = () => {
         toast.success("Category deleted successfully");
         setIsLogoutPopup(false);
         fetchCategory();
-      } else if (response?.body.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -398,7 +398,7 @@ const CategryFormComponent = () => {
     );
     if (response?.status === 200) {
       fetchCategory();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

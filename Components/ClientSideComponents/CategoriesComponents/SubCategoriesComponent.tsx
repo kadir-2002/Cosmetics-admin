@@ -108,7 +108,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
           toast.success("Sub Category Updated Successfully");
           setFileName("");
           setIsEdit(false);
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token ") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -154,7 +154,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
           "Product category with this sequence number already exists"
         ) {
           toast.error("This Sequence Number already exists");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -251,7 +251,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
         toast.success("Sub Categry deleted successfully");
         setSelectCategry(false);
         loadCategry();
-      } else if (response?.body.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -319,7 +319,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
     );
     if (response?.status === 200) {
       loadCategry();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

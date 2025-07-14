@@ -88,7 +88,7 @@ const TestimonialFormComponent = () => {
             role: "",
             isActive: false,
           });
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token ") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -119,7 +119,7 @@ const TestimonialFormComponent = () => {
             role: "",
             isActive: false,
           });
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token ") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -286,7 +286,7 @@ const TestimonialFormComponent = () => {
     );
     if (response?.status === 200) {
       fetchCategory();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token ") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

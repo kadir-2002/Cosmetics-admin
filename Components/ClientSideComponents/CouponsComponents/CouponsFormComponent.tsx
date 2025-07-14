@@ -171,7 +171,7 @@ const CouponsFormComponent = () => {
         ordering,
         isActive
       );
-      if (response?.body.detail === "Invalid token") {
+      if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

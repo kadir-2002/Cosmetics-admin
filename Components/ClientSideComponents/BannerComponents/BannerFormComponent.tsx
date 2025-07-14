@@ -344,7 +344,7 @@ const BannerFormComponent = () => {
     );
     if (response?.status === 200) {
       fetchBanner();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

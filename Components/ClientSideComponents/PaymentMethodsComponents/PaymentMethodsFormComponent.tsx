@@ -268,7 +268,7 @@ const PaymentMethods = () => {
         );
         if (response?.data?.error === "Invalid URL") {
           toast.error("Enter Correct Url");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -402,7 +402,7 @@ const PaymentMethods = () => {
         );
         if (response?.data?.error === "Invalid URL") {
           toast.error("Enter Correct URL");
-        } else if (response?.data?.detail === "Invalid token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
