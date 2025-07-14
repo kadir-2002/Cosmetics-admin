@@ -20,7 +20,7 @@ export const couponsAllDataApi = async (
   if (ordering) {
     queryParams.append("ordering", ordering);
   }
-  const endpoint = `/coupon/discounts/`;
+  const endpoint = `/coupon/discounts/?${queryParams}`;
   const response = await apiCoreNode(endpoint, {},"GET", token);
   return response;
 };
@@ -50,20 +50,20 @@ export const couponsUpdatedApi = async (
   token: string
 ) => {
   const requestBody = {
-    type: type,
+    // type: type,
     code: code,
-    value: value,
-    usage_limit: usage_limit,
-    valid_from: valid_from,
-    valid_till: valid_till,
-    is_active: isActive,
-    title: title,
+    discount: value,
+    maxRedeemCount: usage_limit,
+    createdAt: valid_from,
+    expiresAt: valid_till,
+    is_active: String(isActive),
+    name: title,
     description: description,
-    show_on_homepage: show_on_homepage,
+    show_on_homepage: String(show_on_homepage),
     created_by: created_by,
   };
   const response = await apiCoreNode(
-    `/mainapp/discount-coupon/${id}/`,
+    `/coupon/update/${id}/`,
   
     requestBody,
     "PATCH",
@@ -96,7 +96,7 @@ export const createCouponsApi = async (
       // valid_from: valid_from,
       expiresAt: valid_till,
       // created_by: created_by,
-      // is_active: isActive,
+      is_active: isActive,
       name: title,
       // description: description,
       show_on_homepage: show_on_homepage,

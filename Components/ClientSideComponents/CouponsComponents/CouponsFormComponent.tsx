@@ -29,11 +29,21 @@ interface Coupons {
   id: string;
   type: string;
   code: string;
-  value: any;
-  usage_limit: any;
-  valid_from: any;
-  valid_till: any;
+  value: number | string;
+  usage_limit: number | string;
+  valid_from: string | Date;
+  valid_till: string | Date;
   isActive: boolean;
+  redeemCount: number;
+  title: string;
+  description: string;
+  show_on_homepage: boolean;
+  is_active: boolean;
+  createdAt: string;
+  expiresAt: string;
+  discount: number;
+  name: string;
+  maxRedeemCount: number;
 }
 
 const CouponsFormComponent = () => {
@@ -291,32 +301,67 @@ const CouponsFormComponent = () => {
   const handleValidTillChange = (date: any) => {
     setNewRole((prev) => ({ ...prev, valid_till: date }));
   };
-  const activeHandler = async (data: any, isActive: boolean ,show_on_homepage:boolean) => {
-    const response = await couponsUpdatedApi(
-      data?.id,
-      data?.type,
-      data?.code,
-      data?.value,
-      data?.usage_limit,
-      data?.valid_from_formatted,
-      data?.valid_till_formatted,
-      data?.title,
-      data?.description,
-      show_on_homepage,
-      created_by,
-      isActive,
-      token
+const activeHandler = async (
+  selectedCoupon: any,
+  isActive: boolean,
+  showOnHomepage: boolean
+) => {
+  // If user is turning ON "show on homepage"
+  if (showOnHomepage) {
+    const otherHomepageCoupons = coupons.filter(
+      (c) => c.id !== selectedCoupon.id && c.show_on_homepage
     );
-    if (response?.status === 401) {
-      dispatch(clearUserDetails());
-      toast.error("Session Expired, Please Login Again");
-      router.push("/");
-      return;
+
+    // Turn off show_on_homepage for all others
+    for (const coupon of otherHomepageCoupons) {
+      await couponsUpdatedApi(
+        coupon.id,
+        coupon.type,
+        coupon.code,
+        coupon.discount,
+        coupon.maxRedeemCount,
+        coupon.createdAt,
+        coupon.expiresAt,
+        coupon.name,
+        coupon.description,
+        false, // force show_on_homepage to false
+        created_by,
+        coupon.isActive,
+        token
+      );
     }
-    if (response?.status === 200) {
-      fetchRoles();
-    }
-  };
+  }
+
+  // Now update the selected coupon
+  const response = await couponsUpdatedApi(
+    selectedCoupon.id,
+    selectedCoupon.type,
+    selectedCoupon.code,
+    selectedCoupon.discount,
+    selectedCoupon.maxRedeemCount,
+    selectedCoupon.createdAt,
+    selectedCoupon.expiresAt,
+    selectedCoupon.name,
+    selectedCoupon.description,
+    showOnHomepage,
+    created_by,
+    isActive,
+    token
+  );
+
+  if (response?.status === 401) {
+    dispatch(clearUserDetails());
+    toast.error("Session Expired, Please Login Again");
+    router.push("/");
+    return;
+  }
+
+  if (response?.status === 200) {
+    fetchRoles(); // Refresh table
+    toast.success("Updated successfully");
+  }
+};
+
   return (
     <div className='min-h-screen w-full flex flex-col lg:items-center'>
       <div className='flex justify-center items-center mx-auto w-full mb-4 lg:gap-8 gap-3 '>
@@ -532,7 +577,7 @@ const CouponsFormComponent = () => {
               </label>
             </div>
             <div className='flex gap-2  h-12 w-full'>
-              {/* <div className='flex  items-center justify-center gap-2 bg-[#F3F3F3] rounded-lg h-12 w-46 p-4'>
+              <div className='flex  items-center justify-center gap-2 bg-[#F3F3F3] rounded-lg h-12 w-46 p-4'>
                 <label className='text-sm text-[#577C8E] px-3'>
                   Is Active?
                 </label>
@@ -551,7 +596,7 @@ const CouponsFormComponent = () => {
                     <span className='slider'></span>
                   </label>
                 </div>
-              </div> */}
+              </div>
               <div className='flex  items-center justify-center gap-2 bg-[#F3F3F3] rounded-lg h-12 w-46 p-4'>
                 <label className='text-sm text-[#577C8E] px-3'>
                   Show On Homepage?
@@ -652,9 +697,9 @@ const CouponsFormComponent = () => {
                   </div>
                 </th>
                 <th className='py-3 px-4 text-left'>Validity To</th>
-                {/* <th className='py-3 px-4 text-end'>Usage Limit</th> */}
+                <th className='py-3 px-4 text-end'>Usage Limit</th>
                 <th className='py-3 px-4 text-end'>Redeem Count</th>
-                {/* <th
+                <th
                   className='p-3 text-center cursor-pointer transition-colors duration-200'
                   onClick={() => setIsActiveInactiveFilterPopup(true)}
                 >
@@ -666,7 +711,7 @@ const CouponsFormComponent = () => {
                       <FaAngleDown className='text-admin-text-primary' />
                     </span>
                   </div>
-                </th> */}
+                </th>
                 <th className='py-3 px-4 text-left'>Homepage</th>
                 <th className='py-3 px-4 text-left'>Action</th>
                 <th className='py-3 px-4 text-left'>Info</th>
@@ -681,13 +726,13 @@ const CouponsFormComponent = () => {
                   <td className='py-3 px-4 text-right'>{data?.discount}</td>
                   <td className='py-3 px-4 text-left'>{formatIST(data?.createdAt)}</td>
                   <td className='py-3 px-4 text-left'>{formatIST(data?.expiresAt)}</td>
-                  {/* <td className='py-3 px-4 text-right'>{data?.usage_limit}</td> */}
+                  <td className='py-3 px-4 text-right'>{data?.maxRedeemCount}</td>
                   <td className='py-3 px-4 text-right'>{data?.redeemCount} </td>
-                  {/* <td className='p-3 text-center'>
+                  <td className='p-3 text-center'>
                     <div className='flex flex-col items-center'>
                       <Switch
                         checked={data?.is_active}
-                        // onChange={() => activeHandler(data, !data?.is_active , data?.show_on_homepage)}
+                        onChange={() => activeHandler(data, !data?.is_active , data?.show_on_homepage)}
                         className={`${
                           data?.is_active ? "bg-green-500" : "bg-gray-300"
                         } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
@@ -699,7 +744,7 @@ const CouponsFormComponent = () => {
                         />
                       </Switch>
                     </div>
-                  </td> */}
+                  </td>
                   <td className='p-3 text-center'>
                     <div className='flex flex-col items-center'>
                       <Switch
@@ -725,11 +770,11 @@ const CouponsFormComponent = () => {
                             id: data?.id,
                             type: data?.type,
                             code: data?.code,
-                            value: data?.value,
-                            usage_limit: data?.usage_limit,
-                            valid_from: data?.valid_from_formatted,
-                            valid_till: data?.valid_till_formatted,
-                            title: data?.title,
+                            value: data?.discount,
+                            usage_limit: data?.maxRedeemCount,
+                            valid_from: data?.createdAt,
+                            valid_till: data?.expiresAt,
+                            title: data?.name,
                             description: data?.description,
                             show_on_homepage: data?.show_on_homepage,
                             is_active: data?.is_active,

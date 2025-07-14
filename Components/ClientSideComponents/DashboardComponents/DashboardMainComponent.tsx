@@ -177,7 +177,7 @@ const MainDashboardComponent = (props: Props) => {
   const dashboardTabData = useCallback(async () => {
     try {
       const response: any = await dashboardTabDataApi(created_by, token);
-      if (response?.detail === "Invalid token") {
+      if (response?.message === "Invalid or expired token") {
         if (!tokenErrorShown.current) {
           tokenErrorShown.current = true; // Prevent further toasts
           dispatch(clearUserDetails());
@@ -243,7 +243,7 @@ const MainDashboardComponent = (props: Props) => {
         formattedEndDate,
         token
       );
-      if (response?.detail === "Invalid token") {
+      if (response?.message === "Invalid or expired token") {
         if (!tokenErrorShown.current) {
           tokenErrorShown.current = true; // Prevent further toasts
           dispatch(clearUserDetails());
