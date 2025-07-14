@@ -308,6 +308,7 @@ const TagFormComonent = () => {
               <tr className='bg-admin-secondary text-admin-text-primary font-semibold '>
                 <th className='py-3 px-4 text-left w-1/3'>Tag Name</th>
                 <th className='py-3 w-1/3'>Status</th>
+                <th className='py-3 w-1/3'>Action</th>
                 <th className='py-3 w-1/3'>Info</th>
               </tr>
             </thead>

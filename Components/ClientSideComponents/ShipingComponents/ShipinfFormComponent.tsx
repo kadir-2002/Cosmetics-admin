@@ -142,7 +142,7 @@ const ShipinfFormComponent = () => {
   const fetchPaymentData = async () => {
     try {
       const data = await shippingAllDataApi(token);
-      if (data?.detail === "Invalid token") {
+      if (data?.detail === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

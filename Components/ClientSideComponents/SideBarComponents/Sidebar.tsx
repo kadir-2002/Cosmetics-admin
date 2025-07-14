@@ -2,18 +2,18 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
-import { FaArrowLeft, FaSearchLocation } from "react-icons/fa";
+import { FaArrowLeft, FaSearchLocation, FaShippingFast } from "react-icons/fa";
 import SidebarItem from "./SidebarItem";
 import ClickOutside from "./ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { MdDashboardCustomize, MdOutlineProductionQuantityLimits, MdOutlineRateReview, MdOutlineUnsubscribe } from "react-icons/md";
 import { TbCategoryPlus, TbLayoutNavbarCollapseFilled, TbListDetails } from "react-icons/tb";
-import { FaBagShopping, FaGoogle, FaOpencart, FaRegImage, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
+import { FaBagShopping, FaGoogle, FaOpencart, FaPercent, FaRegImage, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
 import { LuGalleryVerticalEnd } from "react-icons/lu";
 import { IoIosContact } from "react-icons/io";
 import { RiCoupon2Line } from "react-icons/ri";
 import { PiArrowCounterClockwise } from "react-icons/pi";
-import { BsTag } from "react-icons/bs";
+import { BsPeople, BsTag } from "react-icons/bs";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -45,13 +45,13 @@ const menuGroups = [
       { icon: <FaUsers className="h-6 w-6"  />, label: "Customers", route: "/customers" },
       { icon: <FaBagShopping  className="h-6 w-6"  />, label: "Product", route: "/product" },
       { icon: <FaSearchLocation className="h-6 w-6"  />, label: "Pincode", route: "/pincode" },
-      // { icon: "/tax.png", label: "Tax", route: "/tax" },
+      { icon: <FaPercent className="h-6 w-6" />, label: "Tax", route: "/tax" },
       { icon:<RiCoupon2Line className="h-6 w-6"/> , label: "Coupons", route: "/coupons" },
       { icon: <FaUsers className="h-6 w-6"  />, label: "User", route: "/user" },
       // { icon: "/role.png", label: "Role", route: "/role" },
       // { icon: "/blog.png", label: "Blog", route: "/blog" },
       { icon: <FaOpencart className="h-6 w-6"  />, label: "Order", route: "/order" },
-      // { icon: "/shipping.png", label: "Shipping", route: "/Shipping" },
+      { icon: <FaShippingFast className="h-6 w-6" />, label: "Shipping", route: "/Shipping" },
       // {
       //   icon: "/payment.png",
       //   label: "Payment Gateway",
@@ -77,11 +77,11 @@ const menuGroups = [
         label: "Google Analytics",
         route: "/googleanalytics",
       },
-      // {
-      //   icon: "/newslatter.png",
-      //   label: "About Us",
-      //   route: "/aboutus",
-      // },
+      {
+        icon: <BsPeople className="h-6 w-6" />,
+        label: "About Us",
+        route: "/aboutus",
+      },
     ],
   },
 ];

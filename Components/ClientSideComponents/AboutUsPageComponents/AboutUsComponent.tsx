@@ -168,11 +168,11 @@ const AboutUsComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await sectionDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body.success) {
         toast.success("Section deleted successfully");
         setIsLogoutPopup(false);
         fetchSectiondata();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -531,7 +531,7 @@ const AboutUsComponent = () => {
                     {data?.image ? (
                       <>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL}${data?.image}`}
+                          src={`${data?.image}`}
                           alt='Profile'
                           className='lg:h-10 lg:w-12 h-10 w-12 object-cover rounded-full'
                         />

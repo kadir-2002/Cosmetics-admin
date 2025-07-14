@@ -2,7 +2,7 @@ import { apiCores } from "./apiCore";
 import { apiCoreGet } from "./apiCoreGet";
 
 export const shippingAllDataApi = async (token:string) => {
-    const response = await apiCoreGet("/mainapp/shipping-service/", "GET",token);
+    const response = await apiCoreGet("/shipping-service/", "GET",token);
     return response;
 };
 
@@ -28,7 +28,7 @@ export const shippingCreateApi = async (name: any, formData: any, created_by: st
         requestBody.usps_client_id = usps_client_id;
         requestBody.usps_client_secret = usps_client_secret;
     }
-    const response = await apiCores(`/mainapp/shipping-service/`, requestBody, "POST",token);
+    const response = await apiCores(`/shipping-service/`, requestBody, "POST",token);
     return response;
 };
 
@@ -48,7 +48,7 @@ export const shipingUpdatedApi = async (name: any,formData: any, updated_by: str
         requestBody.usps_client_id = usps_client_id;
         requestBody.usps_client_secret = usps_client_secret;
     }
-    const response = await apiCores(`/mainapp/shipping-service/${id}/`, requestBody, "PATCH",token);
+    const response = await apiCores(`/shipping-service/${id}/`, requestBody, "PATCH",token);
     return response;
 };
 
@@ -71,6 +71,6 @@ export const shipingTogggleUpdatedApi = async (id:string,formData: any, is_activ
         requestBody.usps_client_secret = usps_client_secret;
     }
 
-    const response = await apiCores(`/mainapp/shipping-service/${id}/`, requestBody, "PATCH",token);
+    const response = await apiCores(`/shipping-service/${id}/`, requestBody, "PATCH",token);
     return response;
 };
