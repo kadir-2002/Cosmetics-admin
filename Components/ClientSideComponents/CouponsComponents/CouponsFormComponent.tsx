@@ -509,7 +509,7 @@ const CouponsFormComponent = () => {
             </div>
           </div>
           <div className='flex lg:flex-row flex-col p-4 items-center w-full lg:gap-8 gap-4'>
-            {/* <div className='bg-[#F3F3F3] relative flex p-3 rounded-md lg:w-1/2 w-full'>
+            <div className='bg-[#F3F3F3] relative flex p-3 rounded-md lg:w-1/2 w-full'>
               <IoIosWallet color='#A5B7C0' size={26} />
               <input
                 type='text'
@@ -530,7 +530,7 @@ const CouponsFormComponent = () => {
               >
                 Enter Usage limit
               </label>
-            </div> */}
+            </div>
             <div className='flex gap-2  h-12 w-full'>
               {/* <div className='flex  items-center justify-center gap-2 bg-[#F3F3F3] rounded-lg h-12 w-46 p-4'>
                 <label className='text-sm text-[#577C8E] px-3'>
@@ -682,9 +682,7 @@ const CouponsFormComponent = () => {
                   <td className='py-3 px-4 text-left'>{formatIST(data?.createdAt)}</td>
                   <td className='py-3 px-4 text-left'>{formatIST(data?.expiresAt)}</td>
                   {/* <td className='py-3 px-4 text-right'>{data?.usage_limit}</td> */}
-                  <td className='py-3 px-4 text-right'>
-                      {Array.isArray(data?.user) ? data.user.length : data?.user ? 1 : 0}
-                  </td>
+                  <td className='py-3 px-4 text-right'>{data?.redeemCount} </td>
                   {/* <td className='p-3 text-center'>
                     <div className='flex flex-col items-center'>
                       <Switch
