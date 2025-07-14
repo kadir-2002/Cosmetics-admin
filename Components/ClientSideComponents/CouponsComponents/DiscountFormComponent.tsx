@@ -107,7 +107,11 @@ const DiscountFormComponent = () => {
           isActive,
           token
         );
-        if (response?.status === 401) {
+        if (response?.message === "Missing required fields: name, discount, expiresAt, code, maxRedeemCount") {
+           toast.error("Missing required fields: name, discount, expiresAt, code, maxRedeemCount")
+          return
+        }
+        if(response.detail === "Invalid token"){
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
