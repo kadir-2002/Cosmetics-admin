@@ -2,7 +2,7 @@ import { apiCores } from "./apiCore";
 import { apiCoreGet } from "./apiCoreGet";
 
 export const paymentAllDataApi = async (token:string) => {
-    const response = await apiCoreGet("/mainapp/payment-service/", "GET",token);
+    const response = await apiCoreGet("/payment-service/", "GET",token);
     return response;
 };
 
@@ -40,7 +40,7 @@ export const paymentCreateApi = async (name: any, formData: any, created_by: str
         requestBody.authorizenet_login_id = authorizenet_login_id;
         requestBody.authorizenet_transaction_key = authorizenet_transaction_key;
     }
-    const response = await apiCores(`/mainapp/payment-service/`, requestBody, "POST",token);
+    const response = await apiCores(`/payment-service/`, requestBody, "POST",token);
     return response;
 };
 
@@ -81,7 +81,7 @@ export const paymentUpdatedApi = async (name: any, formData: any, updated_by: st
 
     }
 
-    const response = await apiCores(`/mainapp/payment-service/${id}/`, requestBody, "PATCH",token);
+    const response = await apiCores(`/payment-service/${id}/`, requestBody, "POST",token);
     return response;
 };
 
@@ -139,7 +139,7 @@ export const toggleUpdatedApi = async (id: string, methodData: any, is_active: b
         requestBody.authorizenet_transaction_key = authorizenet_transaction_key;
     }
 
-    const response = await apiCores(`/mainapp/payment-service/${id}/`, requestBody, "PATCH",token);
+    const response = await apiCores(`/payment-service/${id}/`, requestBody, "PATCH",token);
     return response;
 };
 
@@ -150,6 +150,6 @@ export const toggleUpdatedApi = async (id: string, methodData: any, is_active: b
 export const cashondeveleryCreateApi = async (name: any,is_active:boolean ,created_by: string,token:string) => {
     let requestBody: any = { name, is_active};
   
-    const response = await apiCores(`/mainapp/payment-service/`, requestBody, "POST",token);
+    const response = await apiCores(`/payment-service/`, requestBody, "POST",token);
     return response;
 };

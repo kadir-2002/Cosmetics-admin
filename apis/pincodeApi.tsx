@@ -43,6 +43,7 @@ export const pinCodeUpdatedApi = async (
   city: string,
   is_active: boolean,
   zipcode: string,
+  estimated_delivery_days:number,
   token: string
 ) => {
   const requestBody = {
@@ -50,6 +51,7 @@ export const pinCodeUpdatedApi = async (
     state: state,
     is_active: is_active,
     zipcode: zipcode,
+    estimated_delivery_days
   };
   const response = await apiCoreUpdate(
     `/pincode/${id}/`,

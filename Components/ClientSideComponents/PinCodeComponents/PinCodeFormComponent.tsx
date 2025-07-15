@@ -80,6 +80,7 @@ const PinCodeFormComponent = () => {
           city,
           is_active,
           zipcode,
+          estimated_delivery_days,
           token
         );
         if (response?.status === 200) {
@@ -188,7 +189,7 @@ const PinCodeFormComponent = () => {
         apiParams.filtervalue = filtervalue;
       }
       const response = await pincodeAllDataApi(apiParams);
-      if (response?.detail === "Invalid token") {
+      if (response?.detail === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -272,6 +273,7 @@ const PinCodeFormComponent = () => {
       store?.city,
       is_active,
       store?.zipcode,
+      store?.estimated_delivery_days,
       token
     );
     if (response?.status === 200) {

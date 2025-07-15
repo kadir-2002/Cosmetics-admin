@@ -11,9 +11,33 @@ interface LogoutPopupProps {
   setIsOpen: (value: boolean) => void;
 }
 // Define this function outside or in a utils file
-export const formatIST = (utcDateStr: string | undefined): string => {
-  if (!utcDateStr) return '';
-  return new Date(utcDateStr).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+// export const formatIST = (utcDateStr: string | undefined): string => {
+//   if (!utcDateStr) return '';
+//   return new Date(utcDateStr).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+// };
+
+export const formatIST = (input?: string): string => {
+  if (!input) return '';
+
+  // Check if the string is already in the desired format
+  const formattedPattern = /^[A-Za-z]+,\s\d{1,2}\s[A-Za-z]+\s\d{4},\s\d{2}:\d{2}(AM|PM)$/;
+  if (formattedPattern.test(input.trim())) {
+    return input;
+  }
+
+  const date = new Date(input);
+  if (isNaN(date.getTime())) return 'Invalid date';
+
+  return date.toLocaleString('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  }).replace(',', '');
 };
 
 

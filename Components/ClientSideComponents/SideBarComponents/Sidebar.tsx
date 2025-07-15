@@ -6,7 +6,7 @@ import { FaArrowLeft, FaSearchLocation, FaShippingFast } from "react-icons/fa";
 import SidebarItem from "./SidebarItem";
 import ClickOutside from "./ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
-import { MdDashboardCustomize, MdOutlineProductionQuantityLimits, MdOutlineRateReview, MdOutlineUnsubscribe } from "react-icons/md";
+import { MdDashboardCustomize, MdOutlineProductionQuantityLimits, MdOutlineRateReview, MdOutlineUnsubscribe, MdPayment } from "react-icons/md";
 import { TbCategoryPlus, TbLayoutNavbarCollapseFilled, TbListDetails } from "react-icons/tb";
 import { FaBagShopping, FaGoogle, FaOpencart, FaPercent, FaRegImage, FaStore, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
 import { LuGalleryVerticalEnd } from "react-icons/lu";
@@ -53,11 +53,11 @@ const menuGroups = [
       // { icon: "/blog.png", label: "Blog", route: "/blog" },
       { icon: <FaOpencart className="h-6 w-6"  />, label: "Order", route: "/order" },
       { icon: <FaShippingFast className="h-6 w-6" />, label: "Shipping", route: "/Shipping" },
-      // {
-      //   icon: "/payment.png",
-      //   label: "Payment Gateway",
-      //   route: "/payment-gateway",
-      // },
+      {
+        icon: <MdPayment className="h-6 w-6" />,
+        label: "Payment Gateway",
+        route: "/payment-gateway",
+      },
       // {
       //   icon: <RiPinDistanceLine className="h-6 w-6" />,
       //   label: "Delivery Settings",
