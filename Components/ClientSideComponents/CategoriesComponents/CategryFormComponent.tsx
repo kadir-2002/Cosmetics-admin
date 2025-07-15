@@ -107,6 +107,8 @@ const CategryFormComponent = () => {
           categryName,
           image,
           banner,
+          seo_title,
+          seo_description,
           token
         );
         if (response?.data?.success) {
@@ -155,6 +157,8 @@ const CategryFormComponent = () => {
           isActive,
           image,
           banner,
+          seo_title,
+          seo_description,
           token
         );
         if (
@@ -390,10 +394,12 @@ const CategryFormComponent = () => {
     const response = await categryUpdatedApi(
       data?.id,
       data?.sequence_number,
-      isActive,
+      data.is_active,
       data?.name,
       image,
       banner,
+      data.seo_title,
+      data.seo_description,
       token
     );
     if (response?.status === 200) {
@@ -610,15 +616,15 @@ const CategryFormComponent = () => {
                 Enter Description
               </label>
             </div> */}
-            <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
+            {/* <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
 
-            </div>
-            {/* <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
+            </div> */}
+             <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
               <input
                 type='text'
-                placeholder=' Minimum Order Quantity'
+                placeholder='  Enter SEO Description '
                 value={newRole.seo_description}
                 className='peer bg-[#F3F3F3] focus:outline-none w-full px-4  py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
                 onChange={(e) =>
@@ -639,13 +645,13 @@ const CategryFormComponent = () => {
               <BsPuzzleFill color='#A5B7C0' size={26} />
               <input
                 type='text'
-                placeholder=' Minimum Order Quantity'
-                value={newRole.seo_keyword}
+                placeholder='  Enter SEO Title'
+                value={newRole.seo_title}
                 className='peer bg-[#F3F3F3] focus:outline-none w-full px-4  py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
                 onChange={(e) =>
                   setNewRole((prev) => ({
                     ...prev,
-                    seo_keyword: e.target.value,
+                    seo_title: e.target.value,
                   }))
                 }
               />
@@ -653,9 +659,10 @@ const CategryFormComponent = () => {
                 htmlFor='tag'
                 className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
               >
-                Enter SEO Keyword
+                Enter SEO Title
               </label>
             </div>
+            {/*
             <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
               <input
@@ -696,7 +703,10 @@ const CategryFormComponent = () => {
               </div>
             </div>
 
+           <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
+              <BsPuzzleFill color='#A5B7C0' size={26} />
 
+            </div>
 
 
             <div className='rounded-md  w-full focus:outline-none focus:outline-1 placeholder-black h-12'>
@@ -723,7 +733,7 @@ const CategryFormComponent = () => {
                 )}
               </div>
             </div>
-            <div className='rounded-md  w-full focus:outline-none focus:outline-1 placeholder-black h-12'>
+            <div className='rounded-md  w-full focus:outline-none focus:outline-1 placeholder-black h-12 mb-12'>
               <p className='py-2'>Banner Image</p>
               <div className='flex bg-admin-secondary justify-center items-center px-4 rounded-md'>
                 <input
@@ -747,14 +757,14 @@ const CategryFormComponent = () => {
                 )}
               </div>
             </div>
-            <div className='lg:col-span-2 mt-12'>
+            {/* <div className='lg:col-span-2 mt-12'>
               <DescriptionReatchTextComponent
                 value={newRole.seodescription}
                 onChange={(seodescription) =>
                   setNewRole((prev: any) => ({ ...prev, seodescription }))
                 }
               />
-            </div>
+            </div> */}
 
           </div>
           <div className='flex lg:flex-row flex-col justify-center items-center gap-6 '>
@@ -896,13 +906,13 @@ const CategryFormComponent = () => {
                   <td className='py-3 px-6 text-center'>
                     <div className=''>
                       <Switch
-                        checked={!data?.isDeleted}
-                        onChange={() => activeHandler(data, !data?.isDeleted)}
-                        className={`${!data?.isDeleted ? "bg-green-500" : "bg-gray-300"
+                        checked={data?.is_active}
+                        onChange={() => activeHandler(data, !data?.is_active)}
+                        className={`${data?.is_active ? "bg-green-500" : "bg-gray-300"
                           } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                       >
                         <span
-                          className={`${!data?.isDeleted ? "translate-x-6" : "translate-x-1"
+                          className={`${!data?.is_active ? "translate-x-6" : "translate-x-1"
                             } inline-block w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out`}
                         />
                       </Switch>

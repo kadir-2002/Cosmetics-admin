@@ -24,10 +24,11 @@ export const categryAllDataApi = async (params: {
     queryParams.append("ordering", params.ordering);
   }
   if (params.filtervalue !== undefined) {
-    queryParams.append("isDeleted", params.filtervalue.toString());
+    queryParams.append("is_active", params.filtervalue.toString());
   }
-  const endpoint = `/category`;
-  const response = await apiCoreNode(endpoint, {}, "GET",queryParams.toString());
+ const queryString = queryParams.toString();
+const endpoint = `/category${queryString ? `?${queryString}` : ""}`;
+  const response = await apiCoreNode(endpoint, {}, "GET");
   return response;
 };
 
@@ -37,12 +38,17 @@ export const createCategryApi = async (
   isDeleted: any,
   image: string,
   banner: string,
+  seo_title:string,
+  seo_description:string,
   token: string
 ) => {
   const formData = new FormData();
   formData.append("sequence_number", sequence_number);
   formData.append("name", name);
   formData.append("isDeleted", isDeleted);
+   formData.append("seo_title",seo_title);
+    formData.append("seo_description",seo_description);
+
 
   if (image) {
     formData.append("image", image);
@@ -66,19 +72,24 @@ export const categoryDeleteApi = async (id: any, token: string) => {
 export const categryUpdatedApi = async (
   id: string,
   sequence_number: string,
-  is_deleted: any,
+ is_active: any,
   name: string,
   image: string,
   banner: string,
+  seo_title:string,
+ seo_description:string,
   token: string
 ) => {
   const formData = new FormData();
   formData.append("sequence_number", sequence_number);
   formData.append("name", name);
-  formData.append("isDeleted", is_deleted);
+  formData.append("is_active", is_active);
   formData.append("image", image);
 
   formData.append("banner", banner);
+  formData.append("seo_title",seo_title);
+    formData.append("seo_description",seo_description);
+
 
   console.log("formdata update:");
   for (const pair of formData.entries()) {
