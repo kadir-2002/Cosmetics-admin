@@ -394,7 +394,7 @@ const CategryFormComponent = () => {
     const response = await categryUpdatedApi(
       data?.id,
       data?.sequence_number,
-      data.is_active,
+      isActive,
       data?.name,
       image,
       banner,

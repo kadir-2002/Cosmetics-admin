@@ -83,7 +83,7 @@ export const categryUpdatedApi = async (
   const formData = new FormData();
   formData.append("sequence_number", sequence_number);
   formData.append("name", name);
-  formData.append("is_active", is_active);
+  formData.append("is_active", String(is_active));
   formData.append("image", image);
 
   formData.append("banner", banner);
