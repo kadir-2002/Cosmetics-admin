@@ -22,6 +22,8 @@ export const createCoureeancyApi = async (
     linkedin_link:string,
     product_low_stock_threshold:string,
     minimum_order_quantity:string,
+    is_tax_inclusive:Boolean,
+        company_state:string,
     token: string
 ) => {
     const formData = new FormData();
@@ -52,6 +54,8 @@ export const createCoureeancyApi = async (
     formData.append("linkedin_link", linkedin_link);
     formData.append("product_low_stock_threshold", product_low_stock_threshold);
     formData.append("minimum_order_quantity", minimum_order_quantity);
+    formData.append("is_tax_inclusive", is_tax_inclusive.toString());
+    formData.append("company_state", company_state);
     const response = await apiCoreFormData("/company-settings", formData, "POST", token);
     return response;
 };
@@ -81,6 +85,8 @@ export const coureancyUpdatedApi = async (
     linkedin_link:string,
     product_low_stock_threshold:string,
     minimum_order_quantity:string,
+     is_tax_inclusive:Boolean,
+        company_state:string,
     token: string
 ) => {
     const formData = new FormData();
@@ -104,6 +110,8 @@ export const coureancyUpdatedApi = async (
     formData.append("linkedin_link", linkedin_link);
     formData.append("product_low_stock_threshold", product_low_stock_threshold);
     formData.append("minimum_order_quantity", minimum_order_quantity);
+    formData.append("is_tax_inclusive", is_tax_inclusive.toString());
+    formData.append("company_state", company_state);
     const response = await apiCoreUpdateuser(`/company-settings/`, formData, "POST", token);
     return response;
 };

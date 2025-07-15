@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { clearUserDetails } from "@/redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { BiSolidImageAdd } from "react-icons/bi";
+import { Switch } from "@headlessui/react";
 const formattedCountries = countries.map((country) => ({
   value: country.cca2,
   label: `${country.name.common} (${country.cca2})`,
@@ -60,6 +61,9 @@ const CurrencyManager = () => {
     linkedin_link: "",
     product_low_stock_threshold: "",
     minimum_order_quantity: "",
+    is_tax_inclusive: false,
+    company_state: ""
+
   });
   const [isfile, setfile] = useState("");
   const [fileName, setFileName] = useState("");
@@ -113,6 +117,8 @@ const CurrencyManager = () => {
           linkedin_link: result.linkedin_link,
           product_low_stock_threshold: result.product_low_stock_threshold,
           minimum_order_quantity: result.minimum_order_quantity,
+          is_tax_inclusive: result.is_tax_inclusive,
+          company_state: result.company_state
         })
       }
     } catch (error) {
@@ -145,6 +151,8 @@ const CurrencyManager = () => {
       linkedin_link,
       product_low_stock_threshold,
       minimum_order_quantity,
+      is_tax_inclusive,
+      company_state
     } = newRole;
     // if (!country || !currency || !currency_symbol) {
     //   toast.error("All fields are required");
@@ -172,6 +180,8 @@ const CurrencyManager = () => {
         linkedin_link,
         product_low_stock_threshold,
         minimum_order_quantity,
+        is_tax_inclusive,
+        company_state,
         token
       );
       if (response?.status === 401) {
@@ -209,6 +219,8 @@ const CurrencyManager = () => {
       linkedin_link,
       product_low_stock_threshold,
       minimum_order_quantity,
+      is_tax_inclusive,
+      company_state,
     } = newRole;
     // if (!country || !currency || !currency_symbol) {
     //   toast.error("All fields are required. Please fill in all the details.");
@@ -234,6 +246,8 @@ const CurrencyManager = () => {
         linkedin_link,
         product_low_stock_threshold,
         minimum_order_quantity,
+        is_tax_inclusive,
+        company_state,
         token
       );
       console.log(response, "Response->>");
@@ -785,7 +799,47 @@ const CurrencyManager = () => {
                   Product Low Stock Threshold
                 </label>
               </div>
+              <div className='flex bg-[#F3F3F3] p-2 relative w-full h-12 rounded-lg shadow-sm'>
+                <BsPuzzleFill color='#A5B7C0' size={26} />
+                <input
+                  type='text'
+                  placeholder=' Enter state'
+                  value={newRole.company_state}
+                  className='peer bg-[#F3F3F3] focus:outline-none w-full px-4  py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
+                  onChange={(e) =>
+                    setNewRole((prev) => ({
+                      ...prev,
+                      company_state: e.target.value,
+                    }))
+                  }
+                />
+                <label
+                  htmlFor='tag'
+                  className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
+                >
+                  Enter state
+                </label>
+              </div>
 
+              <div className='flex flex-col items-center'>
+                <Switch
+                  checked={newRole.is_tax_inclusive}
+                  onChange={(value) => setNewRole({ ...newRole, is_tax_inclusive: value })}
+                  className={`${newRole.is_tax_inclusive ? "bg-green-500" : "bg-gray-300"
+                    } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
+                >
+                  <span
+                    className={`${newRole.is_tax_inclusive ? "translate-x-6" : "translate-x-1"
+                      } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}
+                  />
+                </Switch>
+                 <label
+                  htmlFor='tag'
+                  className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
+                >
+                  Is Tax inclusive
+                </label>
+              </div>
               <fieldset
                 disabled
                 className='lg:grid lg:grid-cols-2 grid-cols-1 col-span-2 lg:gap-4 gap-3 opacity-60 pointer-events-none hidden'
