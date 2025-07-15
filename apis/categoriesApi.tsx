@@ -19,7 +19,8 @@ export const categryAllDataApi = async (params: {
   });
   if (params.search) {
     queryParams.append("search", params.search);
-  } else if (params.ordering) {
+  } 
+   if (params.ordering) {
     queryParams.append("ordering", params.ordering);
   }
   if (params.filtervalue !== undefined) {
