@@ -322,7 +322,7 @@ const CategryFormComponent = () => {
       banner: "",
       seodescription: data?.seo_description,
       seo_title: data?.seo_title,
-      seo_description: data?.seo_data,
+      seo_description: data?.seo_description,
       seo_keyword: data?.seo_keyword,
       parent_catgory: data?.parent_catgory,
       minimum_order_quantity: data?.minimum_order_quantity,

@@ -20,7 +20,9 @@ export const couponsAllDataApi = async (
   if (ordering) {
     queryParams.append("ordering", ordering);
   }
-  const endpoint = `/coupon/discounts/?${queryParams}`;
+   const queryString = queryParams.toString();
+
+  const endpoint = `/coupon/discounts/${queryString ? `?${queryString}` : ""}`;
   const response = await apiCoreNode(endpoint, {},"GET", token);
   return response;
 };
