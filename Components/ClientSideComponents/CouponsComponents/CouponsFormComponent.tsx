@@ -72,7 +72,7 @@ const CouponsFormComponent = () => {
     useState<boolean>(false);
   const [isfiltervalue, setfiltervalue] = useState<string>("");
   const [isfilterCouponType, setfilterCouponType] = useState<string>("");
-  const [ordering, setOrdering] = useState("sequence_number");
+  const [ordering, setOrdering] = useState("");
   const created_by = useSelector((state: any) => state?.user?.details?.id);
   const token = useSelector((state: any) => state?.user?.token);
   const dispatch = useDispatch();
