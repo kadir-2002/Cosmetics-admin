@@ -8,12 +8,13 @@ import ClickOutside from "./ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { MdDashboardCustomize, MdOutlineProductionQuantityLimits, MdOutlineRateReview, MdOutlineUnsubscribe } from "react-icons/md";
 import { TbCategoryPlus, TbLayoutNavbarCollapseFilled, TbListDetails } from "react-icons/tb";
-import { FaBagShopping, FaGoogle, FaOpencart, FaPercent, FaRegImage, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
+import { FaBagShopping, FaGoogle, FaOpencart, FaPercent, FaRegImage, FaStore, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
 import { LuGalleryVerticalEnd } from "react-icons/lu";
 import { IoIosContact } from "react-icons/io";
-import { RiCoupon2Line } from "react-icons/ri";
+import { RiCoupon2Line, RiPinDistanceLine } from "react-icons/ri";
 import { PiArrowCounterClockwise } from "react-icons/pi";
 import { BsPeople, BsTag } from "react-icons/bs";
+import { BiMailSend } from "react-icons/bi";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -58,7 +59,7 @@ const menuGroups = [
       //   route: "/payment-gateway",
       // },
       // {
-      //   icon: "/distance.png",
+      //   icon: <RiPinDistanceLine className="h-6 w-6" />,
       //   label: "Delivery Settings",
       //   route: "/distance-avoid",
       // },
@@ -68,8 +69,8 @@ const menuGroups = [
         label: "Company Details",
         route: "/companydetails",
       },
-      // { icon: "/blog.png", label: "Abandoned Email", route: "/abandonedemail" },
-      // { icon: "/store.png", label: "Store Address", route: "/storeaddress" },
+      { icon: <BiMailSend className="h-6 w-6" />, label: "Abandoned Email", route: "/abandonedemail" },
+      { icon: <FaStore className="h-6 w-6" />, label: "Store Address", route: "/storeaddress" },
       { icon: <IoIosContact className="h-6 w-6"  />, label: "Contact Us", route: "/contactus" },
       { icon: <MdOutlineUnsubscribe className="h-6 w-6"  />, label: "Newsletter", route: "/newsletter" },
       {

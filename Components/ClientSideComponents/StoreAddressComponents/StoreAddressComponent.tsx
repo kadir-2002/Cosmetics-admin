@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { TbEdit } from "react-icons/tb";
-import { MdDelete } from "react-icons/md";
+import { MdArrowDropUp, MdDelete } from "react-icons/md";
 import { RiArticleFill } from "react-icons/ri";
 import { FaAngleDown } from "react-icons/fa6";
 import { Switch } from "@headlessui/react";
@@ -13,10 +13,12 @@ import { clearUserDetails } from "@/redux/userSlice";
 import { useRouter } from "next/navigation";
 import ActiveInactiveFilterPopup from "../RoleFormComponents/ActiveInactiveFilterPopup";
 import {addresDeleteApi,addressAllDataApi,storeCreateApi,storeCSVUploADApi,storeUpdatedApi,} from "@/apis/storeaddresApi";
-import { FiMinus, FiPlus } from "react-icons/fi";
+import { FiMinus, FiPlus, FiUpload } from "react-icons/fi";
 import DeleteStoreAddresComponent from "./DeleteStoreAddresComponent";
 import { GoSearch } from "react-icons/go";
 import { AiOutlineClose } from "react-icons/ai";
+import { IoMdArrowDropdown } from "react-icons/io";
+import CSVActionPopup from "./CSVActonPopup";
 
 type header = {
   id: string;
@@ -65,6 +67,7 @@ const StoreAddressComponent = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize] = useState(10);
   const [searchText, setSearchText] = useState<string>("");
+  const [isCsvPopupOpen, setIsCsvPopupOpen] = useState(false);
   const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const {
@@ -262,11 +265,11 @@ const StoreAddressComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await addresDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body.success) {
         toast.success("Store addres Deleted successfully");
         setIsLogoutPopup(false);
         fetchAddress();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -458,13 +461,34 @@ const StoreAddressComponent = () => {
           )}
         </div>
       </div>
-      <div className='flex lg:flex-row flex-col lg:justify-end justify-center gap-3 w-full px-1'>
-        {selectFiledownload?  <a href={`${process.env.NEXT_PUBLIC_BASE_URL}${selectFiledownload}`} download="StoreAddress.xlsx" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-red-800 rounded-md cursor-pointer'>
+
+<div className="flex justify-end w-full px-1 mb-4">
+  <button
+    onClick={() => setIsCsvPopupOpen(true)}
+    className="bg-[#61BAB0] text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:bg-[#88cec6] transition-all flex items-center gap-2"
+  >
+    <FiUpload />
+    CSV Actions
+  </button>
+</div>
+{isCsvPopupOpen && (
+  <CSVActionPopup
+    onClose={() => setIsCsvPopupOpen(false)}
+    selectedFileName={selectedFileName}
+    handleFileChange={handleFileChange}
+    handleCsvFileUpload={handleCsvFileUpload}
+    fileInputRef={fileInputRef}
+    selectFiledownload={selectFiledownload}
+  />
+)}
+
+      {/* <div className='flex lg:flex-row flex-col lg:justify-end justify-center gap-3 w-full px-1'>
+        {selectFiledownload?  <a href={`${process.env.NEXT_PUBLIC_BASE_URL}${selectFiledownload}`} download="StoreAddress.csv" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-red-800 rounded-md cursor-pointer'>
           <button className='font-semibold text-lg'>
             Error File Download
           </button>
         </a>:
-        <a href={`/StoreAddress.xlsx`}   download="StoreAddress.xlsx" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#D77335] rounded-md cursor-pointer'>
+        <a href={`/StoreAddress.csv`}   download="StoreAddress.csv" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#D77335] rounded-md cursor-pointer'>
           <button className='font-semibold text-lg'>
             Download File Format
           </button>
@@ -473,7 +497,7 @@ const StoreAddressComponent = () => {
           <p className='font-semibold text-lg px-4'>Upload CSV</p>
           <input
             type='file'
-            accept='.csv,.xlsx'
+            accept='.csv'
             className='absolute inset-0 opacity-0 cursor-pointer'
             onChange={handleFileChange}
             ref={fileInputRef}
@@ -490,10 +514,10 @@ const StoreAddressComponent = () => {
           <button
             className='font-semibold text-lg'
             onClick={handleCsvFileUpload}>
-            Submite
+            Submit
           </button>
         </div>
-      </div>
+      </div> */}
       {openForm && (
         <form
           onSubmit={handleCreateOrUpdate}

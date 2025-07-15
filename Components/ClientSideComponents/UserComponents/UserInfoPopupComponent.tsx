@@ -139,6 +139,18 @@ const UserInfoPopupComponent: React.FC<LogoutPopupProps> = ({
                         </div>
                       ) : null}
                       {
+                        user?.createdBy?(
+                             <div className='flex border-b-[1px] py-2'>
+                        <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
+                          Created By:
+                        </div>
+                        <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
+                          {user?.createdBy}
+                        </div>
+                      </div>
+                        ):null
+                      }
+                      {
                         user?.created_by?(
                              <div className='flex border-b-[1px] py-2'>
                         <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
@@ -181,14 +193,46 @@ const UserInfoPopupComponent: React.FC<LogoutPopupProps> = ({
                           </div>
                         </div>
                       ) : null}
-                      {/* <div className='flex border-b-[1px] py-2'>
+                      {user?.created_at ? (
+                        <div className='flex border-b-[1px] py-2'>
+                          <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
+                            Created At:
+                          </div>
+                          <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
+                            {formatIST(user?.created_at)}
+                          </div>
+                        </div>
+                      ) : null}
+                      {user?.updated_by && (
+                      <div className='flex border-b-[1px] py-2'>
                         <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
                           Updated By:
                         </div>
                         <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
                           {user?.updated_by}
                         </div>
-                      </div> */}
+                      </div> )}
+                      {user?.updated_at ? (
+                        <div className='flex border-b-[1px] py-2'>
+                          <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
+                            Updated At:
+                          </div>
+                          <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
+                            {formatIST(user?.updated_at)}
+                          </div>
+                        </div>
+                      ) : null}
+                      
+                      {user?.updatedBy && (
+                      <div className='flex border-b-[1px] py-2'>
+                        <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
+                          Updated By:
+                        </div>
+                        <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
+                          {user?.updatedBy}
+                        </div>
+                      </div> )}
+                      {user?.updatedAt && (
                       <div className='flex  border-b-[1px] py-2'>
                         <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
                           Updated At:
@@ -197,6 +241,7 @@ const UserInfoPopupComponent: React.FC<LogoutPopupProps> = ({
                           {formatIST(user?.updatedAt)}
                         </div>
                       </div>
+                      )}
                     </div>
                   </div>
                 </div>

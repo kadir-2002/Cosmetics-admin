@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCores } from "./apiCore";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
@@ -26,13 +27,13 @@ export const addressAllDataApi = async (apiParams: {
   if (apiParams?.ordering) {
     queryParams.append("ordering", apiParams?.ordering);
   }
-  const endpoint = `/mainapp/store/?${queryParams}`;
+  const endpoint = `/store/?${queryParams}`;
   const response = await apiCoreGet(endpoint, "GET", apiParams?.token);
   return response;
 };
 
 export const addresDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(`/mainapp/store/${id}/`, token);
+  const response = await apiCoreNode(`/store/${id}/`,{},"DELETE", token);
   return response;
 };
 export const storeUpdatedApi = async (
@@ -66,7 +67,7 @@ export const storeUpdatedApi = async (
     longitude: longitude,
   };
   const response = await apiCoreUpdate(
-    `/mainapp/store/${id}/`,
+    `/store/${id}/`,
     "",
     requestBody,
     "PATCH",
@@ -91,7 +92,7 @@ export const storeCreateApi = async (
   token: string
 ) => {
   const response = await apiCores(
-    `/mainapp/store/`,
+    `/store/`,
     {
       name: name,
       email: email,
@@ -113,13 +114,26 @@ export const storeCreateApi = async (
 };
 ///////csv upload APi
 
-export const storeCSVUploADApi = async (excel_file:  File | null | any,token: string) => {
+// export const storeCSVUploADApi = async (excel_file:  File | null | any,token: string) => {
+//   const formData = new FormData();
+//   formData.append("file", excel_file);
+//   const response = await apiCoreFormData(`/store/csv-upload`,formData,"POST",token);
+//   return response;
+// };
+
+export const storeCSVUploADApi = async (excel_file: File, token: string) => {
   const formData = new FormData();
-  formData.append("excel_file", excel_file);
-  const response = await apiCoreFormData(`/mainapp/upload_store_data_excel/`,formData,"POST",token);
+  formData.append("file", excel_file);
+
+  const response = await apiCoreFormData(
+    `/store/csv-upload`,
+    formData,
+    "POST",
+    token
+  );
+
   return response;
 };
-
 
 
 

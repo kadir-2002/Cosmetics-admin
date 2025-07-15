@@ -92,7 +92,7 @@ const AboutUsComponent = () => {
             image: "",
             isActive: false,
           });
-        } else if (response?.data?.message === "Invalid or expired token") {
+        } else if (response?.data?.detail === "Invalid token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -128,7 +128,7 @@ const AboutUsComponent = () => {
             image: "",
             isActive: false,
           });
-        } else if (response?.data?.message === "Invalid or expired token") {
+        } else if (response?.data?.detail === "Invalid token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -260,7 +260,7 @@ const AboutUsComponent = () => {
     );
     if (response?.status === 200) {
       fetchSectiondata();
-    } else if (response?.data?.message === "Invalid or expired token") {
+    } else if (response?.data?.detail === "Invalid token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

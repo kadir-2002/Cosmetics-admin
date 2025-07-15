@@ -224,12 +224,12 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
     const image = "";
     const response = await updateComponentApi(
       item?.id,
-      item?.section,
+      item?.sectionId,
       item?.sequence_number,
       item?.heading,
       item?.sub_heading,
       item?.description,
-      image,
+      undefined as any,
       isActive,
       item?.precentage,
       token
@@ -514,7 +514,7 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
                             <th className='p-2'>Sub-Heading</th>
                             <th className='py-3 px-5 text-start'>Image</th>
                             {/* <th className='p-2'>Description</th> */}
-                            <th className='p-2'>Is Action</th>
+                            <th className='p-2'>Is Active</th>
                             <th className='p-2'>Action</th>
                           </tr>
                         </thead>
@@ -528,7 +528,7 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
                                 {item?.image ? (
                                   <>
                                     <img
-                                      src={`${process.env.NEXT_PUBLIC_BASE_URL}${item?.image}`}
+                                      src={`${item?.image}`}
                                       alt='Profile'
                                       className='lg:h-12 lg:w-12 h-12 w-12 object-cover rounded-full'
                                     />

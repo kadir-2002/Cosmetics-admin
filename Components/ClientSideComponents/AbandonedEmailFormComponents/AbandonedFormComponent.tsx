@@ -179,11 +179,11 @@ const handleDelete = async (id: string) => {
 const handleDeleteConform = async (id: string) => {
   try {
     const response = await abandonedDeleteApi(id, token);
-    if (response?.success) {
+    if (response?.body.success) {
       toast.success("Deleted successfully");
       setIsLogoutPopup(false);
       fetchdata();
-    } else if (response?.detail === "Invalid token") {
+    } else if (response?.body.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");
