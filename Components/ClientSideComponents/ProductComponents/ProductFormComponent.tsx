@@ -565,7 +565,7 @@ const ProductFormComponent: React.FC<props> = ({
                 }
               />
             </div> */}
-            {/* <div className='flex flex-col'>
+             <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                 <FaShoppingBag color='#A5B7C0' size={26} />
                 <textarea
@@ -589,6 +589,7 @@ const ProductFormComponent: React.FC<props> = ({
                 </label>
               </div>
             </div>
+            
             <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                 <FaShoppingBag color='#A5B7C0' size={26} />
@@ -660,7 +661,7 @@ const ProductFormComponent: React.FC<props> = ({
                   Enter Product Height
                 </label>
               </div>
-            </div> */}
+            </div> 
 
             
             <div className='flex flex-col'>
@@ -740,7 +741,7 @@ const ProductFormComponent: React.FC<props> = ({
               </div>
 
               {/* Selling Price Input */}
-              <div className='flex flex-col lg:w-1/2 w-full'>
+              <div  className='flex flex-col lg:w-1/2 w-full'>
                 <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                   <FaMoneyBill color='#A5B7C0' size={26} />
                   <input
@@ -940,7 +941,7 @@ const ProductFormComponent: React.FC<props> = ({
             </div> */}
             <div className='flex bg-[#F3F3F3] p-2 relative w-full h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
-              {/* <input
+              <input
                 type='text'
                 placeholder=' Minimum Order Quantity'
                 value={newUser.seo_title}
@@ -951,7 +952,7 @@ const ProductFormComponent: React.FC<props> = ({
                     seo_title: e.target.value,
                   }))
                 }
-              /> */}
+              />
               <label
                 htmlFor='tag'
                 className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
