@@ -25,16 +25,16 @@ export const apiCoreNode = async (
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}${endpoint}`, options);
 
+    console.log("new header", response)
+
     // Check if response is not ok (non-2xx status code)
-    if (!response.ok) {
-      // You can throw specific errors based on status
-      if (response.status === 401) {
-        throw new Error("Unauthorized");
-      } else {
-        const errorMessage = `Request failed with status ${response.status}`;
-        throw new Error(errorMessage);
-      }
-    }
+   if (!response.ok) {
+  const responseData = await response.json();
+  return {
+    status: response.status,
+    body: responseData,
+  };
+}
 
     // Return both status and body as JSON
     const responseData = await response.json();
@@ -45,6 +45,6 @@ export const apiCoreNode = async (
   } catch (error: any) {
     console.error("API Error:", error.message);
     // You can return an error object here, or re-throw the error
-    return { status: "error", body: error.message };
+    return { status: "error", body: error.message || "Something went wrong"};
   }
 };

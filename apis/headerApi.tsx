@@ -30,6 +30,6 @@ export const headerUpdatedApi = async (id: string, name: string, sequence_number
 
 export const headerCreateApi = async (name: string, sequence_number: number, link: string, isActive: boolean, userId: number, token: string) => {
   const response = await apiCoreNode(`/header/`, { name: name, link: link, sequence_number: sequence_number, userId, is_active: isActive }, "POST", token);
-  console.log(response.body,"api")
+  console.log(response,"api res")
   return response;
 };

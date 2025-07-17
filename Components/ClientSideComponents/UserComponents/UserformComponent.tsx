@@ -183,7 +183,7 @@ const UserFormComponent = () => {
           category_name,
           token
         );
-        if (response?.error === "User with this email already exists") {
+        if (response?.message === "User already exists") {
           toast.error("This Email Id is already existed");
         } else if (response?.error === "This username already exists") {
           toast.error("This Email Id is already existed on website");

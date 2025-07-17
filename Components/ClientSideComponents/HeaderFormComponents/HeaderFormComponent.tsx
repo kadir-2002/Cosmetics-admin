@@ -87,7 +87,7 @@ const HeaderFormComponent = () => {
             is_active: false,
           });
         } else if (
-          response?.body?.error === "This sequence number already exists"
+          response?.body?.message === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
         } else if (response?.body?.data?.detail === "Invalid token") {
