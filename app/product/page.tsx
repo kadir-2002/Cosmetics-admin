@@ -31,6 +31,7 @@ const Page: React.FC = () => {
   const [isEdit, setIsEdit] = useState(false)
   const [isProductID, setProductID] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
+  const [isTagData, setTagData] = useState([])
   const [subCategories, setSubCategories] = useState<SubCategory[]>([])
   const [ordering, setOrdering] = useState("")
   const [isActiveInactiveFitlerPopup, setIsActiveInactiveFilterPopup] = useState<boolean>(false)
@@ -198,45 +199,56 @@ const isFromDashboard = !!(productIdString || status || is_stock)
   }
 
   
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const categoryResponse = await catagoryDataApi(token)
-       
-        if (categoryResponse?.body?.success) {
-          
-          const fetchedCategories = categoryResponse?.body?.categories
-          setCategories(fetchedCategories)
-          if (fetchedCategories.length > 0) {
-            const firstCategory = fetchedCategories[0]
-            setNewUser((prev: any) => ({
-              ...prev,
-              category: firstCategory.id,
-              sub_catogry: "",
-            }))
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const [categoryResponse, tagResponse] = await Promise.all([
+        catagoryDataApi(token),
+        tagDataApi(token),
+      ]);
 
-            // Set the first category as selected
-            setFilterCategory(firstCategory.id.toString())
+      const fetchedCategories = categoryResponse?.body?.categories;
+      const fetchedTags = tagResponse?.results;
 
-            // Set subcategories for the first category
-            const subCats = firstCategory.child_categories || []
-            setSubCategories(subCats)
+      if (fetchedCategories && fetchedTags) {
+        setCategories(fetchedCategories);
+        setTagData(fetchedTags); // Set tag list for checkboxes or multi-select
 
-            // If subcategories exist, select the first one
-            if (subCats.length > 0) {
-              setFilterSubCategory(subCats[0].id.toString())
-            } else {
-              setFilterSubCategory("")
-            }
+        if (fetchedCategories.length > 0) {
+          const firstCategory = fetchedCategories[0];
+
+          setNewUser((prev: any) => ({
+            ...prev,
+            category: firstCategory.id,
+            sub_catogry: "",
+          }));
+
+          setFilterCategory(firstCategory.id.toString());
+
+          const subCats = firstCategory.child_categories || [];
+          setSubCategories(subCats);
+
+          if (subCats.length > 0) {
+            setFilterSubCategory(subCats[0].id.toString());
+          } else {
+            setFilterSubCategory("");
           }
-        } 
-      } catch (error) {
-        console.error("Error fetching data:", error)
+        }
+      } else if (
+        categoryResponse?.body.message === "Invalid token" ||
+        tagResponse?.body.message  === "Invalid token"
+      ) {
+        dispatch(clearUserDetails());
+        toast.error("Session Expired, Please Login Again");
+        router.push("/");
       }
-    } 
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
-    fetchData()
-  }, [])
+  fetchData();
+}, []);
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const categoryId = e.target.value
@@ -332,6 +344,7 @@ const isFromDashboard = !!(productIdString || status || is_stock)
             variantSpecifications={variantSpecifications}
             setVariantSpecifications={setVariantSpecifications}
             setCurrentPage={setCurrentPage}
+             isTagData={isTagData}
           />
        {!isFromDashboard && searchText === "" && (
   <div className="flex gap-5 mb-7">

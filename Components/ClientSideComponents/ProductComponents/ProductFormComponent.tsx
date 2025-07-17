@@ -38,6 +38,7 @@ type props = {
   variantSpecifications: any;
   setVariantSpecifications: any;
   setCurrentPage: any;
+   isTagData:any
 };
 const ProductFormComponent: React.FC<props> = ({
   productdata,
@@ -58,6 +59,7 @@ const ProductFormComponent: React.FC<props> = ({
   variantSpecifications,
   setVariantSpecifications,
   setCurrentPage,
+  isTagData
 }) => {
   const created_by = useSelector((state: any) => state?.user?.details?.id);
 
@@ -1097,7 +1099,37 @@ const ProductFormComponent: React.FC<props> = ({
                 </label>
               </div>
             </div>
-
+ <div className="-mt-2 lg:col-span-2">
+              <p className="p-2">Tag</p>
+              <div className="flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto  cursor-pointer">
+                {isTagData.map((data: any) => {
+                  const isSelected = newUser.tag_list.includes(data.id);
+                  return (
+                    <div
+                      key={data.id}
+                      onClick={() => {
+                        const updatedTags = isSelected
+                          ? newUser.tag_list.filter(
+                              (tagId: number) => tagId !== data.id,
+                            )
+                          : [...newUser.tag_list, data.id];
+                        setNewUser((prev: any) => ({
+                          ...prev,
+                          tag_list: updatedTags,
+                        }));
+                      }}
+                      className={`px-4 py-2 rounded-md cursor-pointer h-12 flex items-center justify-center  ${
+                        isSelected
+                          ? "bg-admin-buttonprimary text-white"
+                          : "bg-gray-200 text-black"
+                      } transition-all duration-300`}
+                    >
+                      {data.name}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
             <div
               className='bg-admin-buttonprimary flex justify-between items-center text-white p-1 lg:col-span-2 rounded-md'
               onClick={handleToggle}
