@@ -122,24 +122,30 @@ export const toggleUpdatedApi = async (id: string, methodData: any, is_active: b
     if (name === "Razorpay") {
         requestBody.razorpay_key_id = razorpay_key_id;
         requestBody.razorpay_key_secret = razorpay_key_secret;
+        requestBody.name= "Razorpay"
     } else if (name === "Stripe") {
         requestBody.stripe_api_key = stripe_api_key;
         requestBody.stripe_endpoint_secret = stripe_endpoint_secret;
+        requestBody.name= "Stripe"
     } else if (name === "PayPal") {
         requestBody.paypal_client_id = paypal_client_id;
         requestBody.paypal_secret = paypal_secret;
+        requestBody.name= "Stripe"
     } else if (name === "HyperPay") {
         requestBody.hyperpay_entity_id = hyperpay_entity_id;
         requestBody.hyperpay_authorization_bearer = hyperpay_authorization_bearer;
+        requestBody.name= "HyperPay"
     } else if (name === "Cashfree") {
         requestBody.cashfree_app_id = cashfree_app_id;
         requestBody.cashfree_secret_key = cashfree_secret_key;
+        requestBody.name= "Cashfree"
     } else if (name === "Authorize.Net") {
         requestBody.authorizenet_login_id = authorizenet_login_id;
         requestBody.authorizenet_transaction_key = authorizenet_transaction_key;
+        requestBody.name= "Authorize.Net"
     }
 
-    const response = await apiCores(`/payment-service/${id}/`, requestBody, "PATCH",token);
+    const response = await apiCores(`/payment-service/`, requestBody, "POST",token);
     return response;
 };
 
