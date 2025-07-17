@@ -336,11 +336,14 @@ const AboutUsComponent = () => {
                 </option>
                 <option value='banner'>Banner</option>
                 <option value='superior_quality'>Superior Quality</option>
-                <option value='mission'>Mission</option>
+                <option value='our_mission'>Our Mission</option>
                 <option value='our_story'>Our Story</option>
                 <option value='about_mango'>About Mango</option>
                 <option value='our_journey'>Our Journey</option>
+                <option value='our_vision'>Our Vision</option>
                 <option value='counter'>Counter</option>
+                <option value='awards'>Awards</option>
+
                 <option value='very_close'>Very Close</option>
                 <option value='inner_banner'>Inner Banner</option>
                 <option value='quality_and_Innovation'>Quality And Innovation</option>
@@ -477,9 +480,8 @@ const AboutUsComponent = () => {
           <div className='flex justify-center items-center gap-6'>
             <button
               type='submit'
-              className={`text-lg lg:w-[230px] w-full ${
-                isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
-              } text-white px-6 py-3 rounded-md`}
+              className={`text-lg lg:w-[230px] w-full ${isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
+                } text-white px-6 py-3 rounded-md`}
             >
               {isEdit ? "Update" : "Create"}
             </button>
@@ -553,14 +555,12 @@ const AboutUsComponent = () => {
                       <Switch
                         checked={data?.is_active}
                         onChange={() => activeHandler(data, !data?.is_active)}
-                        className={`${
-                          data?.is_active ? "bg-green-500" : "bg-gray-300"
-                        } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
+                        className={`${data?.is_active ? "bg-green-500" : "bg-gray-300"
+                          } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                       >
                         <span
-                          className={`${
-                            data?.is_active ? "translate-x-6" : "translate-x-1"
-                          } inline-block w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out`}
+                          className={`${data?.is_active ? "translate-x-6" : "translate-x-1"
+                            } inline-block w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out`}
                         />
                       </Switch>
                     </div>
