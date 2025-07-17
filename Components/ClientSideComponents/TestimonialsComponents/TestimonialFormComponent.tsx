@@ -119,7 +119,7 @@ const TestimonialFormComponent = () => {
             role: "",
             isActive: false,
           });
-        } else if (response?.data?.message === "Invalid or expired token ") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -427,6 +427,7 @@ const TestimonialFormComponent = () => {
                     role: e.target.value,
                   }))
                 }
+                required
                 className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-2 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
               />
               <label

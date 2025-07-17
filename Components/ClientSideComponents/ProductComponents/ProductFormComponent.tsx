@@ -38,7 +38,7 @@ type props = {
   variantSpecifications: any;
   setVariantSpecifications: any;
   setCurrentPage: any;
-   isTagData:any
+  isTagData: any
 };
 const ProductFormComponent: React.FC<props> = ({
   productdata,
@@ -216,6 +216,7 @@ const ProductFormComponent: React.FC<props> = ({
           seo_title,
           seo_description,
           seo_keyword,
+          tag_list
         );
         if (response?.body?.data?.error === "SKU with this name already exists") {
           toast.error("This SKU is already existed");
@@ -567,7 +568,7 @@ const ProductFormComponent: React.FC<props> = ({
                 }
               />
             </div> */}
-             <div className='flex flex-col'>
+            <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                 <FaShoppingBag color='#A5B7C0' size={26} />
                 <textarea
@@ -591,7 +592,7 @@ const ProductFormComponent: React.FC<props> = ({
                 </label>
               </div>
             </div>
-            
+
             <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                 <FaShoppingBag color='#A5B7C0' size={26} />
@@ -663,9 +664,9 @@ const ProductFormComponent: React.FC<props> = ({
                   Enter Product Height
                 </label>
               </div>
-            </div> 
+            </div>
 
-            
+
             <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                 <FaMoneyBill color='#A5B7C0' size={26} />
@@ -743,7 +744,7 @@ const ProductFormComponent: React.FC<props> = ({
               </div>
 
               {/* Selling Price Input */}
-              <div  className='flex flex-col lg:w-1/2 w-full'>
+              <div className='flex flex-col lg:w-1/2 w-full'>
                 <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                   <FaMoneyBill color='#A5B7C0' size={26} />
                   <input
@@ -812,7 +813,7 @@ const ProductFormComponent: React.FC<props> = ({
                 onChange={handleSubCategoryChange}
                 disabled={subCategories.length === 0}
                 required={subCategories.length > 0}
-                >
+              >
                 <option value=''>Select Sub Category</option>
                 {subCategories.map((subCategory: any) => (
                   <option
@@ -896,7 +897,7 @@ const ProductFormComponent: React.FC<props> = ({
                 Weight Bearing Number In Kg
               </label>
             </div> */}
-{/* 
+            {/* 
             <div className='flex bg-[#F3F3F3] p-2 relative w-full h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
               <input
@@ -1099,37 +1100,42 @@ const ProductFormComponent: React.FC<props> = ({
                 </label>
               </div>
             </div>
+            
  <div className="-mt-2 lg:col-span-2">
-              <p className="p-2">Tag</p>
-              <div className="flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto  cursor-pointer">
-                {isTagData.map((data: any) => {
-                  const isSelected = newUser.tag_list.includes(data.id);
-                  return (
-                    <div
-                      key={data.id}
-                      onClick={() => {
-                        const updatedTags = isSelected
-                          ? newUser.tag_list.filter(
-                              (tagId: number) => tagId !== data.id,
-                            )
-                          : [...newUser.tag_list, data.id];
-                        setNewUser((prev: any) => ({
-                          ...prev,
-                          tag_list: updatedTags,
-                        }));
-                      }}
-                      className={`px-4 py-2 rounded-md cursor-pointer h-12 flex items-center justify-center  ${
-                        isSelected
-                          ? "bg-admin-buttonprimary text-white"
-                          : "bg-gray-200 text-black"
-                      } transition-all duration-300`}
-                    >
-                      {data.name}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+  <p className="p-2">Tag</p>
+  <div className="flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto cursor-pointer">
+    {isTagData?.map((data: any) => {
+      const tagListSafe = newUser.tag_list || [];
+      console.log(tagListSafe,"taglist")
+      const isSelected = tagListSafe.includes(data.id);
+
+      return (
+        <div
+          key={data.id}
+          onClick={() => {
+            const updatedTags = isSelected
+              ? tagListSafe.filter((tagId: any) => tagId !== data.id)
+              : [...tagListSafe, data.id];
+
+            setNewUser((prev: any) => ({
+              ...prev,
+              tag_list: updatedTags,
+            }));
+          }}
+          className={`px-4 py-2 rounded-md cursor-pointer h-12 flex items-center justify-center transition-all duration-300 ${
+            isSelected
+              ? "bg-admin-buttonprimary text-white"
+              : "bg-gray-200 text-black"
+          }`}
+        >
+          {data.name}
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+
             <div
               className='bg-admin-buttonprimary flex justify-between items-center text-white p-1 lg:col-span-2 rounded-md'
               onClick={handleToggle}
@@ -1137,15 +1143,13 @@ const ProductFormComponent: React.FC<props> = ({
               <h2 className='text-lg font-semibold w-full px-2'>Attributes</h2>
               <FaPlus
                 size={26}
-                className={`cursor-pointer transform transition-transform duration-300 ${
-                  isOpen ? "rotate-45" : "rotate-0"
-                }`}
+                className={`cursor-pointer transform transition-transform duration-300 ${isOpen ? "rotate-45" : "rotate-0"
+                  }`}
               />
             </div>
             <div
-              className={`flex flex-col lg:flex-row  w-full lg:col-span-2 overflow-hidden transition-all duration-300 ${
-                isOpen ? "max-h-[170px] opacity-100" : "max-h-0 opacity-0"
-              }`}
+              className={`flex flex-col lg:flex-row  w-full lg:col-span-2 overflow-hidden transition-all duration-300 ${isOpen ? "max-h-[170px] opacity-100" : "max-h-0 opacity-0"
+                }`}
             >
               <div className='grid lg:grid-cols-2 px-4 grid-cols-1 gap-4 w-full'>
                 <div className='p-3 flex items-center rounded-md bg-[#F3F3F3] h-12'>
@@ -1208,14 +1212,13 @@ const ProductFormComponent: React.FC<props> = ({
                 </div>
               </div>
               <div
-                className={`w-full  ${
-                  variantSpecifications &&
-                  Object.keys(variantSpecifications||{}).length > 0
+                className={`w-full  ${variantSpecifications &&
+                    Object.keys(variantSpecifications || {}).length > 0
                     ? "h-60"
                     : "h-20"
-                } transition-height duration-300 overflow-y-auto`}
+                  } transition-height duration-300 overflow-y-auto`}
               >
-                {Object.keys(variantSpecifications|| {}).length > 0 ? (
+                {Object.keys(variantSpecifications || {}).length > 0 ? (
                   <div className='overflow-y-scroll bg-[#F3F3F3] rounded-md border-[1px]'>
                     {Object.entries(variantSpecifications || {}).map(
                       ([attribute, values]) => (
@@ -1257,9 +1260,8 @@ const ProductFormComponent: React.FC<props> = ({
           <div className='mt-6 flex gap-3 justify-center items-center'>
             <button
               type='submit'
-              className={`text-lg lg:w-[200px] mt-3  ${
-                isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
-              } text-white px-6 lg:py-3 py-2 rounded-md`}
+              className={`text-lg lg:w-[200px] mt-3  ${isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
+                } text-white px-6 lg:py-3 py-2 rounded-md`}
             >
               {isEdit ? "Update" : "Create"}
             </button>

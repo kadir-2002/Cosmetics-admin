@@ -81,6 +81,7 @@ export const createProductApi = async (
   seoTitle: string,
   seoDescription: string,
   seoKeyword: string,
+  tag_list:[],
 ) => {
   // ✅ Force transform even if user passes an object
   let transformedVariants: any[] = [];
@@ -121,6 +122,7 @@ export const createProductApi = async (
     seoTitle,
     seoDescription,
     seoKeyword,
+    tags:tag_list,
   };
 
   if (sub_catogry) {
@@ -212,6 +214,7 @@ export const ProductUpdatedApi = async (
     seoDescription: seo_description,
     seoKeyword: seo_keyword,
     warranty: warranty,
+    tags:tag_list
   };
   if (sub_catogry) {
     requestBody.subcategoryId = sub_catogry;
