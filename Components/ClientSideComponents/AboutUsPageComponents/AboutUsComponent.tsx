@@ -338,7 +338,7 @@ const AboutUsComponent = () => {
                 <option value='superior_quality'>Superior Quality</option>
                 <option value='our_mission'>Our Mission</option>
                 <option value='our_story'>Our Story</option>
-                <option value='about_mango'>About Mango</option>
+                <option value='about_glam'>About Glam</option>
                 <option value='our_journey'>Our Journey</option>
                 <option value='our_vision'>Our Vision</option>
                 <option value='counter'>Counter</option>
