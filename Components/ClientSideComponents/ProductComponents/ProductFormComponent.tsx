@@ -304,18 +304,18 @@ const ProductFormComponent: React.FC<props> = ({
       stackable_pieces_number: "",
     });
   };
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const categoryId = e.target.value;
-    setNewUser((prev: any) => ({
-      ...prev,
-      category: categoryId,
+ const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const categoryId = e.target.value;
+  setNewUser((prev: any) => ({
+    ...prev,
+    category: categoryId,
       sub_catogry: "",
-    }));
-    const selected = categories.find(
+  }));
+  const selected = categories.find(
       (cat: any) => cat.id === parseInt(categoryId)
-    );
-    setSubCategories(selected?.child_categories || []);
-  };
+  );
+  setSubCategories(selected?.child_categories || []);
+};
 
   const handleSubCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const subCategoryId = e.target.value;
@@ -807,23 +807,21 @@ const ProductFormComponent: React.FC<props> = ({
             </div>
             <div className='bg-admin-secondary px-2 rounded-md'>
               <select
-                name='sub_catogry'
-                className='p-3  bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none'
-                value={newUser.sub_catogry}
-                onChange={handleSubCategoryChange}
-                disabled={subCategories.length === 0}
-                required={subCategories.length > 0}
-              >
-                <option value=''>Select Sub Category</option>
-                {subCategories.map((subCategory: any) => (
-                  <option
-                    key={subCategory.id}
+  value={String(newUser.sub_catogry || '')}
+  onChange={handleSubCategoryChange}
+  disabled={subCategories.length === 0}
+  required={subCategories.length > 0}
+>
+  <option value=''>Select Sub Category</option>
+  {subCategories.map((subCategory: any) => (
+    <option
+      key={subCategory.id}
                     value={subCategory.id}
                     className='bg-white text-black'>
-                    {subCategory.name}
-                  </option>
-                ))}
-              </select>
+      {subCategory.name}
+    </option>
+  ))}
+</select>
             </div>
             <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
