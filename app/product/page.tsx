@@ -225,7 +225,7 @@ useEffect(() => {
 
           setFilterCategory(firstCategory.id.toString());
 
-          const subCats = firstCategory.child_categories || [];
+const subCats = firstCategory.subcategories || [];
           setSubCategories(subCats);
 
           if (subCats.length > 0) {
