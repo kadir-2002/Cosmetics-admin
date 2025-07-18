@@ -15,31 +15,108 @@ interface LogoutPopupProps {
 //   if (!utcDateStr) return '';
 //   return new Date(utcDateStr).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 // };
+
+const monthMap: Record<string, number> = {
+  Jan: 0, January: 0,
+  Feb: 1, February: 1,
+  Mar: 2, March: 2,
+  Apr: 3, April: 3,
+  May: 4,
+  Jun: 5, June: 5,
+  Jul: 6, July: 6,
+  Aug: 7, August: 7,
+  Sep: 8, Sept: 8, September: 8,
+  Oct: 9, October: 9,
+  Nov: 10, November: 10,
+  Dec: 11, December: 11,
+};
+
+function buildDateIST(
+  yearStr: string,
+  monthStr: string,
+  dayStr: string,
+  hourStr: string,
+  minuteStr: string,
+  ampm: string
+): Date {
+  const year = Number(yearStr);
+  const month = monthMap[monthStr];
+  const day = Number(dayStr);
+  let hour = Number(hourStr);
+  const minute = Number(minuteStr);
+
+  if (ampm.toUpperCase() === 'PM' && hour < 12) {
+    hour += 12;
+  } else if (ampm.toUpperCase() === 'AM' && hour === 12) {
+    hour = 0;
+  }
+
+  // IST is UTC +5:30, so to get UTC Date, subtract 5:30
+  // Create Date in UTC by subtracting offset:
+  // new Date(Date.UTC(year, month, day, hour, minute)) creates a UTC date
+  // subtract 5h30m to get UTC from IST input
+
+  // IST offset in minutes:
+  const IST_OFFSET = 5 * 60 + 30;
+
+  // Get UTC time by subtracting IST offset in minutes
+  const utcDate = new Date(Date.UTC(year, month, day, hour, minute));
+  utcDate.setMinutes(utcDate.getMinutes() - IST_OFFSET);
+
+  return utcDate;
+}
+
 export const formatIST = (input?: string): string => {
   if (!input) return '';
 
-  const formattedPattern = /^[A-Za-z]+,\s\d{1,2}\s[A-Za-z]+\s\d{4},\s\d{2}:\d{2}(AM|PM)$/;
-  if (formattedPattern.test(input.trim())) {
-    return input;
+  const trimmed = input.trim();
+
+  // Check if ISO string with TZ info
+  const isISOWithTZ = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})/.test(trimmed);
+
+  let date: Date;
+
+  if (isISOWithTZ) {
+    date = new Date(trimmed);
+  } else {
+    // Normalize AM/PM spacing and case
+    let cleaned = trimmed
+      .replace(/\b(am|pm)\b/i, (m) => m.toUpperCase())
+      .replace(/(\d)(AM|PM)/, '$1 $2')
+      .replace(/\s+at\s+/i, ', ');
+
+    const regex = /^(?:(\w+),?\s)?(\d{1,2})\s([A-Za-z]+)\s(\d{4}),?\s(\d{1,2}):(\d{2})\s?(AM|PM)$/;
+    const match = cleaned.match(regex);
+
+    if (!match) {
+      const regexNoWeekday = /^(\d{1,2})\s([A-Za-z]+)\s(\d{4})\s(\d{1,2}):(\d{2})\s?(AM|PM)$/;
+      const match2 = cleaned.match(regexNoWeekday);
+
+      if (!match2) return 'Invalid date';
+
+      const [_, day, monthStr, year, hourStr, minuteStr, ampm] = match2;
+      date = buildDateIST(year, monthStr, day, hourStr, minuteStr, ampm);
+    } else {
+      const [_, weekday, day, monthStr, year, hourStr, minuteStr, ampm] = match;
+      date = buildDateIST(year, monthStr, day, hourStr, minuteStr, ampm);
+    }
   }
 
-  // Normalize known formats like "Monday, 30 June 2025 at 05:22 am"
-  let cleaned = input.replace(' at ', ', ');
-  cleaned = cleaned.replace(/\bam\b/, 'AM').replace(/\bpm\b/, 'PM');
-
-  const date = new Date(cleaned);
   if (isNaN(date.getTime())) return 'Invalid date';
 
-  return date.toLocaleString('en-IN', {
+  // Format in IST timezone
+  const options: Intl.DateTimeFormatOptions = {
     timeZone: 'Asia/Kolkata',
     weekday: 'long',
-    year: 'numeric',
-    month: 'long',
     day: 'numeric',
+    month: 'long',
+    year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
     hour12: true,
-  }).replace(',', '');
+  };
+
+  return date.toLocaleString('en-IN', options);
 };
 
 const OrderInfoComponent: React.FC<LogoutPopupProps> = ({

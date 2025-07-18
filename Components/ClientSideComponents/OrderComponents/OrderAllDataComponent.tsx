@@ -513,7 +513,7 @@ const goToPage = () => {
                         : "N/A"}
                     </td>
                     <td className="py-3 px-4 text-start">
-                      {order?.payment?.method ? order.payment.method : "Cash on Delivery"}
+                      {order?.payment?.method !== 'COD' ? 'ONLINE' : 'Cash On Delivery'}
                     </td>
                     <td className="py-3 px-4 text-center cursor-pointer">
                       <div className="relative inline-block lg:w-[176px] w-[176px]">
