@@ -140,13 +140,13 @@ const CategryFormComponent = () => {
           toast.error("Session Expired, Please Login Again");
           router.push("/");
         } else if (
-          response?.data?.error ===
-          "Product category with this sequence number already exists"
+          response?.data?.message ===
+          "Sequence number already exists"
         ) {
           toast.error("Sequence Number already exists");
         } else if (
-          response?.data?.error ===
-          "Product category with this sequence number already exists"
+          response?.data?.message ===
+          "Sequence number already exists"
         ) {
           toast.error("Sequence Number already exists");
         }
@@ -162,7 +162,7 @@ const CategryFormComponent = () => {
           token
         );
         if (
-          response?.message === "Sequence number already exists"
+          response?.data?.message === "Sequence number already exists"
         ) {
           toast.error("Sequence Number already exists");
         } else if (response?.status === 201) {
@@ -193,8 +193,8 @@ const CategryFormComponent = () => {
           toast.error("Session Expired, Please Login Again");
           router.push("/");
         } else if (
-          response?.error ===
-          "Product category with this sequence number already exists"
+          response?.data.message ===
+          "Sequence number already exists"
         ) {
           toast.error("Sequence Number already exists");
         }
