@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { RxCross2 } from "react-icons/rx";
+import { formatIST } from "../OrderComponents/OrderInfoComponent";
 
 interface LogoutPopupProps {
   role: any; // Expected to be an object containing details of a single role
@@ -71,26 +72,55 @@ const RoleInfoPopup: React.FC<LogoutPopupProps> = ({
                         <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Testimonial:</div>
                         <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.testimonial}</div>
                       </div> : null}
-                      <div className="flex gap-2 border-b-[1px] py-2 px-6">
+                      {role?.created_by && <div className="flex gap-2 border-b-[1px] py-2 px-6">
                         <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Created By:</div>
                         <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.created_by}</div>
-                      </div>
-                      <div className="flex gap-2 border-b-[1px] py-2 px-6">
+                      </div>}
+                      {role?.created_at && <div className="flex gap-2 border-b-[1px] py-2 px-6">
                         <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Created At:</div>
-                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.created_at}</div>
-                      </div>
-                      <div className="flex gap-2 border-b-[1px] py-2 px-6">
+                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{formatIST(role?.created_at)}</div>
+                      </div> }
+                      {role?.updated_by && <div className="flex gap-2 border-b-[1px] py-2 px-6">
                         <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Updated By:</div>
                         <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.updated_by}</div>
-                      </div>
+                      </div> }
                       {
-                        role?.updated_at?
+                        role?.updated_at &&
                       
                       <div className="flex gap-2 border-b-[1px] py-2 px-6">
                         <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Updated At:</div>
-                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.updated_at}</div>
+                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{formatIST(role?.updated_at)}</div>
+                      </div>
+                      }
+                      {
+                        role?.createdAt &&
+                      <div className="flex gap-2 border-b-[1px] py-2 px-6">
+                        <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Created At:</div>
+                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{formatIST(role?.createdAt)}</div>
+                      </div>
+                      }
+                      {
+                        role?.expiresAt?
+                      <div className="flex gap-2 border-b-[1px] py-2 px-6">
+                        <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Expires At:</div>
+                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{formatIST(role?.expiresAt)}</div>
                       </div>
                       :null}
+                      { role?.updatedAt &&
+                      <div className="flex gap-2 border-b-[1px] py-2 px-6">
+                        <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Updated At:</div>
+                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{formatIST(role?.updatedAt)}</div>
+                      </div> }
+                      { role?.createdBy &&
+                      <div className="flex gap-2 border-b-[1px] py-2 px-6">
+                        <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Created By At:</div>
+                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.createdBy}</div>
+                      </div> }
+                      { role?.updatedBy &&
+                      <div className="flex gap-2 border-b-[1px] py-2 px-6">
+                        <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Updated By:</div>
+                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.updatedBy}</div>
+                      </div> }
                     </div>
                   </div>
                 </div>
