@@ -15,17 +15,19 @@ interface LogoutPopupProps {
 //   if (!utcDateStr) return '';
 //   return new Date(utcDateStr).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
 // };
-
 export const formatIST = (input?: string): string => {
   if (!input) return '';
 
-  // Check if the string is already in the desired format
   const formattedPattern = /^[A-Za-z]+,\s\d{1,2}\s[A-Za-z]+\s\d{4},\s\d{2}:\d{2}(AM|PM)$/;
   if (formattedPattern.test(input.trim())) {
     return input;
   }
 
-  const date = new Date(input);
+  // Normalize known formats like "Monday, 30 June 2025 at 05:22 am"
+  let cleaned = input.replace(' at ', ', ');
+  cleaned = cleaned.replace(/\bam\b/, 'AM').replace(/\bpm\b/, 'PM');
+
+  const date = new Date(cleaned);
   if (isNaN(date.getTime())) return 'Invalid date';
 
   return date.toLocaleString('en-IN', {
@@ -39,7 +41,6 @@ export const formatIST = (input?: string): string => {
     hour12: true,
   }).replace(',', '');
 };
-
 
 const OrderInfoComponent: React.FC<LogoutPopupProps> = ({
   role,
