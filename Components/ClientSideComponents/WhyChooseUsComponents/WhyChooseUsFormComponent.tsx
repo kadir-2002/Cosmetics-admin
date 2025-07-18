@@ -159,7 +159,7 @@ const WhyChooseUsFormComponent = () => {
     heading: string;
     description: string;
     image: string;
-    is_active: boolean;
+    isActive: boolean;
     created_by: string;
   }) => {
     setOpenForm(true);
@@ -172,7 +172,7 @@ const WhyChooseUsFormComponent = () => {
       image: isfile,
       button: "",
       button_link: "",
-      is_active: banner?.is_active,
+      is_active: banner?.isActive,
     });
     setIsEdit(true);
   };

@@ -96,8 +96,13 @@ const AboutUsComponent = () => {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
-        } else if (
-          response?.data?.error === "This sequence number already exists"
+        }else if (
+          response?.data?.message === "sequence_number is not positive"
+        ) {
+          toast.error("sequence_number is not positive");
+        } 
+        else if (
+          response?.data?.message === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
         }
@@ -112,9 +117,7 @@ const AboutUsComponent = () => {
           isActive,
           token
         );
-        if (response?.error === "This sequence number already exists") {
-          toast.error("This sequence number already exists");
-        } else if (response?.status === 201) {
+        if (response?.status === 201) {
           toast.success("Section Created Successfully");
           fetchSectiondata();
           setOpenForm(false);
@@ -128,7 +131,12 @@ const AboutUsComponent = () => {
             image: "",
             isActive: false,
           });
-        } else if (response?.data?.detail === "Invalid token") {
+        }else if(response?.message === "This sequence number already exists") {
+          toast.error("This sequence number already exists");
+        } 
+        else if (response?.message === "sequence_number is not positive") {
+          toast.error("sequence_number is not positive");
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");

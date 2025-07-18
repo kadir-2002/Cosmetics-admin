@@ -65,6 +65,20 @@ const OrderPopup = ({
         return "bg-[#ff7800]";
     }
   };
+  const getPayStatusClass = (status: string) => {
+    switch (status) {
+      case "CONFIRMED":
+        return "bg-[#34A864]";
+      case "SHIPPED":
+        return "bg-[#3485A8]";
+      case "PENDING":
+        return "bg-[#A8A434]";
+      case "CANCELLED":
+        return "bg-[#A83434]";
+      default:
+        return "bg-[#ff7800]";
+    }
+  };
   const [selectedOption, setSelectedOption] = useState("Customer Details");
 
   const handleSelection = (event: any) => {
@@ -113,7 +127,17 @@ const OrderPopup = ({
                 <div className='flex gap-3 text-lg font-semibold mt-5'>
                   <p className='text-white'>Payment Method:</p>
                   <p className='text-white'>
-                    {role?.payment.method}
+                    {role?.payment.method === 'RAZORPAY' ? 'ONLINE' : role?.payment.method}
+                  </p>
+                </div>
+                <div className='flex gap-3 text-lg font-semibold mt-5'>
+                  <p className='text-white'>Payment Status:</p>
+                  <p
+                    className={`text-white py-1 px-3 rounded-md ${getPayStatusClass(
+                      role?.payment.status
+                    )}`}
+                  >
+                    {role?.payment.status}
                   </p>
                 </div>
                 <div className='flex gap-3 text-lg font-semibold mt-5'>
@@ -196,11 +220,11 @@ const OrderPopup = ({
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Billing Address:</strong>{" "}
-                      {role?.address.addressLine} {role?.address.city},{role?.address.state},{role?.address.pincode}
+                      {role?.address?.addressLine} {role?.address?.city},{role?.address?.state},{role?.address?.pincode}
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Delivery Address:</strong>{" "}
-                      {role?.address.addressLine} {role?.address.city},{role?.address.state},{role?.address.pincode}
+                      {role?.address?.addressLine} {role?.address?.city},{role?.address?.state},{role?.address?.pincode}
                     </p>
                   </div>
                 )}

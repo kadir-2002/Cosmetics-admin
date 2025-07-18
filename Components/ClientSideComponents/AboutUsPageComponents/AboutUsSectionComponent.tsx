@@ -80,8 +80,10 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
           toast.success("Component Updated Successfully");
           setFileName("");
           setIsEdit(false);
+        } else if (response?.data?.message === "sequence_number is not positive") {
+          toast.error("sequence_number is not positive");
         } else if (
-          response?.data?.error === "This sequence number already exists"
+          response?.data?.message === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
         } else if (response?.data?.message === "Invalid or expired token") {
@@ -104,10 +106,12 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
         if (response?.status === 201) {
           toast.success("Component Created Successfully");
           setFileName("");
-        } else if (
-          response?.data?.error === "This sequence number already exists"
+        }else if (
+          response?.data?.message === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
+        } else if (response?.data?.message === "sequence_number is not positive") {
+          toast.error("sequence_number is not positive");
         } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
@@ -180,7 +184,7 @@ const AboutUsSectionComponent: React.FC<AddComponents> = ({
     try {
       const response = await componentDeleteApi(id, section, token);
       if (response?.body.success) {
-        toast.success("Sub Categry deleted successfully");
+        toast.success("Component deleted successfully");
         setSelectCategry(false);
         loadCategry();
       } else if (response?.body?.message === "Invalid or expired token") {
