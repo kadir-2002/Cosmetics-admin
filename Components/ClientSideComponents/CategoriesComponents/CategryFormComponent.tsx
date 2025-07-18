@@ -912,7 +912,7 @@ const CategryFormComponent = () => {
                           } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                       >
                         <span
-                          className={`${!data?.is_active ? "translate-x-6" : "translate-x-1"
+                          className={`${data?.is_active ? "translate-x-6" : "translate-x-1"
                             } inline-block w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out`}
                         />
                       </Switch>
