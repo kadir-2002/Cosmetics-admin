@@ -19,41 +19,45 @@ export const productAllDataApi = async (params: {
   ordering: string;
   filterValue: any;
   iscaegoryvalue?: any;
+  issubcaegoryvalue?: any;
 }) => {
   let endpoint;
 
-    endpoint = `/product/`;
-   
-    const queryParams = new URLSearchParams({
-      // page: params.current_page.toString(),
-      // page_size: params.page_size.toString(),
-    });
-   
-     if (params.id !== undefined) {
-      queryParams.append("id", params.id.toString());
-    }
-     
-    if (params.is_in_stock !== undefined) {
-      queryParams.append("is_in_stock", params.is_in_stock.toString());
-    }
-    if (params.threshold !== undefined) {
-      queryParams.append("threshold", params.threshold.toString());
-    }
-    if (params.search) {
-      queryParams.append("search", params.search);
-    }
-    if (params.ordering) {
-      queryParams.append("ordering", params.ordering);
-    }
-    if (params.filterValue !== undefined) {
-      queryParams.append("is_active", params.filterValue);
-    }
-    if (params.iscaegoryvalue) {
-      queryParams.append("category", params.iscaegoryvalue);
-    }
+  endpoint = `/product/`;
 
-    endpoint = `/product/?parent=true&${queryParams.toString()}`;
-  
+  const queryParams = new URLSearchParams({
+    // page: params.current_page.toString(),
+    // page_size: params.page_size.toString(),
+  });
+
+  if (params.id !== undefined) {
+    queryParams.append("id", params.id.toString());
+  }
+
+  if (params.is_in_stock !== undefined) {
+    queryParams.append("is_in_stock", params.is_in_stock.toString());
+  }
+  if (params.threshold !== undefined) {
+    queryParams.append("threshold", params.threshold.toString());
+  }
+  if (params.search) {
+    queryParams.append("search", params.search);
+  }
+  if (params.ordering) {
+    queryParams.append("ordering", params.ordering);
+  }
+  if (params.filterValue !== undefined) {
+    queryParams.append("is_active", params.filterValue);
+  }
+  if (params.iscaegoryvalue) {
+    queryParams.append("category", params.iscaegoryvalue);
+  }
+  if (params.issubcaegoryvalue) {
+    queryParams.append("subcategory", params.issubcaegoryvalue);
+  }
+
+  endpoint = `/product/?${queryParams.toString()}`;
+
 
   const response = await apiCoreNode(endpoint, {}, "GET", params?.token);
   return response;
@@ -81,7 +85,7 @@ export const createProductApi = async (
   seoTitle: string,
   seoDescription: string,
   seoKeyword: string,
-  tag_list:[],
+  tag_list: [],
 ) => {
   // ✅ Force transform even if user passes an object
   let transformedVariants: any[] = [];
@@ -122,15 +126,13 @@ export const createProductApi = async (
     seoTitle,
     seoDescription,
     seoKeyword,
-    tags:tag_list,
+    tags: tag_list,
   };
 
   if (sub_catogry) {
     payload.subcategoryId = sub_catogry;
-  } else {
-    payload.categoryId = categoryId;
   }
-
+  payload.categoryId = categoryId;
   console.log("🟢 Final payload:", payload);
 
   const response = await apiCoreNode("/product/", payload, "POST", token);
@@ -138,7 +140,7 @@ export const createProductApi = async (
 };
 
 export const productDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreNode(`/product/${id}/`, {},"DELETE",token);
+  const response = await apiCoreNode(`/product/${id}/`, {}, "DELETE", token);
   return response;
 };
 
@@ -214,7 +216,7 @@ export const ProductUpdatedApi = async (
     seoDescription: seo_description,
     seoKeyword: seo_keyword,
     warranty: warranty,
-    tags:tag_list
+    tags: tag_list
   };
   if (sub_catogry) {
     requestBody.subcategoryId = sub_catogry;
@@ -223,12 +225,12 @@ export const ProductUpdatedApi = async (
   }
   const response = await apiCoreNode(
     `/product/${id}/`,
-    
+
     requestBody,
     "PATCH",
     token
   );
-  console.log(response,"update product")
+  console.log(response, "update product")
   return response;
 };
 export const ProductToggleUpdatedApi = async (
@@ -238,10 +240,10 @@ export const ProductToggleUpdatedApi = async (
   token: string
 ) => {
   const requestBody = {
-    id:id,
-     isActive: isActive,
+    id: id,
+    isActive: isActive,
     isNewArrival: isNewArrival
-  
+
   };
   const response = await apiCoreNode(
     `/product/toggle/${id}/`,
@@ -273,7 +275,7 @@ export const productImgApi = async (
   created_by: string,
   token: string
 ) => {
-  console.log(isSelectedProductImgId,"image id -----------------------")
+  console.log(isSelectedProductImgId, "image id -----------------------")
   const formData = new FormData();
   formData.append("productId", isSelectedProductImgId);
   formData.append("sequence", sequence_number);
@@ -287,7 +289,7 @@ export const productImgApi = async (
     "POST",
     token
   );
-  console.log(response,"rs")
+  console.log(response, "rs")
   return response;
 };
 export const imgUpdatedApi = async (
@@ -335,7 +337,7 @@ export const imgAllDataApi = async (isParentProductId: any, token: string) => {
     "GET",
     token
   );
-  console.log(response,"img")
+  console.log(response, "img")
   return response;
 };
 //--------------------------------------------------------
@@ -352,14 +354,14 @@ export const ChildproductAllDataApi = async (
   //   page_size: page_size.toString(),
   // });
   const endpoint = `/product/variant/product/${isParentProductId.toString()}`;
-  const response = await apiCoreNode(endpoint,{}, "GET");
+  const response = await apiCoreNode(endpoint, {}, "GET");
   return response;
 };
 
 export const createProductVarientApi = async (
   product: string,
   description: string,
-  SKU: number,  
+  SKU: number,
   selling_price: number,
   base_and_selling_price_difference_in_percent: string,
   specification: any,
@@ -373,12 +375,12 @@ export const createProductVarientApi = async (
   token: string
 ) => {
   const payload: any = {
-    description:description,
-    productId:product,
+    description: description,
+    productId: product,
     SKU: SKU,
     selling_price: Number(selling_price),
     base_and_selling_price_difference_in_percent:
-    base_and_selling_price_difference_in_percent,
+      base_and_selling_price_difference_in_percent,
     specification: specification,
     stock: Number(stock),
     colour_code: colorcode,
@@ -388,7 +390,7 @@ export const createProductVarientApi = async (
     created_by: created_by,
     low_stock_threshold: low_stock_threshold,
   };
-  const response = await apiCoreNode(`/product/variant/${product}`,payload, "POST", token);
+  const response = await apiCoreNode(`/product/variant/${product}`, payload, "POST", token);
   return response;
 };
 
@@ -437,10 +439,10 @@ export const ProductUpdatedVarientApi = async (
 
 // specification
 export const VarientTabApi = async (product: string, token: string) => {
-  
-  
+
+
   const endpoint = `/product/spec/${product}`;
-  const response = await apiCoreNode(endpoint,{}, "GET");
+  const response = await apiCoreNode(endpoint, {}, "GET");
   console.log(response)
   return response;
 };

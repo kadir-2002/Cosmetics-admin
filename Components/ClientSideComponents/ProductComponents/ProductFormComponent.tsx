@@ -304,18 +304,16 @@ const ProductFormComponent: React.FC<props> = ({
       stackable_pieces_number: "",
     });
   };
- const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   const categoryId = e.target.value;
-  setNewUser((prev: any) => ({
-    ...prev,
-    category: categoryId,
+    setNewUser((prev: any) => ({
+      ...prev,
+      category: categoryId,
       sub_catogry: "",
-  }));
-  const selected = categories.find(
-      (cat: any) => cat.id === parseInt(categoryId)
-  );
-  setSubCategories(selected?.child_categories || []);
-};
+    }))
+    const selected = categories.find((cat: any) => cat.id === Number.parseInt(categoryId))
+    setSubCategories(selected?.subcategories || [])
+  }
 
   const handleSubCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const subCategoryId = e.target.value;
@@ -675,8 +673,8 @@ const ProductFormComponent: React.FC<props> = ({
                   name='Base Price'
                   value={newUser.base_price}
                   onChange={(e) => {
-                    const value = e.target.value;
-                    const parsedValue = parseFloat(value);
+                    const value = e.target.value
+                    const parsedValue = Number.parseFloat(value)
                     if (parsedValue >= 0 || value === "") {
                       setNewUser((prev: any) => ({
                         ...prev,
@@ -712,9 +710,8 @@ const ProductFormComponent: React.FC<props> = ({
                       ""
                     }
                     onChange={(e) => {
-                      const percentage = parseFloat(e.target.value);
-                      const basePrice = parseFloat(newUser?.base_price) || 0;
-
+                      const percentage = Number.parseFloat(e.target.value)
+                      const basePrice = Number.parseFloat(newUser?.base_price) || 0
                       if (e.target.value === "") {
                         setNewUser((prev: any) => ({
                           ...prev,
@@ -752,9 +749,8 @@ const ProductFormComponent: React.FC<props> = ({
                     name='selling_price'
                     value={newUser?.selling_price ?? ""}
                     onChange={(e) => {
-                      const sellingPrice = parseFloat(e.target.value);
-                      const basePrice = parseFloat(newUser?.base_price) || 0;
-
+                      const sellingPrice = Number.parseFloat(e.target.value)
+                      const basePrice = Number.parseFloat(newUser?.base_price) || 0
                       if (e.target.value === "") {
                         setNewUser((prev: any) => ({
                           ...prev,
@@ -807,21 +803,23 @@ const ProductFormComponent: React.FC<props> = ({
             </div>
             <div className='bg-admin-secondary px-2 rounded-md'>
               <select
+              name='Sub Category'
+                className='p-3 rounded-md bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none overflow-y-auto'
   value={String(newUser.sub_catogry || '')}
-  onChange={handleSubCategoryChange}
-  disabled={subCategories.length === 0}
-  required={subCategories.length > 0}
->
-  <option value=''>Select Sub Category</option>
-  {subCategories.map((subCategory: any) => (
+                onChange={handleSubCategoryChange}
+                disabled={subCategories.length === 0}
+                required={subCategories.length > 0 && newUser.sub_catogry !== "parent-category-only"} // Only required if subcategories exist and "parent-category-only" is not selected
+              >
+  {/* <option value=''>Select Sub Category</option> */}
+                {subCategories.map((subCategory: any) => (
     <option
       key={subCategory.id}
                     value={subCategory.id}
                     className='bg-white text-black'>
-      {subCategory.name}
-    </option>
-  ))}
-</select>
+                    {subCategory.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
@@ -831,7 +829,7 @@ const ProductFormComponent: React.FC<props> = ({
                   name='Product Stock'
                   value={newUser.stock}
                   onChange={(e) => {
-                    const value = parseFloat(e.target.value);
+                    const value = Number.parseFloat(e.target.value)
                     if (!isNaN(value) && value >= 0) {
                       setNewUser((prev: any) => ({ ...prev, stock: value }));
                     } else if (e.target.value === "") {
@@ -1011,17 +1009,17 @@ const ProductFormComponent: React.FC<props> = ({
                   name=' Product Low Stock Threshold'
                   value={newUser.low_stock_threshold}
                   onChange={(e) => {
-                    const value = parseFloat(e.target.value);
+                    const value = Number.parseFloat(e.target.value)
                     if (!isNaN(value) && value >= 0) {
                       setNewUser((prev: any) => ({
                         ...prev,
                         low_stock_threshold: value,
-                      }));
+                      }))
                     } else if (e.target.value === "") {
                       setNewUser((prev: any) => ({
                         ...prev,
                         low_stock_threshold: "",
-                      }));
+                      }))
                     }
                   }}
                   // placeholder="Enter Product Stock *"
@@ -1099,39 +1097,39 @@ const ProductFormComponent: React.FC<props> = ({
               </div>
             </div>
             
- <div className="-mt-2 lg:col-span-2">
-  <p className="p-2">Tag</p>
-  <div className="flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto cursor-pointer">
-    {isTagData?.map((data: any) => {
+            <div className="-mt-2 lg:col-span-2">
+              <p className="p-2">Tag</p>
+              <div className="flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto cursor-pointer">
+                {isTagData?.map((data: any) => {
       const tagListSafe = newUser.tag_list || [];
       console.log(tagListSafe,"taglist")
       const isSelected = tagListSafe.includes(data.id);
 
-      return (
-        <div
-          key={data.id}
-          onClick={() => {
-            const updatedTags = isSelected
-              ? tagListSafe.filter((tagId: any) => tagId !== data.id)
+                  return (
+                    <div
+                      key={data.id}
+                      onClick={() => {
+                        const updatedTags = isSelected
+                          ? tagListSafe.filter((tagId: any) => tagId !== data.id)
               : [...tagListSafe, data.id];
 
-            setNewUser((prev: any) => ({
-              ...prev,
-              tag_list: updatedTags,
+                        setNewUser((prev: any) => ({
+                          ...prev,
+                          tag_list: updatedTags,
             }));
-          }}
-          className={`px-4 py-2 rounded-md cursor-pointer h-12 flex items-center justify-center transition-all duration-300 ${
+                      }}
+                      className={`px-4 py-2 rounded-md cursor-pointer h-12 flex items-center justify-center transition-all duration-300 ${
             isSelected
               ? "bg-admin-buttonprimary text-white"
               : "bg-gray-200 text-black"
-          }`}
-        >
-          {data.name}
-        </div>
+                      }`}
+                    >
+                      {data.name}
+                    </div>
       );
-    })}
-  </div>
-</div>
+                })}
+              </div>
+            </div>
 
 
             <div
@@ -1142,12 +1140,12 @@ const ProductFormComponent: React.FC<props> = ({
               <FaPlus
                 size={26}
                 className={`cursor-pointer transform transition-transform duration-300 ${isOpen ? "rotate-45" : "rotate-0"
-                  }`}
+                }`}
               />
             </div>
             <div
               className={`flex flex-col lg:flex-row  w-full lg:col-span-2 overflow-hidden transition-all duration-300 ${isOpen ? "max-h-[170px] opacity-100" : "max-h-0 opacity-0"
-                }`}
+              }`}
             >
               <div className='grid lg:grid-cols-2 px-4 grid-cols-1 gap-4 w-full'>
                 <div className='p-3 flex items-center rounded-md bg-[#F3F3F3] h-12'>
@@ -1214,7 +1212,7 @@ const ProductFormComponent: React.FC<props> = ({
                     Object.keys(variantSpecifications || {}).length > 0
                     ? "h-60"
                     : "h-20"
-                  } transition-height duration-300 overflow-y-auto`}
+                } transition-height duration-300 overflow-y-auto`}
               >
                 {Object.keys(variantSpecifications || {}).length > 0 ? (
                   <div className='overflow-y-scroll bg-[#F3F3F3] rounded-md border-[1px]'>
@@ -1228,24 +1226,24 @@ const ProductFormComponent: React.FC<props> = ({
                             {attribute.charAt(0).toUpperCase() +
                               attribute.slice(1)}
                             :
-                          </h3>
+                        </h3>
                           <ul className='pl-3 flex gap-4'>
-                            {(values as string[]).map((value, index) => (
-                              <div
-                                key={index}
+                          {(values as string[]).map((value, index) => (
+                            <div
+                              key={index}
                                 className='mb-1 flex items-center justify-between bg-white w-28 p-2 rounded-md'
-                              >
+                            >
                                 <p className='text-sm'>{value}</p>
-                                <div
-                                  onClick={() => handleDelete(attribute, value)}
+                              <div
+                                onClick={() => handleDelete(attribute, value)}
                                   className='ml-2 text-red-500 hover:text-red-700 cursor-pointer'
-                                >
-                                  <MdDelete size={26} />
-                                </div>
+                              >
+                                <MdDelete size={26} />
                               </div>
-                            ))}
-                          </ul>
-                        </div>
+                            </div>
+                          ))}
+                        </ul>
+                      </div>
                       )
                     )}
                   </div>
@@ -1259,7 +1257,7 @@ const ProductFormComponent: React.FC<props> = ({
             <button
               type='submit'
               className={`text-lg lg:w-[200px] mt-3  ${isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
-                } text-white px-6 lg:py-3 py-2 rounded-md`}
+              } text-white px-6 lg:py-3 py-2 rounded-md`}
             >
               {isEdit ? "Update" : "Create"}
             </button>

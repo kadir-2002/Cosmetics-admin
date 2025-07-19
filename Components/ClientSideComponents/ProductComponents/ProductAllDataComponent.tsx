@@ -252,7 +252,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
                   <thead className='bg-admin-secondary text-white'>
                     <tr>
                       <th className='text-right'></th>
-                      <th className='text-right'>Sequence Number</th>
+                      <th className='text-right'>Order</th>
                       <th className='p-4 text-left'>Product</th>{" "}
                       {/* Combined Image and Name */}
                       <th className='p-4 text-left'>SKU</th>
@@ -310,7 +310,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
                       <SortableRow key={product.id} id={product.id}>
                         {/* <td className="p-3 text-center"> <LuGrip size={24} className="text-black" /></td> */}
                         <td className='p-4 text-center'>
-                          <p>{product?.sequenceNumber}</p>
+                          {/* <p>{product?.sequenceNumber}</p> */}
                         </td>
                         <td className='p-4'>
                           <div className='flex items-center gap-2'>
