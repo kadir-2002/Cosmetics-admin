@@ -94,8 +94,7 @@ const GalleryFormComponent = () => {
             is_active: false,
           });
         } else if (
-          response?.data?.error === "This sequence number already exists"
-        ) {
+          response?.data?.message === "This sequence number already exists") {
           toast.error("This sequence number already exists");
         } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
