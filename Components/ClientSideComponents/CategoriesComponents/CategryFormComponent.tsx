@@ -161,11 +161,11 @@ const CategryFormComponent = () => {
           token
         );
         if (
-          response?.data?.message === "Sequence number already exists"
+          response?.message === "Sequence number already exists"
         ) {
           toast.error("Sequence Number already exists");
         }else if (
-          response?.data?.message === "Sequence number must be positive"
+          response?.message === "Sequence number must be positive"
         ) {
           toast.error("Sequence number must be positive");
         } else if (response?.status === 201) {
