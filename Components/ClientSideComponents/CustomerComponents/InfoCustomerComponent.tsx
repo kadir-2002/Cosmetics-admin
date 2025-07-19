@@ -68,7 +68,7 @@ const CoustomerInfoPopupComponent: React.FC<LogoutPopupProps> = ({
                     {user?.profileId ? (
                         <div className='flex gap-2 border-b-[1px] py-2'>
                           <div className='text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[16%] flex items-center justify-between'>
-                          Subject :
+                          ProfileId :
                           </div>
                           <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
                             {user?.profileId}
