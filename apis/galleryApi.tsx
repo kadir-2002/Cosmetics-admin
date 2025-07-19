@@ -21,6 +21,7 @@ export const createGalleryApi = async (
   formData.append("is_active", isActive.toString());
   // formData.append("created_by", created_by.toString());
   const response = await apiCoreFormData("/galleryitem/", formData, "POST", token);
+  console.log(response,"response create")
   return response;
 
 };
@@ -73,6 +74,7 @@ export const galleryUpdatedApi = async (
 
   const response = await apiCoreUpdateuser(`/galleryitem/${id}/`, formData, "PATCH", token,);
   console.log(formData,"galleryitem  galleryApi")
+  console.log(response,"response update")
   return response;
 };
 

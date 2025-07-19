@@ -93,10 +93,12 @@ const GalleryFormComponent = () => {
             types: "",
             is_active: false,
           });
-        } else if (
-          response?.data?.message === "This sequence number already exists") {
-          toast.error("This sequence number already exists");
-        } else if (response?.data?.message === "Invalid or expired token") {
+        } else if (response?.data?.message === "Sequence number already exists in section"){
+            toast.error("Sequence number already exists in section");
+          }
+          else if (response?.data?.error === "sequence_number must be a positive number."){
+            toast.error("sequence_number must be a positive number.");
+          }else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -109,9 +111,12 @@ const GalleryFormComponent = () => {
           is_active,
           token
         );
-        if (response?.message === "This sequence number already exists") {
-          toast.error("This sequence number already exists");
-        } else if (response?.status === 201) {
+        if (response?.data?.message === "Sequence number already exists in section"){
+          toast.error("Sequence number already exists in section");
+        }
+        else if (response?.data?.error === "sequence_number must be a positive number."){
+          toast.error("sequence_number must be a positive number.");
+        }else if (response?.status === 201) {
           toast.success("Image created successfully!");
           fetchGalery();
           setOpenForm(false);
@@ -287,7 +292,13 @@ const GalleryFormComponent = () => {
     );
     if (response?.status === 200) {
       fetchGalery();
-    } else if (response?.data?.message === "Invalid or expired token") {
+    }else if (response?.data?.message === "Sequence number already exists in section"){
+      toast.error("Sequence number already exists in section");
+    }
+    else if (response?.data?.error === "sequence_number must be a positive number."){
+      toast.error("sequence_number must be a positive number.");
+    }
+     else if (response?.data?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");
