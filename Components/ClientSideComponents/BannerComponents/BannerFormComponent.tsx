@@ -112,9 +112,13 @@ const BannerFormComponent = () => {
             isActive: false,
           });
         } else if (
-          response?.data?.error === "This sequence number already exists"
+          response?.data?.error === "A banner with this sequence_number already exists."
         ) {
-          toast.error("This sequence number already exists");
+          toast.error("A banner with this sequence_number already exists.");
+        }  else if (
+          response?.data?.error === "sequence_number must be a positive number."
+        ) {
+          toast.error("sequence_number must be a positive number.");
         } else if (response?.data?.detail === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
@@ -133,9 +137,12 @@ const BannerFormComponent = () => {
           button_link,
           token
         );
-        if (response?.error === "A banner with this sequence_number already exists.") {
+        if (response?.data?.error === "A banner with this sequence_number already exists.") {
           toast.error("This sequence number already exists");
-        } else if (response?.status === 201) {
+        }else if(response?.data?.error === "sequence_number must be a positive number.") {
+          toast.error("sequence_number must be a positive number.");
+        }  
+        else if (response?.status === 201) {
           toast.success("Banner created successfully!");
           fetchBanner();
           setOpenForm(false);
