@@ -113,10 +113,15 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
           toast.error("Session Expired, Please Login Again");
           router.push("/");
         } else if (
-          response?.data?.error ===
-          "Product category with this sequence number already exists"
+          response?.data?.message ===
+          "sequence_number must be a positive number"
         ) {
-          toast.error("This Sequence Number already exists");
+          toast.error("sequence_number must be a positive number");
+        } else if (
+          response?.data?.message ===
+          "Sequence number already exists for this sub category"
+        ) {
+          toast.error("Sequence number already exists for this sub category");
         } else if (
           response?.data?.error ===
           "Product category with this name already exists"
@@ -145,16 +150,21 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
           toast.success("Sub Category Created Successfully");
           setFileName("");
         } else if (
-          response?.data?.error ===
+          response?.data?.message ===
           "Product category with this name already exists"
         ) {
           toast.error("This sub-Category already exists");
-        } else if (
-          response?.data?.error ===
-          "Product category with this sequence number already exists"
+        }  else if (
+          response?.data?.message ===
+          "sequence_number must be a positive number"
         ) {
-          toast.error("This Sequence Number already exists");
-        } else if (response?.data?.message === "Invalid or expired token") {
+          toast.error("sequence_number must be a positive number");
+        } else if (
+          response?.data?.message ===
+          "Sequence number already exists for this sub category"
+        ) {
+          toast.error("Sequence number already exists for this sub category");
+        }  else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -452,7 +462,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                               Enter Sequence Number
                             </label>
                           </div>
-                          <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
+                          {/* <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                             <MdCategory color='#A5B7C0' size={26} />
                             <input
                               type='text'
@@ -473,7 +483,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                             >
                               Enter Title
                             </label>
-                          </div>
+                          </div> */}
                           <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                             <MdCategory color='#A5B7C0' size={26} />
                             <input
@@ -624,7 +634,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                               </label>
                             </div>
                           </div>
-                          <div className='lg:col-span-2 '>
+                          {/* <div className='lg:col-span-2 '>
                             <DescriptionReatchTextComponent
                               value={newUser.seo_description}
                               onChange={(seo_description) =>
@@ -634,7 +644,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                                 }))
                               }
                             />
-                          </div>
+                          </div> */}
                         </div>
 
                         <div className='grid lg:grid-cols-2 grid-cols-1 gap-4 '>
@@ -721,8 +731,8 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                             <th className='py-3 px-5 text-start'>Image</th>
                             <th className='py-3 px-5 text-start'>Banner</th>
                             <th className='p-2'>Sub-Category</th>
-                            <th className='p-2'>Description</th>
-                            <th className='p-2'>Is Action</th>
+                            {/* <th className='p-2'>Description</th> */}
+                            <th className='p-2'>Status</th>
                             <th className='p-2'>Action</th>
                             <th className='p-2'>Info</th>
                           </tr>
@@ -766,7 +776,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                                 )}
                               </td>
                               <td className=' p-2'>{item?.name}</td>
-                              <td className=' p-2'>{item.description}</td>
+                              {/* <td className=' p-2'>{item.description}</td> */}
                               <td className='py-3 px-4'>
                                 <div className='flex flex-col items-center'>
                                   <Switch

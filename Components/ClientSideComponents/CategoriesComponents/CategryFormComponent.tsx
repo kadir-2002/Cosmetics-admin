@@ -145,10 +145,9 @@ const CategryFormComponent = () => {
         ) {
           toast.error("Sequence Number already exists");
         } else if (
-          response?.data?.message ===
-          "Sequence number already exists"
+          response?.data?.message === "Sequence number must be positive"
         ) {
-          toast.error("Sequence Number already exists");
+          toast.error("Sequence number must be positive");
         }
       } else {
         const response = await createCategryApi(
@@ -162,9 +161,13 @@ const CategryFormComponent = () => {
           token
         );
         if (
-          response?.data?.message === "Sequence number already exists"
+          response?.message === "Sequence number already exists"
         ) {
           toast.error("Sequence Number already exists");
+        }else if (
+          response?.message === "Sequence number must be positive"
+        ) {
+          toast.error("Sequence number must be positive");
         } else if (response?.status === 201) {
           toast.success("Category created successfully");
           fetchCategory();
@@ -703,10 +706,10 @@ const CategryFormComponent = () => {
               </div>
             </div>
 
-           <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
+           {/* <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
 
-            </div>
+            </div> */}
 
 
             <div className='rounded-md  w-full focus:outline-none focus:outline-1 placeholder-black h-12'>

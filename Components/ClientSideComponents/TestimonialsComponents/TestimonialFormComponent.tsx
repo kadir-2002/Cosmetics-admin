@@ -278,7 +278,7 @@ const TestimonialFormComponent = () => {
     const response = await testimonialUpdatedApi(
       data?.id,
       data?.name,
-      data?.testimonial,
+      data?.description,
       image,
       data?.role,
       isActive,

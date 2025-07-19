@@ -87,6 +87,10 @@ const HeaderFormComponent = () => {
             is_active: false,
           });
         } else if (
+          response?.body?.message === "Sequence number must be a positive number"
+        ) {
+          toast.error("Sequence number must be a positive number");
+        }  else if (
           response?.body?.message === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
@@ -107,6 +111,10 @@ const HeaderFormComponent = () => {
         console.log(response,"heder response")
         if (response?.body?.message === "This sequence number already exists") {
           toast.error("This sequence number already exists");
+        } else if (
+          response?.body?.message === "Sequence number must be a positive number"
+        ) {
+          toast.error("Sequence number must be a positive number");
         } else if (response?.status === 201) {
           toast.success("Created successfully!");
           fetchHeaderData();
