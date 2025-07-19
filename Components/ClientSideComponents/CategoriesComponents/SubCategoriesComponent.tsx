@@ -51,7 +51,8 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
     seo_keyword: "",
     image: "",
     banner: "",
-    isActive: false,
+    isDeleted: false,
+
   });
   const [openForm, setOpenForm] = useState<boolean>(false);
   const [isfile, setfile] = useState("");
@@ -81,7 +82,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
       seo_keyword,
       image,
       banner,
-      isActive,
+      isDeleted,
     } = newUser;
     try {
       let response;
@@ -100,7 +101,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
           categry,
           image,
           banner,
-          isActive,
+          isDeleted,
           createdBy,
           token
         );
@@ -142,7 +143,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
           categry,
           image,
           banner,
-          isActive,
+          isDeleted,
           createdBy,
           token
         );
@@ -186,7 +187,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
           seo_keyword: "",
           image: "",
           banner: "",
-          isActive: false,
+          isDeleted: false,
         });
         setFileName("");
       }
@@ -212,7 +213,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
     seo_data: string;
     seo_keyword: string;
     image: string;
-    isActive: boolean;
+    isDeleted: boolean;
   }) => {
     setOpenForm(true);
     setFileName(item?.image);
@@ -229,7 +230,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
       image: "",
       banner: "",
       seo_description: item?.seo_description,
-      isActive: item.isActive,
+      isDeleted: item.isDeleted,
     });
     setIsEdit(true);
     setSelectCategryid(item?.id);
@@ -249,7 +250,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
       seo_keyword: "",
       image: "",
       banner: "",
-      isActive: false,
+      isDeleted: false,
     });
     setFileName("");
   };
@@ -302,7 +303,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
       seo_keyword: "",
       image: "",
       banner: "",
-      isActive: false,
+      isDeleted: false,
     });
   };
   const activeHandler = async (item: any, isActive: boolean) => {
@@ -622,11 +623,11 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                               <label>
                                 <input
                                   type='checkbox'
-                                  checked={newUser.isActive}
+                                  checked={newUser.isDeleted}
                                   onChange={(e) =>
                                     setNewUser((prev) => ({
                                       ...prev,
-                                      isActive: e.target.checked,
+                                      isDeleted: e.target.checked,
                                     }))
                                   }
                                 />
