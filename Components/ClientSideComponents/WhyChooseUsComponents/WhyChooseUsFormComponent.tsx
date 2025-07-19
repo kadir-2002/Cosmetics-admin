@@ -106,10 +106,10 @@ const WhyChooseUsFormComponent = () => {
             button_link: "",
             is_active: false,
           });
-        } else if (
-          response?.data?.error === "This sequence number already exists"
-        ) {
-          toast.error("This sequence number already exists");
+        } else if (response?.data?.message === "Sequence number already used by another item.") {
+          toast.error("Sequence number already used by another item.");
+        } else if (response?.data?.message === "Sequence number must be a positive number.") {
+          toast.error("Sequence number must be a positive number.");
         } else if (response?.data?.message === "Invalid or expired token ") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
@@ -126,8 +126,10 @@ const WhyChooseUsFormComponent = () => {
           token
         );
         if (response?.message === "Sequence number already used.") {
-          toast.error("This sequence number already exists");
-        } else if (response?.status === 201) {
+          toast.error("Sequence number already used by another item.");
+        } else if (response?.message === "Sequence number must be a positive number.") {
+          toast.error("Sequence number must be a positive number.");
+        }  else if (response?.status === 201) {
           toast.success("Why Choose Us created successfully!");
           fetchBanner();
           setOpenForm(false);
@@ -303,6 +305,10 @@ const WhyChooseUsFormComponent = () => {
     );
     if (response?.status === 200) {
       fetchBanner();
+    }else if (response?.data?.message === "Sequence number already used by another item.") {
+      toast.error("Sequence number already used by another item.");
+    } else if (response?.data?.message === "Sequence number must be a positive number.") {
+      toast.error("Sequence number must be a positive number.");
     } else if (response?.data?.message === "Invalid or expired token ") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
