@@ -83,8 +83,41 @@ const CouponsFormComponent = () => {
     e.preventDefault();
     const { type, code, value, usage_limit, valid_from, valid_till, isActive,title,description,show_on_homepage } =
       newRole;
-    try {
-      if (isEdit) {
+   try {
+    if (isEdit) {
+      if (show_on_homepage) {
+        const otherHomepageCoupons = coupons.filter(c => c.show_on_homepage);
+
+        for (const coupon of otherHomepageCoupons) {
+          const response = await couponsUpdatedApi(
+            selectedRoleId,
+            type,
+            code,
+            value,
+            usage_limit,
+            valid_from,
+            valid_till,
+            title,
+            description,
+            show_on_homepage,
+            created_by,
+            isActive,
+            token
+          );
+
+          if (response?.status === 401) {
+            dispatch(clearUserDetails());
+            toast.error("Session Expired, Please Login Again");
+            router.push("/");
+            return;
+          }
+
+          if (response?.status === 200) {
+            toast.success("Coupon updated successfully");
+            setIsEdit(false);
+          }
+        }
+      } else {
         const response = await couponsUpdatedApi(
           selectedRoleId,
           type,
@@ -107,56 +140,60 @@ const CouponsFormComponent = () => {
           router.push("/");
           return;
         }
+
         if (response?.status === 200) {
-          toast.success("Coupone updated successfully");
+          toast.success("Coupon updated successfully");
           setIsEdit(false);
         }
-      } else {
-        const response = await createCouponsApi(
-          type,
-          code,
-          value,  
-          usage_limit,
-          valid_from,
-          valid_till,
-          created_by,
-          title,
-          description,
-          show_on_homepage,
-          isActive,
-          token
-        );
-        if (response?.status === 401) {
-          dispatch(clearUserDetails());
-          toast.error("Session Expired, Please Login Again");
-          router.push("/");
-          return;
-        }
-        if (response?.data?.error === "Coupon with this code already exists") {
-          toast.error("Coupon already exists");
-        } else if (response?.status === 201) {
-          toast.success("Coupone created successfully");
-        }
       }
-      fetchRoles();
-      setOpenForm(false);
-      setNewRole({
-        type: "",
-        code: "",
-        value: "",
-        usage_limit: "",
-        valid_from: null as Date | null,
-        valid_till: null as Date | null,
-        title: "",
-        description: "",
-        show_on_homepage: false,
-        isActive: false,
-      });
-    } catch (error) {
-      console.error("Error creating or updating role:", error);
-    }
-  };
+    } else {
+      const response = await createCouponsApi(
+        type,
+        code,
+        value,
+        usage_limit,
+        valid_from,
+        valid_till,
+        created_by,
+        title,
+        description,
+        show_on_homepage,
+        isActive,
+        token
+      );
 
+      if (response?.status === 401) {
+        dispatch(clearUserDetails());
+        toast.error("Session Expired, Please Login Again");
+        router.push("/");
+        return;
+      }
+
+      if (response?.data?.error === "Coupon with this code already exists") {
+        toast.error("Coupon already exists");
+      } else if (response?.status === 201) {
+        toast.success("Coupon created successfully");
+      }
+    }
+
+    fetchRoles();
+    setOpenForm(false);
+    setNewRole({
+      type: "",
+      code: "",
+      value: "",
+      usage_limit: "",
+      valid_from: null as Date | null,
+      valid_till: null as Date | null,
+      title: "",
+      description: "",
+      show_on_homepage: false,
+      isActive: false,
+    });
+  } catch (error) {
+    console.error("Error creating or updating role:", error);
+  }
+};
   const isActive =
     isfiltervalue === "Active"
       ? true
