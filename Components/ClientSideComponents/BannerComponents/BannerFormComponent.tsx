@@ -345,8 +345,8 @@ const BannerFormComponent = () => {
       image,
       mobile_banner,
       isActive,
-      banner?.button,
-      banner?.button_link,
+      banner?.buttonText,
+      banner?.buttonLink,
       token
     );
     if (response?.status === 200) {
