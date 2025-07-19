@@ -706,10 +706,10 @@ const CategryFormComponent = () => {
               </div>
             </div>
 
-           <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
+           {/* <div className='flex bg-[#F3F3F3] p-2 relative w-full  h-12 rounded-lg shadow-sm'>
               <BsPuzzleFill color='#A5B7C0' size={26} />
 
-            </div>
+            </div> */}
 
 
             <div className='rounded-md  w-full focus:outline-none focus:outline-1 placeholder-black h-12'>
