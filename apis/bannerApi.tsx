@@ -57,8 +57,8 @@ export const bannerUpdatedApi = async (
   id: string,
   sequence_number: string,
   heading: string,
-  sub_heading:string,
-  description: string,
+  subheading:string,
+  subheading2: string,
   image: File | null | any,
   mobile_banner:File | null |any,
   isActive: boolean,
@@ -69,8 +69,8 @@ export const bannerUpdatedApi = async (
   const formData = new FormData();
   formData.append("sequence_number", sequence_number);
   formData.append("heading", heading);
-  formData.append("subheading", sub_heading);
-  formData.append("subheading2", description);
+  formData.append("subheading", subheading);
+  formData.append("subheading2", subheading2);
   formData.append("buttonText", button_text);
   formData.append("buttonLink", button_link);
   if (image) {

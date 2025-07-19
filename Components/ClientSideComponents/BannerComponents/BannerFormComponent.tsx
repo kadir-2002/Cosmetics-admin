@@ -22,8 +22,8 @@ type banner = {
   id: number;
   sequence_number: string;
   heading: string;
-  sub_heading: string;
-  description: string;
+  subheading: string;
+  subheading2: string;
   image: string;
   isActive: false;
   created_by: string;
@@ -37,8 +37,8 @@ const BannerFormComponent = () => {
     id: "",
     sequence_number: "",
     heading: "",
-    sub_heading: "",
-    description: "",
+    subheading: "",
+    subheading2: "",
     button: "",
     button_link: "",
     image: "",
@@ -68,8 +68,8 @@ const BannerFormComponent = () => {
       id,
       sequence_number,
       heading,
-      sub_heading,
-      description,
+      subheading,
+      subheading2,
       image,
       isActive,
       button,
@@ -82,8 +82,8 @@ const BannerFormComponent = () => {
           id,
           sequence_number,
           heading,
-          sub_heading,
-          description,
+          subheading,
+          subheading2,
           image,
           mobile_banner,
           isActive,
@@ -103,8 +103,8 @@ const BannerFormComponent = () => {
             id: "",
             sequence_number: "",
             heading: "",
-            sub_heading: "",
-            description: "",
+            subheading: "",
+            subheading2: "",
             image: "",
             mobile_banner:"",
             button: "",
@@ -124,8 +124,8 @@ const BannerFormComponent = () => {
         const response = await createBannerApi(
           sequence_number,
           heading,
-          sub_heading,
-          description,
+          subheading,
+          subheading2,
           image,
           mobile_banner,
           isActive,
@@ -146,8 +146,8 @@ const BannerFormComponent = () => {
             id: "",
             sequence_number: "",
             heading: "",
-            sub_heading: "",
-            description: "",
+            subheading: "",
+            subheading2: "",
             image: "",
             mobile_banner:"",
             button: "",
@@ -172,7 +172,7 @@ const BannerFormComponent = () => {
     banner: string;
     buttonText: string;
     buttonLink: string;
-    description: string;
+    subheading2: string;
     image: string;
     mobile_banner:string,
     isActive: boolean;
@@ -185,8 +185,8 @@ const BannerFormComponent = () => {
       id: banner?.id,
       sequence_number: banner?.sequence_number,
       heading: banner?.heading,
-      sub_heading: banner?.subheading,
-      description: banner?.description,
+      subheading: banner?.subheading,
+      subheading2: banner?.subheading2,
       image: isfile,
       mobile_banner:"",
       button: banner?.buttonText,
@@ -294,8 +294,8 @@ const BannerFormComponent = () => {
       id: "",
       sequence_number: "",
       heading: "",
-      sub_heading: "",
-      description: "",
+      subheading: "",
+      subheading2: "",
       image: "",
       mobile_banner:"",
       button: "",
@@ -312,8 +312,8 @@ const BannerFormComponent = () => {
       id: "",
       sequence_number: "",
       heading: "",
-      sub_heading: "",
-      description: "",
+      subheading: "",
+      subheading2: "",
       image: "",
       mobile_banner:"",
       button: "",
@@ -334,7 +334,7 @@ const BannerFormComponent = () => {
       banner?.sequence_number,
       banner?.heading,
       banner?.subheading??"",
-      banner?.description??"",
+      banner?.subheading2??"",
       image,
       mobile_banner,
       isActive,
@@ -429,12 +429,12 @@ const BannerFormComponent = () => {
               <RiArticleFill color='#A5B7C0' size={26} />
               <input
                 type='text'
-                name='sub_heading'
-                value={newUser.sub_heading}
+                name='subheading'
+                value={newUser.subheading}
                 onChange={(e) =>
                   setNewUser((prev) => ({
                     ...prev,
-                    sub_heading: e.target.value,
+                    subheading: e.target.value,
                   }))
                 }
                required
@@ -452,11 +452,11 @@ const BannerFormComponent = () => {
               <input
                 type='text'
                 name='description'
-                value={newUser.description}
+                value={newUser.subheading2}
                 onChange={(e) =>
                   setNewUser((prev) => ({
                     ...prev,
-                    description: e.target.value,
+                    subheading2: e.target.value,
                   }))
                 }
                 // placeholder="Enter description"
