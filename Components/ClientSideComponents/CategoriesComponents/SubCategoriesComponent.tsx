@@ -452,7 +452,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                               Enter Sequence Number
                             </label>
                           </div>
-                          <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
+                          {/* <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                             <MdCategory color='#A5B7C0' size={26} />
                             <input
                               type='text'
@@ -473,7 +473,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                             >
                               Enter Title
                             </label>
-                          </div>
+                          </div> */}
                           <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
                             <MdCategory color='#A5B7C0' size={26} />
                             <input
@@ -624,7 +624,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                               </label>
                             </div>
                           </div>
-                          <div className='lg:col-span-2 '>
+                          {/* <div className='lg:col-span-2 '>
                             <DescriptionReatchTextComponent
                               value={newUser.seo_description}
                               onChange={(seo_description) =>
@@ -634,7 +634,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
                                 }))
                               }
                             />
-                          </div>
+                          </div> */}
                         </div>
 
                         <div className='grid lg:grid-cols-2 grid-cols-1 gap-4 '>
