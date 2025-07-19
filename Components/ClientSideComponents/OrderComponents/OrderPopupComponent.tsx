@@ -220,11 +220,13 @@ const OrderPopup = ({
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Billing Address:</strong>{" "}
-                      {role?.address?.addressLine} {role?.address?.city},{role?.address?.state},{role?.address?.pincode}
+                      {role?.billingAddress} 
+                      {/* {role?.address?.city},{role?.address?.state},{role?.address?.pincode} */}
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Delivery Address:</strong>{" "}
-                      {role?.address?.addressLine} {role?.address?.city},{role?.address?.state},{role?.address?.pincode}
+                      {role?.shippingAddress} 
+                      {/* {role?.address?.city},{role?.address?.state},{role?.address?.pincode} */}
                     </p>
                   </div>
                 )}
