@@ -221,7 +221,7 @@ const PinCodeFormComponent = () => {
     try {
       const response = await pinCodeDeleteApi(id, token);
       if (response?.success) {
-        toast.success("Store addres Deleted successfully");
+        toast.success("Pincode Deleted successfully");
         setIsLogoutPopup(false);
         fetchPincode();
       } else if (response?.detail === "Invalid token") {
