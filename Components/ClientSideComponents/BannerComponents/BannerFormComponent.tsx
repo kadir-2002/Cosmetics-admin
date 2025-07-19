@@ -137,9 +137,9 @@ const BannerFormComponent = () => {
           button_link,
           token
         );
-        if (response?.data?.error === "A banner with this sequence_number already exists.") {
+        if (response?.error === "A banner with this sequence_number already exists.") {
           toast.error("This sequence number already exists");
-        }else if(response?.data?.error === "sequence_number must be a positive number.") {
+        }else if(response?.error === "sequence_number must be a positive number.") {
           toast.error("sequence_number must be a positive number.");
         }  
         else if (response?.status === 201) {
