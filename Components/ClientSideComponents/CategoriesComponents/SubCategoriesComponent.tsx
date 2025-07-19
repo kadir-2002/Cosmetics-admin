@@ -212,7 +212,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
     seo_data: string;
     seo_keyword: string;
     image: string;
-    is_active: boolean;
+    isActive: boolean;
   }) => {
     setOpenForm(true);
     setFileName(item?.image);
@@ -229,7 +229,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
       image: "",
       banner: "",
       seo_description: item?.seo_description,
-      isActive: item.is_active,
+      isActive: item.isActive,
     });
     setIsEdit(true);
     setSelectCategryid(item?.id);
