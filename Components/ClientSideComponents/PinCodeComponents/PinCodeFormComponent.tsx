@@ -114,7 +114,7 @@ const PinCodeFormComponent = () => {
           id,
           token
         );
-        if (response?.body?.error === "This zipcode already exists") {
+        if (response?.body?.error === "Pincode already exists") {
           toast.error("This Zipcode already exists");
         } else if (response?.status === 201) {
           toast.success("Created successfully!");
