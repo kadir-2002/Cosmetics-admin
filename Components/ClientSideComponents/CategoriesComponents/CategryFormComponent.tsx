@@ -145,10 +145,9 @@ const CategryFormComponent = () => {
         ) {
           toast.error("Sequence Number already exists");
         } else if (
-          response?.data?.message ===
-          "Sequence number already exists"
+          response?.data?.message === "Sequence number must be positive"
         ) {
-          toast.error("Sequence Number already exists");
+          toast.error("Sequence number must be positive");
         }
       } else {
         const response = await createCategryApi(
@@ -165,6 +164,10 @@ const CategryFormComponent = () => {
           response?.data?.message === "Sequence number already exists"
         ) {
           toast.error("Sequence Number already exists");
+        }else if (
+          response?.data?.message === "Sequence number must be positive"
+        ) {
+          toast.error("Sequence number must be positive");
         } else if (response?.status === 201) {
           toast.success("Category created successfully");
           fetchCategory();
