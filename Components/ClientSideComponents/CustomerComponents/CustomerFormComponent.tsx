@@ -196,7 +196,7 @@ const CustomerFormComponent = () => {
         page_size: pageSize,
         token: token,
         ordering: ordering,
-         ...(isStartDateChanged && {startDates: formattedStartDate }),
+        startDates: formattedStartDate ,
         endDates: formattedEndDate,
         isActiveInactive: isActiveInactive,
       });
