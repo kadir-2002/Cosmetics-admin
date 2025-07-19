@@ -23,7 +23,7 @@ export const headerDeleteApi = async (id: any, token: string) => {
   return response;
 };
 export const headerUpdatedApi = async (id: string, name: string, sequence_number: string, link: string, isActive: boolean, token: string) => {
-  const requestBody = { name: name, sequence_number: sequence_number, link: link, is_active: isActive };
+  const requestBody = { name: name, sequence_number: Number(sequence_number), link: link, is_active: isActive };
   const response = await apiCoreNode(`/header/${id}/`, requestBody, "PATCH", token);
   return response;
 };
