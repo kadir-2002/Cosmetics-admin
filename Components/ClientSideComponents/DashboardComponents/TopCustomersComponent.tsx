@@ -60,9 +60,9 @@ const TopCustomers = ({ commisionData }: Props) => {
               <th className="py-2 px-4  text-[18px] text-[#577C8E]  text-left">
                 Customer Name
               </th>
-              <th className="py-2 px-4 text-[18px] text-[#577C8E] text-left">
+              {/* <th className="py-2 px-4 text-[18px] text-[#577C8E] text-left">
                 {activeTab === "by_orders" ? "Money Spent" : " Orders"}
-              </th>
+              </th> */}
               <th className="py-2 px-4 text-[18px] text-[#577C8E] text-center">
                 {activeTab === "by_orders" ? "Complete Orders" : "Money Spent"}
               </th>
@@ -78,7 +78,9 @@ const TopCustomers = ({ commisionData }: Props) => {
                  
                 >
                   <td className="py-2 px-4 text-[18px] text-left">
-                    {customer.name||"Guest"}
+                    <Link href={`/customers?id=${customer?.id}`}>
+                       {customer.name||"Guest"}
+                    </Link>
                   </td>
                   <td className="py-2 px-4 text-[18px] text-left">
                     {customer.total_spent}

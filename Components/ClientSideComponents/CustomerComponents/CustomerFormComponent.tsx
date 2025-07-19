@@ -634,7 +634,7 @@ const goToPage = () => {
                   ))}
                 </tbody>
               </table>
-              {users.length === 0 && (
+              {users?.length === 0 && (
                 <div className='text-center p-4'>No customer available</div>
               )}
               {isopenaddres && (
