@@ -111,10 +111,10 @@ const GalleryFormComponent = () => {
           is_active,
           token
         );
-        if (response?.data?.message === "Sequence number already exists in section"){
+        if (response?.message === "This sequence number already exists"){
           toast.error("Sequence number already exists in section");
         }
-        else if (response?.data?.error === "sequence_number must be a positive number."){
+        else if (response?.error === "sequence_number must be a positive number."){
           toast.error("sequence_number must be a positive number.");
         }else if (response?.status === 201) {
           toast.success("Image created successfully!");
@@ -290,12 +290,12 @@ const GalleryFormComponent = () => {
       is_active,
       token
     );
-    if (response?.status === 200) {
-      fetchGalery();
-    }else if (response?.data?.message === "Sequence number already exists in section"){
+    if (response?.data?.message === 
+"Sequence number already exists in section"){
       toast.error("Sequence number already exists in section");
-    }
-    else if (response?.data?.error === "sequence_number must be a positive number."){
+    }else if (response?.status === 200) {
+      fetchGalery();
+    }else if (response?.data?.error === "sequence_number must be a positive number."){
       toast.error("sequence_number must be a positive number.");
     }
      else if (response?.data?.message === "Invalid or expired token") {
