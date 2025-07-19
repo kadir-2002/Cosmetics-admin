@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 
 interface SubCategory {
-  id: number | string // Allow string for "parent-category-only"
+  id: number | string
   name: string
 }
 
@@ -22,12 +22,15 @@ interface Category {
   subcategories: SubCategory[]
 }
 
+interface VariantSpecifications {
+  [key: string]: string[]
+}
+
 const Page: React.FC = () => {
   const userDetails = useSelector((state: any) => state?.user?.details?.id)
   const [searchText, setSearchText] = useState<string>("")
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [products, setProducts] = useState<any[]>([])
-  
   const [openForm, setOpenForm] = useState<boolean>(false)
   const [isEdit, setIsEdit] = useState(false)
   const [isProductID, setProductID] = useState(false)
@@ -35,17 +38,13 @@ const Page: React.FC = () => {
   const [isTagData, setTagData] = useState([])
   const [subCategories, setSubCategories] = useState<SubCategory[]>([])
   const [initSubCategories, setInitSubCategories] = useState<SubCategory[]>([])
-
-  
   const [ordering, setOrdering] = useState("")
   const [isActiveInactiveFitlerPopup, setIsActiveInactiveFilterPopup] = useState<boolean>(false)
   const [isfiltervalue, setfiltervalue] = useState<string>("")
-  const [iscaegoryvalue, setcategoryvalue] = useState<string>("") // This is not used in fetchProducts, can be removed if not needed elsewhere
-
-  interface VariantSpecifications {
-    [key: string]: string[]
-  }
+  const [iscaegoryvalue, setcategoryvalue] = useState<string>("")
   const [variantSpecifications, setVariantSpecifications] = useState<VariantSpecifications>({})
+
+  // FIXED: Added tag_list to initial state
   const [newUser, setNewUser] = useState({
     id: "",
     name: "",
@@ -77,6 +76,7 @@ const Page: React.FC = () => {
     weight_bearing_number: "",
     is_stackable: false,
     stackable_pieces_number: "",
+    tag_list: [], // FIXED: Added this line
   })
 
   const searchParams = useSearchParams()
@@ -89,12 +89,10 @@ const Page: React.FC = () => {
   const threshold = searchParams.get("threshold") || ""
   const isThreshold = threshold === "true" ? true : threshold === "false" ? false : undefined
   const isFromDashboard = !!(productIdString || status || is_stock)
-
   const token = useSelector((state: any) => state?.user?.token)
   const dispatch = useDispatch()
   const router = useRouter()
   const topRef = useRef<HTMLDivElement | null>(null)
-
   const [filterCategory, setFilterCategory] = useState<any>("")
   const [filterSubCategory, setFilterSubCategory] = useState<any>("")
 
@@ -110,6 +108,7 @@ const Page: React.FC = () => {
 
   const isActivefilter = isfiltervalue === "Active" ? true : isfiltervalue === "Inactive" ? false : undefined
 
+  // FIXED: Updated handleopenform to include tag_list
   const handleopenform = () => {
     setOpenForm(!openForm)
     setIsEdit(false)
@@ -145,54 +144,57 @@ const Page: React.FC = () => {
       weight_bearing_number: "",
       is_stackable: false,
       stackable_pieces_number: "",
+      tag_list: [], // FIXED: Added this line
     })
   }
 
+  // FIXED: Updated handleEdit to properly set tag_list
   const handleEdit = (product: any) => {
     window.scrollTo({ top: 0, behavior: "smooth" })
     setOpenForm(true)
     setProductID(product?.id)
+
     if (topRef.current) {
       topRef.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       })
     }
+
     setVariantSpecifications(product?.variant_specifications)
 
-    const selectedCategory = categories.find((category) => category.id === product?.category?.id) // Use product.category.id for consistency
+    const selectedCategory = categories.find((category) => category.id === product?.category?.id)
     let updatedSubCategories: SubCategory[] = []
     let initialSubCategoryValue: string
 
     if (selectedCategory && selectedCategory.subcategories && selectedCategory.subcategories.length > 0) {
-      updatedSubCategories = [
-        { id: "parent-category-only", name: "Root" },
-        ...selectedCategory.subcategories,
-      ]
-      // Determine the initial sub_catogry value for the form
+      updatedSubCategories = [{ id: "parent-category-only", name: "Root" }, ...selectedCategory.subcategories]
+
       if (product?.subcategoryId) {
         initialSubCategoryValue = product.subcategoryId
       } else {
-        // If product has no subcategoryId, it means it's directly under the parent category
         initialSubCategoryValue = "parent-category-only"
       }
     } else {
-      // If the selected category has no subcategories
       updatedSubCategories = []
       initialSubCategoryValue = ""
     }
 
     setSubCategories(updatedSubCategories)
-    setInitSubCategories(selectedCategory?.subcategories || []);
+    setInitSubCategories(selectedCategory?.subcategories || [])
+
+    // FIXED: Added proper tag_list handling
+    console.log("Product data for editing:", product)
+    console.log("Product tags:", product?.tags)
+    console.log("Product tag_list:", product?.tag_list)
 
     setNewUser({
-
       id: product?.id,
       name: product?.name,
       SKU: product?.SKU,
       description: product?.description,
-      category: product?.category?.id, // Ensure this is the parent category ID
-      sub_catogry: initialSubCategoryValue, // Set the determined subcategory value
+      category: product?.category?.id,
+      sub_catogry: initialSubCategoryValue,
       base_price: product?.basePrice,
       selling_price: product?.sellingPrice,
       base_and_selling_price_difference_in_percent: product?.priceDifferencePercent,
@@ -217,7 +219,10 @@ const Page: React.FC = () => {
       weight_bearing_number: product?.weight_bearing_number,
       is_stackable: product?.is_stackable,
       stackable_pieces_number: product?.stackable_pieces_number,
+      // FIXED: Handle different possible tag data structures
+      tag_list: product?.tags?.map((tag: any) => tag.id) || product?.tag_list || [],
     })
+
     setIsEdit(true)
   }
 
@@ -229,12 +234,13 @@ const Page: React.FC = () => {
     const fetchData = async () => {
       try {
         const [categoryResponse, tagResponse] = await Promise.all([catagoryDataApi(token), tagDataApi(token)])
+
         const fetchedCategories = categoryResponse?.body?.categories
         const fetchedTags = tagResponse?.results
 
         if (fetchedCategories && fetchedTags) {
           setCategories(fetchedCategories)
-          setTagData(fetchedTags) // Set tag list for checkboxes or multi-select
+          setTagData(fetchedTags)
 
           if (fetchedCategories.length > 0) {
             const firstCategory = fetchedCategories[0]
@@ -247,13 +253,12 @@ const Page: React.FC = () => {
 
             const subCats = firstCategory.subcategories || []
             if (subCats.length > 0) {
-              // Add the "Root" option
               const subCategoriesWithRootOption: SubCategory[] = [
                 { id: "parent-category-only", name: "Root" },
                 ...subCats,
               ]
               setSubCategories(subCategoriesWithRootOption)
-              setFilterSubCategory("parent-category-only") // Select this option by default
+              setFilterSubCategory("parent-category-only")
             } else {
               setSubCategories([])
               setFilterSubCategory("")
@@ -271,23 +276,21 @@ const Page: React.FC = () => {
         console.error("Error fetching data:", error)
       }
     }
+
     fetchData()
   }, [])
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const categoryId = e.target.value
     setFilterCategory(categoryId)
+
     const selected = categories.find((cat: any) => cat.id === Number.parseInt(categoryId))
     const subCats = selected?.subcategories || []
 
     if (subCats.length > 0) {
-      // Add the "Root" option
-      const subCategoriesWithRootOption: SubCategory[] = [
-        { id: "parent-category-only", name: "Root" },
-        ...subCats,
-      ]
+      const subCategoriesWithRootOption: SubCategory[] = [{ id: "parent-category-only", name: "Root" }, ...subCats]
       setSubCategories(subCategoriesWithRootOption)
-      setFilterSubCategory("parent-category-only") // Select this option by default
+      setFilterSubCategory("parent-category-only")
     } else {
       setSubCategories([])
       setFilterSubCategory("")
@@ -312,20 +315,18 @@ const Page: React.FC = () => {
           filterValue: isActivefilter,
         }
 
-        // Only apply category/subcategory filters if not from dashboard or search is empty
         if (!isFromDashboard && searchText === "") {
           if (filterSubCategory === "parent-category-only") {
-            paramsToSend.iscaegoryvalue = filterCategory // Filter by parent category
-            // No issubcaegoryvalue, implies parent-only products
+            paramsToSend.iscaegoryvalue = filterCategory
           } else if (filterSubCategory) {
-            paramsToSend.issubcaegoryvalue = filterSubCategory // Filter by specific subcategory
+            paramsToSend.issubcaegoryvalue = filterSubCategory
           } else {
-            // If no subcategory selected and no "parent-category-only" (e.g., category has no subcategories)
             paramsToSend.iscaegoryvalue = filterCategory
           }
         }
 
         const response = await productAllDataApi(paramsToSend)
+
         if (response?.body?.products) {
           setProducts(response?.body?.products)
         } else if (response?.body?.detail === "Invalid tokens") {
@@ -343,17 +344,7 @@ const Page: React.FC = () => {
     if (filterCategory) {
       fetchProducts()
     }
-  }, [
-    searchText,
-    currentPage,
-    status,
-    isActive,
-    productId,
-    ordering,
-    isfiltervalue,
-    filterSubCategory, // Added filterSubCategory to dependencies
-    filterCategory,
-  ])
+  }, [searchText, currentPage, status, isActive, productId, ordering, isfiltervalue, filterSubCategory, filterCategory])
 
   return (
     <>
@@ -380,6 +371,7 @@ const Page: React.FC = () => {
             setCurrentPage={setCurrentPage}
             isTagData={isTagData}
           />
+
           {!isFromDashboard && searchText === "" && (
             <div className="flex gap-5 mb-7">
               <div className="bg-admin-secondary px-2 rounded-md">
@@ -420,6 +412,7 @@ const Page: React.FC = () => {
               </div>
             </div>
           )}
+
           <ProductAllDataComponent
             products={products}
             productdata={fetchProducts}
