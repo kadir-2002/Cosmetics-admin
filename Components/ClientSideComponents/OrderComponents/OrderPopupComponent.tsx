@@ -21,6 +21,7 @@ type OrderItem = {
   variantId: number | null;
   quantity: number;
   price: number;
+  totalAmount:number;
   product: {
     id: number | null;
     name: string | null;
@@ -299,7 +300,7 @@ const OrderPopup = ({
 
                             <td className='border p-3 text-center'>
                               {currency}
-                              {(item.price * item.quantity).toFixed(2)}
+                              {role.totalAmount?.toFixed(2)}
                             </td>
                           </tr>
                         ))}
@@ -315,27 +316,33 @@ const OrderPopup = ({
                       <p>{role.items.length}</p>
                     </div>
                     <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
-                      <p>Total Price:</p>
-                      <p>{role?.totalAmount.toFixed(2) || "N/A"}</p>
+                      <p>SubTotal Price:</p>
+                      <p>{role?.subtotal.toFixed(2) || "N/A"}</p>
                     </div>
 
-                    {/* {role?.order_info?.delivery_charge === 0 ? null : (
+                    {role?.shippingRate=== 0 ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
-                        <p>Delivery Charge:</p>
-                        <p>{role?.order_info?.delivery_charge || "N/A"}</p>
+                        <p>Shipping Charge:</p>
+                        <p>{role?.shippingRate.toFixed(2)|| "N/A"}</p>
                       </div>
-                    )} */}
-                    {/* {role?.order_info?.tax === 0 ? null : (
+                    )}
+                    {role?.appliedTaxRate === 0 ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
-                        <p>Sub Total Tax:</p>
-                        <p>{role?.order_info?.tax || "N/A"}</p>
+                        <p> Total Rate:</p>
+                        <p>{role?.taxType} : {role?.appliedTaxRate || "N/A"}%</p>
                       </div>
-                    )} */}
+                    )}
+                     {role?.taxAmount === 0 ? null : (
+                      <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
+                        <p> Total TaxAmount:</p>
+                        <p> {role?.taxAmount || "N/A"}</p>
+                      </div>
+                    )}
 
                     {role?.discountCode ? (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Coupon Code:</p>
-                        <p>{role?.discountCode || "N/A"}</p>
+                        <p className="">{role?.discountCode || "N/A"}</p>
                       </div>
                     ) : null}
                     {role?.discountAmount === 0 ? null : (
@@ -346,12 +353,12 @@ const OrderPopup = ({
                         </p>
                       </div>
                     )}
-                    {role?.order_info?.abendoned_price ? (
+                    {role?.abandentDiscountAmount === 0 ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Abandoned Discount:</p>
-                        <p>{(role?.order_info?.abendoned_price).toFixed(2)}</p>
+                        <p>{(role?.abandentDiscountAmount).toFixed(2)}</p>
                       </div>
-                    ) : null}
+                    ) }
 
                     {role?.order_info?.discount ? (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>

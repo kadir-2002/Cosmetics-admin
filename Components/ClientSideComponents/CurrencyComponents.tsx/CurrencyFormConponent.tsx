@@ -820,26 +820,35 @@ const CurrencyManager = () => {
                   Enter state
                 </label>
               </div>
+<div className='flex bg-[#F3F3F3] p-2 relative w-full h-12 rounded-lg shadow-sm'>
+  <BsPuzzleFill color='#A5B7C0' size={26} />
+  <div className='peer w-full flex items-center px-4'>
+    <Switch
+      checked={newRole.is_tax_inclusive}
+      onChange={(value) =>
+        setNewRole((prev) => ({ ...prev, is_tax_inclusive: value }))
+      }
+      className={`relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full transition-colors duration-200 ${
+        newRole.is_tax_inclusive ? 'bg-green-500' : 'bg-red-400'
+      }`}
+    >
+      <span
+        className={`inline-block h-4 w-4 transform rounded-full bg-white transition duration-200 ${
+          newRole.is_tax_inclusive ? 'translate-x-6' : 'translate-x-1'
+        }`}
+      />
+    </Switch>
+  </div>
+  <label
+    htmlFor='tax-inclusive'
+    className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
+  >
+    Is Tax Inclusive
+  </label>
+</div>
 
-              <div className='flex flex-col items-center'>
-                <Switch
-                  checked={newRole.is_tax_inclusive}
-                  onChange={(value) => setNewRole({ ...newRole, is_tax_inclusive: value })}
-                  className={`${newRole.is_tax_inclusive ? "bg-green-500" : "bg-gray-300"
-                    } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
-                >
-                  <span
-                    className={`${newRole.is_tax_inclusive ? "translate-x-6" : "translate-x-1"
-                      } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}
-                  />
-                </Switch>
-                 <label
-                  htmlFor='tag'
-                  className='absolute left-12 -top-2.5 px-1 rounded-md text-sm text-gray-600 transition-all duration-300 ease-in-out bg-[#F3F3F3] peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-3 peer-focus:-top-2.5 peer-focus:text-sm'
-                >
-                  Is Tax inclusive
-                </label>
-              </div>
+
+
               <fieldset
                 disabled
                 className='lg:grid lg:grid-cols-2 grid-cols-1 col-span-2 lg:gap-4 gap-3 opacity-60 pointer-events-none hidden'
