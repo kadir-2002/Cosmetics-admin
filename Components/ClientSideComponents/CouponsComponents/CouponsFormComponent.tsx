@@ -79,74 +79,100 @@ const CouponsFormComponent = () => {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { type, code, value, usage_limit, valid_from, valid_till, isActive,title,description,show_on_homepage } =
-      newRole;
-   try {
+const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  const {
+    type,
+    code,
+    value,
+    usage_limit,
+    valid_from,
+    valid_till,
+    isActive,
+    title,
+    description,
+    show_on_homepage,
+  } = newRole;
+
+  try {
     if (isEdit) {
+      // If editing and show_on_homepage is true, first disable others
       if (show_on_homepage) {
-        const otherHomepageCoupons = coupons.filter(c => c.show_on_homepage);
-
-        for (const coupon of otherHomepageCoupons) {
-          const response = await couponsUpdatedApi(
-            selectedRoleId,
-            type,
-            code,
-            value,
-            usage_limit,
-            valid_from,
-            valid_till,
-            title,
-            description,
-            show_on_homepage,
-            created_by,
-            isActive,
-            token
-          );
-
-          if (response?.status === 401) {
-            dispatch(clearUserDetails());
-            toast.error("Session Expired, Please Login Again");
-            router.push("/");
-            return;
-          }
-
-          if (response?.status === 200) {
-            toast.success("Coupon updated successfully");
-            setIsEdit(false);
-          }
-        }
-      } else {
-        const response = await couponsUpdatedApi(
-          selectedRoleId,
-          type,
-          code,
-          value,
-          usage_limit,
-          valid_from,
-          valid_till,
-          title,
-          description,
-          show_on_homepage,
-          created_by,
-          isActive,
-          token
+        const otherHomepageCoupons = coupons.filter(
+          (c) => c.show_on_homepage && c.id !== selectedRoleId
         );
 
-        if (response?.status === 401) {
-          dispatch(clearUserDetails());
-          toast.error("Session Expired, Please Login Again");
-          router.push("/");
-          return;
-        }
-
-        if (response?.status === 200) {
-          toast.success("Coupon updated successfully");
-          setIsEdit(false);
+        for (const coupon of otherHomepageCoupons) {
+          await couponsUpdatedApi(
+            coupon.id,
+            coupon.type,
+            coupon.code,
+            coupon.discount,
+            coupon.maxRedeemCount,
+            coupon.createdAt,
+            coupon.expiresAt,
+            coupon.name,
+            coupon.description,
+            false, // turn off
+            created_by,
+            coupon.is_active,
+            token
+          );
         }
       }
+
+      // Now update current coupon
+      const response = await couponsUpdatedApi(
+        selectedRoleId,
+        type,
+        code,
+        value,
+        usage_limit,
+        valid_from,
+        valid_till,
+        title,
+        description,
+        show_on_homepage,
+        created_by,
+        isActive,
+        token
+      );
+
+      if (response?.status === 401) {
+        dispatch(clearUserDetails());
+        toast.error("Session Expired, Please Login Again");
+        router.push("/");
+        return;
+      }
+
+      if (response?.status === 200) {
+        toast.success("Coupon updated successfully");
+        setIsEdit(false);
+      }
     } else {
+      // If creating and show_on_homepage is true, first disable others
+      if (show_on_homepage) {
+        const otherHomepageCoupons = coupons.filter((c) => c.show_on_homepage);
+        for (const coupon of otherHomepageCoupons) {
+          await couponsUpdatedApi(
+            coupon.id,
+            coupon.type,
+            coupon.code,
+            coupon.discount,
+            coupon.maxRedeemCount,
+            coupon.createdAt,
+            coupon.expiresAt,
+            coupon.name,
+            coupon.description,
+            false,
+            created_by,
+            coupon.is_active,
+            token
+          );
+        }
+      }
+
+      // Create new coupon
       const response = await createCouponsApi(
         type,
         code,
@@ -194,6 +220,7 @@ const CouponsFormComponent = () => {
     console.error("Error creating or updating role:", error);
   }
 };
+
   const isActive =
     isfiltervalue === "Active"
       ? true
