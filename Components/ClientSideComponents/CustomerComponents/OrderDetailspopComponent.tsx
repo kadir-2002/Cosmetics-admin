@@ -38,6 +38,12 @@ type OrderInfo = {
     updated_at: string;
   };
   totalAmount: number;
+  taxType:number;
+  appliedTaxRate:number;
+  shippingRate:number;
+  taxAmount:number;
+  discountAmount:number;
+  abandentDiscountAmount:number;
   payment_info: {
     payment_type: string;
   };
@@ -153,24 +159,33 @@ const OrderDetailsPopup = ({
                     {(Number(selectedOrder?.items[0]?.price) * Number(selectedOrder?.items[0]?.quantity)).toFixed(2) ||"0.00"}
                   </p>
                 </div> */}
-                {selectedOrder?.order_info?.tax ? (
+                {selectedOrder?.appliedTaxRate ? (
                   <div className='flex justify-between items-center'>
                     <p>Tax:</p>{" "}
                     <p>
                       {currency}
-                      {selectedOrder?.order_info?.tax ?? "0.00"}
+                     {selectedOrder?.taxType} : {selectedOrder?.appliedTaxRate?? "0.00"}
                     </p>
                   </div>
                 ) : null}
-                {selectedOrder?.order_info?.delivery_charge ? (
+                 {selectedOrder?.taxAmount ? (
+                  <div className='flex justify-between items-center'>
+                    <p>Tax:</p>{" "}
+                    <p>
+                      {currency}
+                     {selectedOrder?.taxAmount} : {selectedOrder?.taxAmount?? "0.00"}
+                    </p>
+                  </div>
+                ) : null}
+                {selectedOrder?.shippingRate === 0 ? null :(
                   <div className='flex justify-between items-center'>
                     <p>Delivery Charge:</p>{" "}
                     <p>
                       {currency}
-                      {selectedOrder?.order_info?.delivery_charge ?? "0.00"}
+                      {selectedOrder?.shippingRate ?? "0.00"}
                     </p>
                   </div>
-                ) : null}
+                ) }
                 {selectedOrder?.order_info?.discount_speding_title ? (
                   <div className='flex justify-between  border-b-[1px]'>
                     <p>Total Discount:</p>
@@ -201,7 +216,7 @@ const OrderDetailsPopup = ({
                       </p>
                     ) : null}
 
-                    <p>{Number(selectedOrder?.order_info?.discount || 0).toFixed(2)}</p>
+                    <p>{Number(selectedOrder?.discountAmount || 0).toFixed(2)}</p>
                   </div>
                 ) : null}
 

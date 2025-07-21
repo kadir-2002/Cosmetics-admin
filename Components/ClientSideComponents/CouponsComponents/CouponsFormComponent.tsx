@@ -79,154 +79,154 @@ const CouponsFormComponent = () => {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
 
-const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  const {
-    type,
-    code,
-    value,
-    usage_limit,
-    valid_from,
-    valid_till,
-    isActive,
-    title,
-    description,
-    show_on_homepage,
-  } = newRole;
+  const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const {
+      type,
+      code,
+      value,
+      usage_limit,
+      valid_from,
+      valid_till,
+      isActive,
+      title,
+      description,
+      show_on_homepage,
+    } = newRole;
 
-  try {
-    if (isEdit) {
-      // If editing and show_on_homepage is true, first disable others
-      if (show_on_homepage) {
-        const otherHomepageCoupons = coupons.filter(
-          (c) => c.show_on_homepage && c.id !== selectedRoleId
+    try {
+      if (isEdit) {
+        // If editing and show_on_homepage is true, first disable others
+        if (show_on_homepage) {
+          const otherHomepageCoupons = coupons.filter(
+            (c) => c.show_on_homepage && c.id !== selectedRoleId
+          );
+
+          for (const coupon of otherHomepageCoupons) {
+            await couponsUpdatedApi(
+              coupon.id,
+              coupon.type,
+              coupon.code,
+              coupon.discount,
+              coupon.maxRedeemCount,
+              coupon.createdAt,
+              coupon.expiresAt,
+              coupon.name,
+              coupon.description,
+              false, // turn off
+              created_by,
+              coupon.is_active,
+              token
+            );
+          }
+        }
+
+        // Now update current coupon
+        const response = await couponsUpdatedApi(
+          selectedRoleId,
+          type,
+          code,
+          value,
+          usage_limit,
+          valid_from,
+          valid_till,
+          title,
+          description,
+          show_on_homepage,
+          created_by,
+          isActive,
+          token
         );
 
-        for (const coupon of otherHomepageCoupons) {
-          await couponsUpdatedApi(
-            coupon.id,
-            coupon.type,
-            coupon.code,
-            coupon.discount,
-            coupon.maxRedeemCount,
-            coupon.createdAt,
-            coupon.expiresAt,
-            coupon.name,
-            coupon.description,
-            false, // turn off
-            created_by,
-            coupon.is_active,
-            token
-          );
+        if (response?.status === 401) {
+          dispatch(clearUserDetails());
+          toast.error("Session Expired, Please Login Again");
+          router.push("/");
+          return;
+        }
+
+        if (response?.status === 200) {
+          toast.success("Coupon updated successfully");
+          setIsEdit(false);
+        }
+      } else {
+        // If creating and show_on_homepage is true, first disable others
+        if (show_on_homepage) {
+          const otherHomepageCoupons = coupons.filter((c) => c.show_on_homepage);
+          for (const coupon of otherHomepageCoupons) {
+            await couponsUpdatedApi(
+              coupon.id,
+              coupon.type,
+              coupon.code,
+              coupon.discount,
+              coupon.maxRedeemCount,
+              coupon.createdAt,
+              coupon.expiresAt,
+              coupon.name,
+              coupon.description,
+              false,
+              created_by,
+              coupon.is_active,
+              token
+            );
+          }
+        }
+
+        // Create new coupon
+        const response = await createCouponsApi(
+          type,
+          code,
+          value,
+          usage_limit,
+          valid_from,
+          valid_till,
+          created_by,
+          title,
+          description,
+          show_on_homepage,
+          isActive,
+          token
+        );
+
+        if (response?.status === 401) {
+          dispatch(clearUserDetails());
+          toast.error("Session Expired, Please Login Again");
+          router.push("/");
+          return;
+        }
+
+        if (response?.data?.error === "Coupon with this code already exists") {
+          toast.error("Coupon already exists");
+        } else if (response?.status === 201) {
+          toast.success("Coupon created successfully");
         }
       }
 
-      // Now update current coupon
-      const response = await couponsUpdatedApi(
-        selectedRoleId,
-        type,
-        code,
-        value,
-        usage_limit,
-        valid_from,
-        valid_till,
-        title,
-        description,
-        show_on_homepage,
-        created_by,
-        isActive,
-        token
-      );
-
-      if (response?.status === 401) {
-        dispatch(clearUserDetails());
-        toast.error("Session Expired, Please Login Again");
-        router.push("/");
-        return;
-      }
-
-      if (response?.status === 200) {
-        toast.success("Coupon updated successfully");
-        setIsEdit(false);
-      }
-    } else {
-      // If creating and show_on_homepage is true, first disable others
-      if (show_on_homepage) {
-        const otherHomepageCoupons = coupons.filter((c) => c.show_on_homepage);
-        for (const coupon of otherHomepageCoupons) {
-          await couponsUpdatedApi(
-            coupon.id,
-            coupon.type,
-            coupon.code,
-            coupon.discount,
-            coupon.maxRedeemCount,
-            coupon.createdAt,
-            coupon.expiresAt,
-            coupon.name,
-            coupon.description,
-            false,
-            created_by,
-            coupon.is_active,
-            token
-          );
-        }
-      }
-
-      // Create new coupon
-      const response = await createCouponsApi(
-        type,
-        code,
-        value,
-        usage_limit,
-        valid_from,
-        valid_till,
-        created_by,
-        title,
-        description,
-        show_on_homepage,
-        isActive,
-        token
-      );
-
-      if (response?.status === 401) {
-        dispatch(clearUserDetails());
-        toast.error("Session Expired, Please Login Again");
-        router.push("/");
-        return;
-      }
-
-      if (response?.data?.error === "Coupon with this code already exists") {
-        toast.error("Coupon already exists");
-      } else if (response?.status === 201) {
-        toast.success("Coupon created successfully");
-      }
+      fetchRoles();
+      setOpenForm(false);
+      setNewRole({
+        type: "",
+        code: "",
+        value: "",
+        usage_limit: "",
+        valid_from: null as Date | null,
+        valid_till: null as Date | null,
+        title: "",
+        description: "",
+        show_on_homepage: false,
+        isActive: false,
+      });
+    } catch (error) {
+      console.error("Error creating or updating role:", error);
     }
-
-    fetchRoles();
-    setOpenForm(false);
-    setNewRole({
-      type: "",
-      code: "",
-      value: "",
-      usage_limit: "",
-      valid_from: null as Date | null,
-      valid_till: null as Date | null,
-      title: "",
-      description: "",
-      show_on_homepage: false,
-      isActive: false,
-    });
-  } catch (error) {
-    console.error("Error creating or updating role:", error);
-  }
-};
+  };
 
   const isActive =
     isfiltervalue === "Active"
       ? true
       : isfiltervalue === "Inactive"
-      ? false
-      : undefined;
+        ? false
+        : undefined;
   const fetchRoles = async () => {
     try {
       const response = await couponsAllDataApi(
@@ -244,7 +244,7 @@ const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
       if (response?.body.data) {
         setRoles(response?.body.data || []);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handlefilter = (value: any) => {
@@ -365,66 +365,68 @@ const handleCreateOrUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
   const handleValidTillChange = (date: any) => {
     setNewRole((prev) => ({ ...prev, valid_till: date }));
   };
-const activeHandler = async (
-  selectedCoupon: any,
-  isActive: boolean,
-  showOnHomepage: boolean
-) => {
-  // If user is turning ON "show on homepage"
-  if (showOnHomepage) {
-    const otherHomepageCoupons = coupons.filter(
-      (c) => c.id !== selectedCoupon.id && c.show_on_homepage
+  const activeHandler = async (
+    selectedCoupon: any,
+    isActive: boolean,
+    showOnHomepage: boolean
+  ) => {
+    const safeIsActive = typeof isActive === "boolean" ? isActive : false
+    const safeShowOnHomepage = typeof showOnHomepage === "boolean" ? showOnHomepage : false
+    // If user is turning ON "show on homepage"
+    if (safeShowOnHomepage) {
+      const otherHomepageCoupons = coupons.filter(
+        (c) => c.id !== selectedCoupon.id && c.show_on_homepage
+      );
+
+      // Turn off show_on_homepage for all others
+      for (const coupon of otherHomepageCoupons) {
+        await couponsUpdatedApi(
+          coupon.id,
+          coupon.type,
+          coupon.code,
+          coupon.discount,
+          coupon.maxRedeemCount,
+          coupon.createdAt,
+          coupon.expiresAt,
+          coupon.name,
+          coupon.description,
+          false, // force show_on_homepage to false
+          created_by,
+          typeof coupon.is_active === "boolean" ? coupon.is_active : false,
+          token
+        );
+      }
+    }
+
+    // Now update the selected coupon
+    const response = await couponsUpdatedApi(
+      selectedCoupon.id,
+      selectedCoupon.type,
+      selectedCoupon.code,
+      selectedCoupon.discount,
+      selectedCoupon.maxRedeemCount,
+      selectedCoupon.createdAt,
+      selectedCoupon.expiresAt,
+      selectedCoupon.name,
+      selectedCoupon.description,
+      safeShowOnHomepage,
+      created_by,
+      safeIsActive,
+      token
     );
 
-    // Turn off show_on_homepage for all others
-    for (const coupon of otherHomepageCoupons) {
-      await couponsUpdatedApi(
-        coupon.id,
-        coupon.type,
-        coupon.code,
-        coupon.discount,
-        coupon.maxRedeemCount,
-        coupon.createdAt,
-        coupon.expiresAt,
-        coupon.name,
-        coupon.description,
-        false, // force show_on_homepage to false
-        created_by,
-        coupon.isActive,
-        token
-      );
+    if (response?.status === 401) {
+      dispatch(clearUserDetails());
+      toast.error("Session Expired, Please Login Again");
+      router.push("/");
+      return;
     }
-  }
 
-  // Now update the selected coupon
-  const response = await couponsUpdatedApi(
-    selectedCoupon.id,
-    selectedCoupon.type,
-    selectedCoupon.code,
-    selectedCoupon.discount,
-    selectedCoupon.maxRedeemCount,
-    selectedCoupon.createdAt,
-    selectedCoupon.expiresAt,
-    selectedCoupon.name,
-    selectedCoupon.description,
-    showOnHomepage,
-    created_by,
-    isActive,
-    token
-  );
-
-  if (response?.status === 401) {
-    dispatch(clearUserDetails());
-    toast.error("Session Expired, Please Login Again");
-    router.push("/");
-    return;
-  }
-
-  if (response?.status === 200) {
-    fetchRoles(); // Refresh table
-    toast.success("Updated successfully");
-  }
-};
+    if (response?.status === 200) {
+      fetchRoles(); // Refresh table
+      toast.success("Updated successfully");
+    }
+  };
 
   return (
     <div className='min-h-screen w-full flex flex-col lg:items-center'>
@@ -487,7 +489,7 @@ const activeHandler = async (
               className='px-3 h-12 rounded-md bg-[#F3F3F3]  w-full'
               required
             > */}
-              {/* <option value=''>Select Coupons Type</option>
+            {/* <option value=''>Select Coupons Type</option>
               <option>Flat</option>
               <option>Percentage</option>
             </select> */}
@@ -687,9 +689,8 @@ const activeHandler = async (
             <div className='mt-2 flex gap-3 justify-center items-center'>
               <button
                 type='submit'
-                className={`text-lg lg:w-[230px] w-full mt-3  ${
-                  isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
-                } text-white px-6 lg:py-3 py-2 rounded-md`}
+                className={`text-lg lg:w-[230px] w-full mt-3  ${isEdit ? "bg-green-500" : "bg-admin-buttonprimary"
+                  } text-white px-6 lg:py-3 py-2 rounded-md`}
               >
                 {isEdit ? "Update" : "Create"}
               </button>
@@ -715,7 +716,7 @@ const activeHandler = async (
               <tr className='bg-admin-secondary text-admin-text-primary font-semibold cursor-pointer'>
                 <th
                   className='p-3 text-center cursor-pointer transition-colors duration-200'
-                  // onClick={() => setIsCouponTypeFilterPopupOpen(true)}
+                // onClick={() => setIsCouponTypeFilterPopupOpen(true)}
                 >
                   <div className='flex items-center justify-start space-x-1'>
                     <span className=''>
@@ -733,29 +734,26 @@ const activeHandler = async (
                 <th className='py-3 px-4 text-left'>Code</th>
                 <th className='py-3 px-4 text-end'>Value</th>
                 <th
-                  className={`py-3 px-4 text-start cursor-pointer transition-colors duration-200 ${
-                    ordering === "valid_from" || ordering === "-valid_from"
-                      ? "text-admin-text-primary"
-                      : "text-admin-text-primary"
-                  }`}
+                  className={`py-3 px-4 text-start cursor-pointer transition-colors duration-200 ${ordering === "valid_from" || ordering === "-valid_from"
+                    ? "text-admin-text-primary"
+                    : "text-admin-text-primary"
+                    }`}
                   onClick={() => handleOrdering("valid_from")}
                 >
                   <div className='flex items-center justify-start space-x-0'>
                     <span className=''>Validity From</span>
                     <span className='flex flex-col leading-none'>
                       <MdArrowDropUp
-                        className={`w-7 h-7 transform -mb-1 ${
-                          ordering === "valid_from"
-                            ? "text-admin-text-primary"
-                            : "text-admin-text-primary"
-                        }`}
+                        className={`w-7 h-7 transform -mb-1 ${ordering === "valid_from"
+                          ? "text-admin-text-primary"
+                          : "text-admin-text-primary"
+                          }`}
                       />
                       <IoMdArrowDropdown
-                        className={`w-7 h-7 transform -mt-3 ${
-                          ordering === "-valid_from"
-                            ? "text-admin-text-primary"
-                            : "text-admin-text-primary"
-                        }`}
+                        className={`w-7 h-7 transform -mt-3 ${ordering === "-valid_from"
+                          ? "text-admin-text-primary"
+                          : "text-admin-text-primary"
+                          }`}
                       />
                     </span>
                   </div>
@@ -795,16 +793,14 @@ const activeHandler = async (
                   <td className='p-3 text-center'>
                     <div className='flex flex-col items-center'>
                       <Switch
-                        checked={data?.is_active}
-                        onChange={() => activeHandler(data, !data?.is_active , data?.show_on_homepage)}
-                        className={`${
-                          data?.is_active ? "bg-green-500" : "bg-gray-300"
-                        } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
+                        checked={Boolean(data?.is_active)}
+                        onChange={() => activeHandler(data, !data?.is_active, Boolean(data?.show_on_homepage))}
+                        className={`${data?.is_active ? "bg-green-500" : "bg-gray-300"
+                          } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                       >
                         <span
-                          className={`${
-                            data?.is_active ? "translate-x-6" : "translate-x-1"
-                          } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}
+                          className={`${data?.is_active ? "translate-x-6" : "translate-x-1"
+                            } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}
                         />
                       </Switch>
                     </div>
@@ -812,16 +808,14 @@ const activeHandler = async (
                   <td className='p-3 text-center'>
                     <div className='flex flex-col items-center'>
                       <Switch
-                        checked={data?.show_on_homepage}
-                        onChange={() => activeHandler(data,data?.is_active ,!data?.show_on_homepage)}
-                        className={`${
-                          data?.show_on_homepage ? "bg-green-500" : "bg-gray-300"
-                        } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
+                        checked={Boolean(data?.show_on_homepage)}
+                        onChange={() => activeHandler(data, Boolean(data?.is_active), !data?.show_on_homepage)}
+                        className={`${data?.show_on_homepage ? "bg-green-500" : "bg-gray-300"
+                          } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
                       >
                         <span
-                          className={`${
-                            data?.show_on_homepage ? "translate-x-6" : "translate-x-1"
-                          } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}
+                          className={`${data?.show_on_homepage ? "translate-x-6" : "translate-x-1"
+                            } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}
                         />
                       </Switch>
                     </div>

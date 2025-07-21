@@ -82,9 +82,9 @@ const TopCustomers = ({ commisionData }: Props) => {
                        {customer.name||"Guest"}
                     </Link>
                   </td>
-                  <td className="py-2 px-4 text-[18px] text-left">
+                  {/* <td className="py-2 px-4 text-[18px] text-left">
                     {customer.total_spent}
-                  </td>
+                  </td> */}
                   <td className="py-2 px-4 text-md font-semibold text-center">
                     {customer.total_orders}
                   </td>
@@ -102,10 +102,10 @@ const TopCustomers = ({ commisionData }: Props) => {
                     </Link>
                   </td>
                   <td className="py-2 px-4 text-md text-center">{customer.total_orders}</td>
-
+{/* 
                   <td className="py-2 px-4 text-md text-center">
                     {currency}{customer.total_spent}
-                  </td>
+                  </td> */}
                 </tr>
               ))}
           </tbody>

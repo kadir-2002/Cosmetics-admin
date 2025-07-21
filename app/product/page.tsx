@@ -43,6 +43,9 @@ const Page: React.FC = () => {
   const [isfiltervalue, setfiltervalue] = useState<string>("")
   const [iscaegoryvalue, setcategoryvalue] = useState<string>("")
   const [variantSpecifications, setVariantSpecifications] = useState<VariantSpecifications>({})
+  const [totalPages, setTotalPages] = useState<number>(0)
+  const [totalCount, setTotalCount] = useState<number>(0)
+
 
   // FIXED: Added tag_list to initial state
   const [newUser, setNewUser] = useState({
@@ -313,6 +316,8 @@ const Page: React.FC = () => {
           token: token,
           ordering: ordering,
           filterValue: isActivefilter,
+          page: currentPage.toString(), // ✅ FIXED: Convert to string
+          page_size: 10, // ✅ FIXED: Add page_size parameter
         }
 
         if (!isFromDashboard && searchText === "") {
@@ -323,12 +328,15 @@ const Page: React.FC = () => {
           } else {
             paramsToSend.iscaegoryvalue = filterCategory
           }
-        }
 
+          paramsToSend.page = currentPage
+        }
         const response = await productAllDataApi(paramsToSend)
 
         if (response?.body?.products) {
           setProducts(response?.body?.products)
+          setTotalPages(response.body.totalPages)
+          setTotalCount(response.body.totalCount)
         } else if (response?.body?.detail === "Invalid tokens") {
           dispatch(clearUserDetails())
           toast.error("Session Expired, Please Login Again")
@@ -345,6 +353,10 @@ const Page: React.FC = () => {
       fetchProducts()
     }
   }, [searchText, currentPage, status, isActive, productId, ordering, isfiltervalue, filterSubCategory, filterCategory])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchText, isfiltervalue])
 
   return (
     <>
@@ -428,7 +440,8 @@ const Page: React.FC = () => {
             iscaegoryvalue={iscaegoryvalue}
             handleActiveFilter={handleActiveFilter}
             setCurrentPage={setCurrentPage}
-          />
+            totalPages={totalPages}
+            currentPage={currentPage} />
         </div>
       ) : null}
     </>

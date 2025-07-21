@@ -300,7 +300,7 @@ const OrderPopup = ({
 
                             <td className='border p-3 text-center'>
                               {currency}
-                              {role.totalAmount?.toFixed(2)}
+                            {((item?.price || 0) * (item?.quantity || 0)).toFixed(2)}
                             </td>
                           </tr>
                         ))}

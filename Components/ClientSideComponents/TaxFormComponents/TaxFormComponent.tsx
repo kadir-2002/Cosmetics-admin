@@ -84,12 +84,12 @@ const TaxFormComponent = () => {
           token
         );
 
-        if (response?.data?.error === "This tax already exists") {
+        if (response?.body?.message === "Tax with this name already exists") {
           toast.error("Tax already exists");
         } else if (response?.status === 201) {
           toast.success("Tax created successfully");
           setOpenForm(false);
-        } else if (response?.data?.message === "Invalid or expired toke ") {
+        } else if (response?.body?.message === "Invalid or expired toke ") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
