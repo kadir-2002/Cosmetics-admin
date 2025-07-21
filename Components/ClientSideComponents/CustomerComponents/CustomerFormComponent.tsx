@@ -530,7 +530,7 @@ const goToPage = () => {
                         </span>
                       </div>
                     </th> */}
-                    <th className='p-3 text-center'>Orders</th>
+                    <th className='p-3 text-center '>Orders</th>
                     <th className='p-3 text-center w-[15%]'>Address</th>
                     <th className='p-3 text-center w-[14%]'>Info</th>
                   </tr>
@@ -570,33 +570,12 @@ const goToPage = () => {
                       <td className='p-3 text-left'>
                         {user ? (user.isGuest ? "Yes" : "No") : "-"}
                       </td>
-                      {/* <td className='p-3 text-center'>
-                        <div className='flex flex-col items-center'>
-                          <Switch
-                            checked={!user?.isDeleted}
-                            onChange={() =>
-                              activeHandler(user, !user?.isDeleted)
-                            }
-                            className={`${
-                              !user?.isDeleted ? "bg-green-500" : "bg-gray-300"
-                            } relative inline-flex items-center h-8 w-14 rounded-full transition-colors duration-200 ease-in-out`}
-                          >
-                            <span
-                              className={`${
-                                !user?.isDeleted
-                                  ? "translate-x-6"
-                                  : "translate-x-1"
-                              } inline-block w-6 h-6 bg-white rounded-full transition-transform duration-200 ease-in-out`}
-                            />
-                          </Switch>
-                        </div>
-                      </td> */}
-
+                      
                       <td
                         className='p-3 text-center'
                         onClick={() => handleOpenOrderPopup(user)}
                       >
-                        <button className='flex p-3 justify-center item-center'>
+                        <button className='flex p-3 justify-center items-center gap-2 cursor-pointer mx-auto'>
                           <IoEye size={26} />
                         </button>
                       </td>
