@@ -83,8 +83,8 @@ const TaxFormComponent = () => {
           createdBy,
           token
         );
-
-        if (response?.body?.message === "Tax with this name already exists") {
+         console.log(response,"response")
+        if (response?.body?.message === "Tax with this name already exists.") {
           toast.error("Tax already exists");
         } else if (response?.status === 201) {
           toast.success("Tax created successfully");
