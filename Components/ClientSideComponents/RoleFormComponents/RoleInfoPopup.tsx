@@ -121,6 +121,11 @@ const RoleInfoPopup: React.FC<LogoutPopupProps> = ({
                         <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Updated By:</div>
                         <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.updatedBy}</div>
                       </div> }
+                      { role?.slug &&
+                      <div className="flex gap-2 border-b-[1px] py-2 px-6">
+                        <div className="text-lg text-[#577C8E] font-semibold  w-[40%] lg:w-[20%] flex items-center justify-between">Slug:</div>
+                        <div className="text-lg text-gray-900  lg:w-[80%] w-[60%]">{role?.slug}</div>
+                      </div> }
                     </div>
                   </div>
                 </div>

@@ -313,7 +313,7 @@ const OrderPopup = ({
                   <div className='gap-2 py-2 lg:text-lg text-sm'>
                     <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                       <p>Total Product:</p>
-                      <p>{role.items.length}</p>
+                      <p>{role?.items?.length}</p>
                     </div>
                     <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                       <p>SubTotal Price:</p>
@@ -356,7 +356,7 @@ const OrderPopup = ({
                     {role?.abandentDiscountAmount === 0 ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Abandoned Discount:</p>
-                        <p>{(role?.abandentDiscountAmount).toFixed(2)}</p>
+                        <p>{(role?.abandentDiscountAmount)}</p>
                       </div>
                     ) }
 
@@ -368,7 +368,7 @@ const OrderPopup = ({
                             {role?.order_info?.discount_speding_title} (
                             {role?.order_info
                               ?.discount_speding_discount_percentage
-                              ? `${role.order_info.discount_speding_discount_percentage}%`
+                              ? `${role?.order_info?.discount_speding_discount_percentage}%`
                               : `${role?.order_info?.discount_speding_discount_price}₹`}
                             )
                           </p>

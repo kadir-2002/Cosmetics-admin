@@ -144,7 +144,7 @@ const CoustomerInfoPopupComponent: React.FC<LogoutPopupProps> = ({
                           Updated At:
                         </div>
                         <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
-                          {user?.updated_at}
+                          {formatIST(user?.updated_at)}
                         </div>
                       </div>: null
                     }
