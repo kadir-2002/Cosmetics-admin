@@ -126,7 +126,7 @@ const OrderDetailsPopup = ({
                         </div>
                         <div className="flex gap-2 font-semibold">
                           <p>Price {currency}</p>
-                          <p>{Number(data?.product?.sellingPrice).toFixed(2)|| Number(data?.variant?.sellingPrice).toFixed(2) || "NA"}</p>
+                          <p>{Number(data?.product?.sellingPrice)*(data.quantity).toFixed(2)|| Number(data?.variant?.sellingPrice)*(data.quantity).toFixed(2) || "NA"}</p>
                         </div>
                       </div>
 
