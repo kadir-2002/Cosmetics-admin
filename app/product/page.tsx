@@ -44,7 +44,7 @@ const Page: React.FC = () => {
   const [iscaegoryvalue, setcategoryvalue] = useState<string>("")
   const [variantSpecifications, setVariantSpecifications] = useState<VariantSpecifications>({})
   const [totalPages, setTotalPages] = useState<number>(0)
-const [totalCount, setTotalCount] = useState<number>(0)
+  const [totalCount, setTotalCount] = useState<number>(0)
 
 
   // FIXED: Added tag_list to initial state
@@ -316,25 +316,27 @@ const [totalCount, setTotalCount] = useState<number>(0)
           token: token,
           ordering: ordering,
           filterValue: isActivefilter,
+          page: currentPage.toString(), // ✅ FIXED: Convert to string
+          page_size: 10, // ✅ FIXED: Add page_size parameter
         }
 
-       if (!isFromDashboard && searchText === "") {
-  if (filterSubCategory === "parent-category-only") {
-    paramsToSend.iscaegoryvalue = filterCategory
-  } else if (filterSubCategory) {
-    paramsToSend.issubcaegoryvalue = filterSubCategory
-  } else {
-    paramsToSend.iscaegoryvalue = filterCategory
-  }
+        if (!isFromDashboard && searchText === "") {
+          if (filterSubCategory === "parent-category-only") {
+            paramsToSend.iscaegoryvalue = filterCategory
+          } else if (filterSubCategory) {
+            paramsToSend.issubcaegoryvalue = filterSubCategory
+          } else {
+            paramsToSend.iscaegoryvalue = filterCategory
+          }
 
-  paramsToSend.page = currentPage
-}
+          paramsToSend.page = currentPage
+        }
         const response = await productAllDataApi(paramsToSend)
 
         if (response?.body?.products) {
           setProducts(response?.body?.products)
-            setTotalPages(response.body.totalPages)
-  setTotalCount(response.body.totalCount)
+          setTotalPages(response.body.totalPages)
+          setTotalCount(response.body.totalCount)
         } else if (response?.body?.detail === "Invalid tokens") {
           dispatch(clearUserDetails())
           toast.error("Session Expired, Please Login Again")
@@ -351,6 +353,10 @@ const [totalCount, setTotalCount] = useState<number>(0)
       fetchProducts()
     }
   }, [searchText, currentPage, status, isActive, productId, ordering, isfiltervalue, filterSubCategory, filterCategory])
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchText, isfiltervalue])
 
   return (
     <>
@@ -435,7 +441,7 @@ const [totalCount, setTotalCount] = useState<number>(0)
             handleActiveFilter={handleActiveFilter}
             setCurrentPage={setCurrentPage}
             totalPages={totalPages}
-             currentPage={currentPage}          />
+            currentPage={currentPage} />
         </div>
       ) : null}
     </>

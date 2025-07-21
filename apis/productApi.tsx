@@ -9,8 +9,8 @@ import { apiCoreUpdateuser } from "./apiCoreUpdateuser";
 
 export const productAllDataApi = async (params: {
   search?: string;
-  // current_page: number;
-  // page_size: number;
+  page: string;
+  page_size: number;
   is_active?: boolean;
   is_in_stock?: boolean;
   id?: number;
@@ -29,6 +29,9 @@ export const productAllDataApi = async (params: {
     // page: params.current_page.toString(),
     // page_size: params.page_size.toString(),
   });
+
+  queryParams.append("page", params.page)
+  queryParams.append("page_size", params.page_size.toString())
 
   if (params.id !== undefined) {
     queryParams.append("id", params.id.toString());
@@ -56,8 +59,9 @@ export const productAllDataApi = async (params: {
     queryParams.append("subcategory", params.issubcaegoryvalue);
   }
 
-  endpoint = `/product/?${queryParams.toString()}`;
 
+  endpoint = `/product/?${queryParams.toString()}`;
+  console.log("Final API Endpoint:", endpoint) // ✅ Debug log
 
   const response = await apiCoreNode(endpoint, {}, "GET", params?.token);
   return response;
