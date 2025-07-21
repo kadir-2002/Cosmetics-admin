@@ -63,7 +63,7 @@ interface UserType {
   title: string;
   content: string;
   image: string;
-  category: string;
+  product_tag_id: string;
   author: string;
   publish_date: string;
   image_alternate_text: string;
@@ -94,7 +94,7 @@ const BlogFormComponent = () => {
     title: "",
     content: "",
     image: "",
-    category: "",
+    product_tag_id: "",
     author: "",
     publish_date: "",
     image_alternate_text: "",
@@ -146,7 +146,7 @@ const BlogFormComponent = () => {
       title,
       content,
       image,
-      category,
+      product_tag_id,
       author,
       publish_date,
       image_alternate_text,
@@ -163,7 +163,7 @@ const BlogFormComponent = () => {
           title,
           content,
           image,
-          category,
+          product_tag_id,
           author,
           publish_date,
           image_alternate_text,
@@ -193,7 +193,7 @@ const BlogFormComponent = () => {
             title: "",
             content: "",
             image: "",
-            category: "",
+            product_tag_id: "",
             author: "",
             publish_date: "",
             image_alternate_text: "",
@@ -209,7 +209,7 @@ const BlogFormComponent = () => {
           title,
           content,
           image,
-          category,
+          product_tag_id,
           author,
           publish_date,
           image_alternate_text,
@@ -241,7 +241,7 @@ const BlogFormComponent = () => {
             title: "",
             content: "",
             image: "",
-            category: "",
+            product_tag_id: "",
             author: "",
             publish_date: "",
             image_alternate_text: "",
@@ -263,7 +263,7 @@ const BlogFormComponent = () => {
     title: string;
     content: string;
     image: string;
-    product_category: string;
+    product_tag_id: string;
     author: string;
     publish_date: string;
     image_alternate_text: string;
@@ -297,7 +297,7 @@ const BlogFormComponent = () => {
       title: blogs?.title,
       content: blogs?.content,
       image: isfile,
-      category: blogs?.product_category,
+      product_tag_id: blogs?.product_tag_id,
       author: blogs?.author,
       publish_date: blogs?.publish_date,
       image_alternate_text: blogs?.image_alternate_text,
@@ -417,7 +417,7 @@ const BlogFormComponent = () => {
       title: "",
       content: "",
       image: "",
-      category: "",
+      product_tag_id: "",
       author: "",
       publish_date: "",
       image_alternate_text: "",
@@ -437,7 +437,7 @@ const BlogFormComponent = () => {
       title: "",
       content: "",
       image: "",
-      category: "",
+      product_tag_id: "",
       author: "",
       publish_date: "",
       image_alternate_text: "",
@@ -461,7 +461,7 @@ const BlogFormComponent = () => {
       blogs?.title,
       blogs?.content,
       image,
-      blogs?.product_category,
+      blogs?.product_tag_id,
       blogs?.author,
       blogs?.publish_date,
       blogs?.image_alternate_text,
@@ -530,6 +530,7 @@ const BlogFormComponent = () => {
         console.log(response,"tags in blog ")
         if (response?.body?.results) {
           setCategories(response?.body?.results);
+          console.log('testinggggg',response?.body?.results)
         } else if (response?.body?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
@@ -726,7 +727,7 @@ const BlogFormComponent = () => {
                 <select
                   name='Category'
                   className='p-3 rounded-md bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none overflow-y-auto'
-                  value={newUser.category}
+                  value={newUser.product_tag_id}
                   onChange={handleCategoryChange}
                 >
                   required
@@ -866,7 +867,7 @@ const BlogFormComponent = () => {
               <p className='p-2'>Tag</p>
               <div className='flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto  cursor-pointer'>
                 {isTagData?.map((data: any) => {
-                  const isSelected = (newUser.tagjoints as number[]).includes(
+                  const isSelected = (newUser.tagjoints).includes(
                     data.id
                   );
                   return (
@@ -898,7 +899,7 @@ const BlogFormComponent = () => {
               <p className='p-2'>Seo Key Word</p>
               <div className='flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto  cursor-pointer'>
                 {isSeoData?.map((data: any) => {
-                  const isSelected = (newUser.seofocuskeywordjoints as number[]).includes(
+                  const isSelected = (newUser.seofocuskeywordjoints).includes(
                     data.id
                   );
                   return (

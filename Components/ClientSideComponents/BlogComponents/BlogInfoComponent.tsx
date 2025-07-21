@@ -3,6 +3,7 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { RxCross2 } from "react-icons/rx";
+import { formatIST } from "../OrderComponents/OrderInfoComponent";
 
 interface LogoutPopupProps {
   user: any;
@@ -111,7 +112,7 @@ const BlogInfoComponent: React.FC<LogoutPopupProps> = ({
                             Date of join:
                           </div>
                           <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
-                            {user?.date_joined}
+                            {formatIST(user?.date_joined)}
                           </div>
                         </div>
                       ) : null}
@@ -131,7 +132,7 @@ const BlogInfoComponent: React.FC<LogoutPopupProps> = ({
                             Created At:
                           </div>
                           <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
-                            {user?.created_at}
+                            {formatIST(user?.created_at)}
                           </div>
                         </div>
                       ) : null}
@@ -148,7 +149,7 @@ const BlogInfoComponent: React.FC<LogoutPopupProps> = ({
                           Updated At:
                         </div>
                         <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
-                          {user?.updated_at}
+                          {formatIST(user?.updated_at)}
                         </div>
                       </div>
                     </div>

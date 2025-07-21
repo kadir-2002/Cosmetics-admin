@@ -10,7 +10,7 @@ export const createBlogApi = async (
   title: string,
   content: string,
   image: File | null | any,
-  category: string,
+  product_tag_id: string,
   author: string,
   publish_date: string,
   image_alternate_text: string,
@@ -31,13 +31,14 @@ export const createBlogApi = async (
   formData.append("image_alternate_text", image_alternate_text);
   formData.append("seo_title", seo_title);
   formData.append("seo_metadata", seo_metadata);
-  formData.append("product_category", category);
+  formData.append("product_tag_id", product_tag_id);
   formData.append("author", author);
   formData.append("publish_date", publish_date);
   formData.append("tagjoints", JSON.stringify(tagjoints));
   formData.append("seofocuskeywordjoints", JSON.stringify(seofocuskeywordjoints));
   formData.append("is_active", isActive.toString());
   formData.append("created_by", created_by.toString());
+  console.log("producttagid",product_tag_id)
   const response = await apiCoreFormData(
     "/blog/",
     formData,
@@ -87,7 +88,7 @@ export const blogUpdatedApi = async (
   title: string,
   content: string,
   image: File | null | any,
-  category: string,
+  product_tag_id: string,
   author: string,
   publish_date: string,
   image_alternate_text: string,
@@ -106,7 +107,7 @@ export const blogUpdatedApi = async (
   if (image) {
     formData.append("image", image);
   }
-  formData.append("product_category", category);
+  formData.append("product_tag_id", product_tag_id);
   formData.append("image_alternate_text", image_alternate_text);
   formData.append("seo_title", seo_title);
   formData.append("seo_metadata", seo_metadata);
@@ -116,6 +117,7 @@ export const blogUpdatedApi = async (
   formData.append("seofocuskeywordjoints", JSON.stringify(seofocuskeywordjoints));
   formData.append("is_active", isActive.toString());
   formData.append("updated_by", updated_by);
+  console.log("producttagid",product_tag_id)
   const response = await apiCoreUpdateuser(
     `/blog/${id}/`,
     formData,
