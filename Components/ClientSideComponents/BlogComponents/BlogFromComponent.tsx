@@ -456,7 +456,7 @@ const BlogFormComponent = () => {
     const image = isfile;
     const tagListIds = blogs?.tagjoints?.map((tag: any) => tag.id);
     const seoListIds = blogs?.seofocuskeywordjoints?.map((seo: any) => seo.id);
-    const response = await apiCoreNode(`/blog/toggle/${blogs.id}`,{"is_active": is_active},'PATCH')
+    const response = await apiCoreNode(`/blog/toggle/${blogs.id}`,{"is_active": is_active},'PATCH',token)
     if (response?.status === 200) {
       fetchBlog();
     } else {
