@@ -14,7 +14,7 @@ export const taxAllDataApi = async (searchParams: { search: string, token: strin
 };
 
 export const createTaxApi = async (name: string, percentage: number, is_active: boolean, createdBy: number, token: string) => {
-  const response = await apiCores("/tax/", { name: name, percentage: percentage, is_active: is_active, created_by: createdBy }, "POST", token);
+  const response = await apiCoreNode("/tax/", { name: name, percentage: percentage, is_active: is_active, created_by: createdBy }, "POST", token);
   return response;
 };
 
