@@ -75,6 +75,7 @@ interface UserType {
 import dynamic from "next/dynamic";
 import BlogCommentCOmponent from "./BlogCommentCOmponent";
 import BlogInfoComponent from "./BlogInfoComponent";
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 const RichTextEditor = dynamic(
   () =>
     import(
@@ -522,10 +523,11 @@ const BlogFormComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await catagoryDataApi(token);
-        if (response?.body.categories) {
-          setCategories(response?.body.categories);
-        } else if (response?.body?.detail === "Invalid token") {
+        const response = await apiCoreNode(`/product-tag?is_active=true`, {}, "GET", token);
+        console.log(response,"tags in blog ")
+        if (response?.body?.results) {
+          setCategories(response?.body?.results);
+        } else if (response?.body?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -725,7 +727,7 @@ const BlogFormComponent = () => {
                   onChange={handleCategoryChange}
                 >
                   required
-                  <option value=''>Select Category</option>
+                  <option value=''>Select Product Tag</option>
                   {categories.map((category: any) => (
                     <option
                       key={category.id}
@@ -980,7 +982,7 @@ const BlogFormComponent = () => {
                 </th>
                 <th className='p-3 text-left'>Auther Name</th>
                 <th className='p-3 text-left'>Publish Date</th>
-                <th className='p-3 text-left'>Comment</th>
+                {/* <th className='p-3 text-left'>Comment</th> */}
                 <th
                   className='py-3 px-4 flex gap-1 justify-center items-center'
                   onClick={() => setIsActiveInactiveFilterPopup(true)}
@@ -1006,7 +1008,7 @@ const BlogFormComponent = () => {
                     {user?.image ? (
                       <>
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_URL}${user?.image}`}
+                          src={`${user?.image}`}
                           alt='Profile'
                           className='lg:h-16 lg:w-16 h-10 w-12 object-cover rounded-full'
                         />
@@ -1023,14 +1025,14 @@ const BlogFormComponent = () => {
                   <th className='p-3 text-left '> {user?.author}</th>
                   <th className='p-3 text-left '> {user?.publish_date}</th>
 
-                  <td
+                  {/* <td
                     className='p-4 capitalize text-center'
                     onClick={() => handleOpenReview(user?.id)}
                   >
                     <div className='p-2 flex gap-2 justify-center items-center bg-[#EFBF04] rounded-md text-white font-semibold'>
                       <FaCircleArrowRight />
                     </div>
-                  </td>
+                  </td> */}
                   <td className='p-3 text-center'>
                     <div className='text-center'>
                       <Switch

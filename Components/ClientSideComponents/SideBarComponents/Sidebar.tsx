@@ -8,7 +8,7 @@ import ClickOutside from "./ClickOutside";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { MdDashboardCustomize, MdOutlineProductionQuantityLimits, MdOutlineRateReview, MdOutlineUnsubscribe, MdPayment } from "react-icons/md";
 import { TbCategoryPlus, TbLayoutNavbarCollapseFilled, TbListDetails } from "react-icons/tb";
-import { FaBagShopping, FaGoogle, FaOpencart, FaPercent, FaRegImage, FaStore, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
+import { FaBagShopping, FaBlog, FaGoogle, FaOpencart, FaPercent, FaRegImage, FaStore, FaUsers, FaUsersBetweenLines } from "react-icons/fa6";
 import { LuGalleryVerticalEnd } from "react-icons/lu";
 import { IoIosContact } from "react-icons/io";
 import { RiCoupon2Line, RiPinDistanceLine } from "react-icons/ri";
@@ -50,7 +50,7 @@ const menuGroups = [
       { icon:<RiCoupon2Line className="h-6 w-6"/> , label: "Coupons", route: "/coupons" },
       { icon: <FaUsers className="h-6 w-6"  />, label: "User", route: "/user" },
       // { icon: "/role.png", label: "Role", route: "/role" },
-      // { icon: "/blog.png", label: "Blog", route: "/blog" },
+      { icon: <FaBlog className="h-6 w-6" />, label: "Blog", route: "/blog" },
       { icon: <FaOpencart className="h-6 w-6"  />, label: "Order", route: "/order" },
       { icon: <FaShippingFast className="h-6 w-6" />, label: "Shipping", route: "/Shipping" },
       {
