@@ -59,10 +59,11 @@ type Props = {
   setCurrentPage: any;
   totalPages:number;
    currentPage: number;
+   searchParams:any;
   // handleSequenceUpdate: (sequenceData: any[]) => Promise<void>;
 };
 
-const SortableRow = ({ id, children }: { id: any; children: any }) => {
+const SortableRow = ({ id, children,searchParams }: { id: any; children: any ,searchParams:any}) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
   const style = {
@@ -76,8 +77,9 @@ const SortableRow = ({ id, children }: { id: any; children: any }) => {
       {...attributes}
       className='p-4 hover:bg-slate-2 00 relative'>
       <tr className='text-center mt-5 absolute top-2 left-1 md:top-4 md:left-2 cursor-move z-10 touch-none'{...listeners}>
-        <LuGrip size={24} className='text-black mt'/>
-      </tr>
+      {searchParams.toString() ? null : <LuGrip size={24} className='text-black mt' />}
+
+      </tr> 
       {children}
     </tr>
   );
@@ -99,6 +101,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
   setCurrentPage,
     currentPage,
   totalPages,
+  searchParams
 }) => {
   const [isOpenDeletePopup, setOpenDeletePopup] = useState<boolean>(false);
   const [isSelectedProductId, setSelectedProductId] = useState("");
@@ -317,7 +320,7 @@ const handlePreviousPage = () => {
                   </thead>
                   <tbody>
                     {products.map((product) => (
-                      <SortableRow key={product.id} id={product.id}>
+                      <SortableRow key={product.id} id={product.id} searchParams={searchParams} >
                         {/* <td className="p-3 text-center"> <LuGrip size={24} className="text-black" /></td> */}
                         <td className='p-4 text-center'>
                           {/* <p>{product?.sequenceNumber}</p> */}
