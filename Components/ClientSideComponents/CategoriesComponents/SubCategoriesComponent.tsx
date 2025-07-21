@@ -120,7 +120,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
           toast.error("sequence_number must be a positive number");
         } else if (
           response?.data?.message ===
-          "Sequence number already exists for this sub category"
+          "Sequence number already exists for this parent category"
         ) {
           toast.error("Sequence number already exists for this sub category");
         } else if (
