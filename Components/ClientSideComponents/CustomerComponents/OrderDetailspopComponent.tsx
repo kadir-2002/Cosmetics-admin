@@ -164,16 +164,16 @@ const OrderDetailsPopup = ({
                     <p>Tax:</p>{" "}
                     <p>
                       {currency}
-                     {selectedOrder?.taxType} : {selectedOrder?.appliedTaxRate?? "0.00"}
+                     {selectedOrder?.taxType} : {selectedOrder?.appliedTaxRate??  "0.00%"}
                     </p>
                   </div>
                 ) : null}
                  {selectedOrder?.taxAmount ? (
                   <div className='flex justify-between items-center'>
-                    <p>Tax:</p>{" "}
+                    <p>Tax Amount:</p>{" "}
                     <p>
                       {currency}
-                     {selectedOrder?.taxAmount} : {selectedOrder?.taxAmount?? "0.00"}
+                   {selectedOrder?.taxAmount?.toFixed(2) ||"0.00"}
                     </p>
                   </div>
                 ) : null}
@@ -182,7 +182,7 @@ const OrderDetailsPopup = ({
                     <p>Delivery Charge:</p>{" "}
                     <p>
                       {currency}
-                      {selectedOrder?.shippingRate ?? "0.00"}
+                      {selectedOrder?.shippingRate.toFixed(2) ?? "0.00"}
                     </p>
                   </div>
                 ) }
