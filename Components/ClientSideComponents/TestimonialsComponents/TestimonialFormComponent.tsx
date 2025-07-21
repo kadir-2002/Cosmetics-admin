@@ -398,6 +398,7 @@ const TestimonialFormComponent = () => {
               <BiSolidCategory color='#A5B7C0' size={26} />
               <input
                 type='text'
+                required
                 // placeholder="Enter Description"
                 value={newRole.description}
                 onChange={(e) =>
@@ -405,6 +406,7 @@ const TestimonialFormComponent = () => {
                     ...prev,
                     description: e.target.value,
                   }))
+                  
                 }
                 className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-2 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
               />
