@@ -92,6 +92,7 @@ const Page: React.FC = () => {
   const threshold = searchParams.get("threshold") || ""
   const isThreshold = threshold === "true" ? true : threshold === "false" ? false : undefined
   const isFromDashboard = !!(productIdString || status || is_stock)
+  
   const token = useSelector((state: any) => state?.user?.token)
   const dispatch = useDispatch()
   const router = useRouter()
@@ -441,7 +442,8 @@ const Page: React.FC = () => {
             handleActiveFilter={handleActiveFilter}
             setCurrentPage={setCurrentPage}
             totalPages={totalPages}
-            currentPage={currentPage} />
+            currentPage={currentPage} 
+            searchParams={searchParams}/>
         </div>
       ) : null}
     </>
