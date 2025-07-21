@@ -120,7 +120,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
           toast.error("sequence_number must be a positive number");
         } else if (
           response?.data?.message ===
-          "Sequence number already exists for this parent category"
+          "Sequence number already exists for this sub category"
         ) {
           toast.error("Sequence number already exists for this sub category");
         } else if (
@@ -162,7 +162,7 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
           toast.error("sequence_number must be a positive number");
         } else if (
           response?.data?.message ===
-          "Sequence number already exists for this sub category"
+          "Sequence number already exists for this parent category"
         ) {
           toast.error("Sequence number already exists for this sub category");
         }  else if (response?.data?.message === "Invalid or expired token") {
@@ -330,7 +330,12 @@ const SubCategoriesComponent: React.FC<AddAddressComponents> = ({
     );
     if (response?.status === 200) {
       loadCategry();
-    } else if (response?.data?.message === "Invalid or expired token") {
+    } else if (
+          response?.data?.message ===
+          "Sequence number already exists for this sub category"
+        ) {
+          toast.error("Sequence number already exists for this sub category");
+        }  else if (response?.data?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");
