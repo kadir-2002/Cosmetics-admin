@@ -454,26 +454,9 @@ const BlogFormComponent = () => {
   };
   const activeHandler = async (blogs: any, is_active: boolean) => {
     const image = isfile;
-    const tagListIds = blogs?.tags?.map((tag: any) => tag.id);
-    const seoListIds = blogs?.seo_keywords?.map((seo: any) => seo.id);
-    console.log(tagListIds,seoListIds,"dataaaaaaaaaaaaaa")
-    const response = await blogUpdatedApi(
-      blogs?.id,
-      blogs?.title,
-      blogs?.content,
-      image,
-      blogs?.product_tag_id,
-      blogs?.author,
-      blogs?.publish_date,
-      blogs?.image_alternate_text,
-      blogs?.seo_title,
-      blogs?.seo_metadata,
-      tagListIds,
-      seoListIds,
-      is_active,
-      created_by,
-      token
-    );
+    const tagListIds = blogs?.tagjoints?.map((tag: any) => tag.id);
+    const seoListIds = blogs?.seofocuskeywordjoints?.map((seo: any) => seo.id);
+    const response = await apiCoreNode(`/blog/toggle/${blogs.id}`,{"is_active": is_active},'PATCH')
     if (response?.status === 200) {
       fetchBlog();
     } else {
