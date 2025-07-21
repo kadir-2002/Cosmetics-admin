@@ -105,10 +105,10 @@ const BlogSEOKeywordComponent = () => {
         searchText:searchText
       });
 
-      if (response?.results) {
-        setCategry(response?.results);
-        setTotalPages(response?.total_pages);
-      } else if (response?.detail === "Invalid token") {
+      if (response?.data?.keywords) {
+        setCategry(response?.data?.keywords);
+        setTotalPages(response?.data?.totalPages);
+      } else if (response?.detail === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -141,11 +141,11 @@ const BlogSEOKeywordComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await seoDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body?.success) {
         toast.success("Tag deleted successfully");
         setIsLogoutPopup(false);
-        fetchTag();
-      } else if (response?.detail === "Invalid token") {
+        fetchTag(); 
+      } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

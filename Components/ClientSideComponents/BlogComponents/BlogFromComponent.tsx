@@ -21,9 +21,11 @@ import {
   blogAllDataApi,
   blogcommentAllDataApi,
   blogDeleteApi,
+  blogtagAllDataApi,
   blogtagfetchdata,
   blogUpdatedApi,
   createBlogApi,
+  seoAllDataApi,
   seofetchdata,
 } from "@/apis/blogFormApi";
 import UserInfoPopupComponent from "../UserComponents/UserInfoPopupComponent";
@@ -45,8 +47,8 @@ type blogs = {
   seo_metadata: string;
   product_category: string;
   author: string;
-  tag_list: number[];
-  seo_list: [];
+  tagjoints: number[];
+  seofocuskeywordjoints: [];
   is_active: false;
   redirect_url: string;
   last_login: string;
@@ -67,8 +69,8 @@ interface UserType {
   image_alternate_text: string;
   seo_title: string;
   seo_metadata: string;
-  tag_list: number[];
-  seo_list: number[];
+  tagjoints: number[];
+  seofocuskeywordjoints: number[];
   is_active: boolean;
 }
 
@@ -76,6 +78,7 @@ import dynamic from "next/dynamic";
 import BlogCommentCOmponent from "./BlogCommentCOmponent";
 import BlogInfoComponent from "./BlogInfoComponent";
 import { apiCoreNode } from "@/APISFolder/APICoreNode";
+import { formatIST } from "../OrderComponents/OrderInfoComponent";
 const RichTextEditor = dynamic(
   () =>
     import(
@@ -97,8 +100,8 @@ const BlogFormComponent = () => {
     image_alternate_text: "",
     seo_title: "",
     seo_metadata: "",
-    tag_list: [],
-    seo_list: [],
+    tagjoints: [],
+    seofocuskeywordjoints: [],
     is_active: false,
   });
   const [isOpenDeletePopup, setIsLogoutPopup] = useState<boolean>(false);
@@ -149,8 +152,8 @@ const BlogFormComponent = () => {
       image_alternate_text,
       seo_title,
       seo_metadata,
-      tag_list,
-      seo_list,
+      tagjoints,
+      seofocuskeywordjoints,
       is_active,
     } = newUser;
     try {
@@ -166,8 +169,8 @@ const BlogFormComponent = () => {
           image_alternate_text,
           seo_title,
           seo_metadata,
-          tag_list,
-          seo_list,
+          tagjoints,
+          seofocuskeywordjoints,
           is_active,
           created_by,
           token
@@ -196,8 +199,8 @@ const BlogFormComponent = () => {
             image_alternate_text: "",
             seo_title: "",
             seo_metadata: "",
-            tag_list: [],
-            seo_list: [],
+            tagjoints: [],
+            seofocuskeywordjoints: [],
             is_active: false,
           });
         }
@@ -212,8 +215,8 @@ const BlogFormComponent = () => {
           image_alternate_text,
           seo_title,
           seo_metadata,
-          tag_list,
-          seo_list,
+          tagjoints,
+          seofocuskeywordjoints,
           is_active,
           created_by,
           token
@@ -244,8 +247,8 @@ const BlogFormComponent = () => {
             image_alternate_text: "",
             seo_title: "",
             seo_metadata: "",
-            tag_list: [],
-            seo_list: [],
+            tagjoints: [],
+            seofocuskeywordjoints: [],
             is_active: false,
           });
         }
@@ -300,8 +303,8 @@ const BlogFormComponent = () => {
       image_alternate_text: blogs?.image_alternate_text,
       seo_title: blogs?.seo_title,
       seo_metadata: blogs?.seo_metadata,
-      tag_list: formattedTagList,
-      seo_list: formattedSeoList,
+      tagjoints: formattedTagList,
+      seofocuskeywordjoints: formattedSeoList,
       is_active: blogs?.is_active,
     });
     if (topRef.current) {
@@ -341,15 +344,15 @@ const BlogFormComponent = () => {
         apiParams.search = searchText;
       }
       const response = await blogAllDataApi(apiParams);
-      if (response?.detail === "Invalid token") {
+      if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
         return;
       }
-      if (response?.results) {
-        setBlog(response.results);
-        setTotalPages(response?.total_pages);
+      if (response?.data) {
+        setBlog(response?.data);
+        setTotalPages(response?.page_size);
       }
     } catch (error) {
       console.error("Error fetching blogs:", error);
@@ -372,13 +375,13 @@ const BlogFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await blogDeleteApi(id, token);
-      if (response?.detail === "Invalid token") {
+      if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
         return;
       }
-      if (response?.success) {
+      if (response?.body?.success) {
         toast.success("Blog deleted successfully");
         setIsLogoutPopup(false);
         fetchBlog();
@@ -420,8 +423,8 @@ const BlogFormComponent = () => {
       image_alternate_text: "",
       seo_title: "",
       seo_metadata: "",
-      tag_list: [],
-      seo_list: [],
+      tagjoints: [],
+      seofocuskeywordjoints: [],
       is_active: false,
     });
   };
@@ -440,8 +443,8 @@ const BlogFormComponent = () => {
       image_alternate_text: "",
       seo_title: "",
       seo_metadata: "",
-      tag_list: [],
-      seo_list: [],
+      tagjoints: [],
+      seofocuskeywordjoints: [],
       is_active: false,
     });
   };
@@ -502,15 +505,15 @@ const BlogFormComponent = () => {
   const fetchtagdata = async () => {
     try {
       const [seoResponse, tagResponse] = await Promise.all([
-        seofetchdata(token),
-        blogtagfetchdata(token),
+        await apiCoreNode(`/blog/tag/`,{},"GET",token),
+        await apiCoreNode(`/blog/keyword/`,{},"GET",token),
       ]);
-      if (tagResponse?.results && seoResponse.results) {
-        setSeoData(seoResponse?.results);
-        setTagData(tagResponse?.results);
+      if (tagResponse?.body?.data && seoResponse?.body?.data) {
+        setSeoData(seoResponse?.body?.data?.tags);
+        setTagData(tagResponse?.body?.data?.keywords);
       } else if (
-        seoResponse?.detail === "Invalid token" &&
-        tagResponse?.detail === "Invalid token"
+        seoResponse?.body?.message === "Invalid or expired token" &&
+        tagResponse?.body?.message === "Invalid or expired token"
       ) {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
@@ -862,8 +865,8 @@ const BlogFormComponent = () => {
             <div className='-mt-2 lg:col-span-2'>
               <p className='p-2'>Tag</p>
               <div className='flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto  cursor-pointer'>
-                {isTagData.map((data: any) => {
-                  const isSelected = (newUser.tag_list as number[]).includes(
+                {isTagData?.map((data: any) => {
+                  const isSelected = (newUser.tagjoints as number[]).includes(
                     data.id
                   );
                   return (
@@ -871,13 +874,13 @@ const BlogFormComponent = () => {
                       key={data.id}
                       onClick={() => {
                         const updatedTags = isSelected
-                          ? newUser.tag_list.filter(
+                          ? newUser.tagjoints.filter(
                               (tagId: number) => tagId !== data.id
                             )
-                          : [...newUser.tag_list, data.id];
+                          : [...newUser.tagjoints, data.id];
                         setNewUser((prev: any) => ({
                           ...prev,
-                          tag_list: updatedTags,
+                          tagjoints: updatedTags,
                         }));
                       }}
                       className={`px-4 py-2 rounded-md cursor-pointer h-12 flex items-center justify-center  ${
@@ -894,8 +897,8 @@ const BlogFormComponent = () => {
             <div className='-mt-2 lg:col-span-2'>
               <p className='p-2'>Seo Key Word</p>
               <div className='flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto  cursor-pointer'>
-                {isSeoData.map((data: any) => {
-                  const isSelected = (newUser.seo_list as number[]).includes(
+                {isSeoData?.map((data: any) => {
+                  const isSelected = (newUser.seofocuskeywordjoints as number[]).includes(
                     data.id
                   );
                   return (
@@ -903,13 +906,13 @@ const BlogFormComponent = () => {
                       key={data.id}
                       onClick={() => {
                         const updatedTags = isSelected
-                          ? newUser.seo_list.filter(
+                          ? newUser.seofocuskeywordjoints.filter(
                               (tagId: number) => tagId !== data.id
                             )
-                          : [...newUser.seo_list, data.id];
+                          : [...newUser.seofocuskeywordjoints, data.id];
                         setNewUser((prev: any) => ({
                           ...prev,
-                          seo_list: updatedTags,
+                          seofocuskeywordjoints: updatedTags,
                         }));
                       }}
                       className={`px-4 py-2 rounded-md cursor-pointer h-12 flex items-center justify-center  ${
@@ -1023,7 +1026,7 @@ const BlogFormComponent = () => {
                     {user?.title}
                   </td>
                   <th className='p-3 text-left '> {user?.author}</th>
-                  <th className='p-3 text-left '> {user?.publish_date}</th>
+                  <th className='p-3 text-left '> {formatIST(user?.publish_date)}</th>
 
                   {/* <td
                     className='p-4 capitalize text-center'

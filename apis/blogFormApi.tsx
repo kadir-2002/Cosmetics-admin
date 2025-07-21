@@ -1,3 +1,4 @@
+import { apiCoreNode } from "@/APISFolder/APICoreNode";
 import { apiCores } from "./apiCore";
 import { apiCoreDelete } from "./apiCoreDelete";
 import { apiCoreFormData } from "./apiCoreFormData";
@@ -15,8 +16,8 @@ export const createBlogApi = async (
   image_alternate_text: string,
   seo_title: string,
   seo_metadata: string,
-  tag_list:number[],
-  seo_list:number[],
+  tagjoints:number[],
+  seofocuskeywordjoints:number[],
   isActive: boolean,
   created_by: any,
   token: string
@@ -33,12 +34,12 @@ export const createBlogApi = async (
   formData.append("product_category", category);
   formData.append("author", author);
   formData.append("publish_date", publish_date);
-  formData.append("tag_list", JSON.stringify(tag_list));
-  formData.append("seo_keyword_list", JSON.stringify(seo_list));
+  formData.append("tagjoints", JSON.stringify(tagjoints));
+  formData.append("seofocuskeywordjoints", JSON.stringify(seofocuskeywordjoints));
   formData.append("is_active", isActive.toString());
   formData.append("created_by", created_by.toString());
   const response = await apiCoreFormData(
-    "/frontend/blog/",
+    "/blog/",
     formData,
     "POST",
     token
@@ -71,13 +72,13 @@ export const blogAllDataApi = async (params: {
   if (params.isActiveInactive !== undefined) {
     queryParams.append("is_active", params.isActiveInactive.toString());
   }
-  const endpoint = `/frontend/blog/?${queryParams.toString()}`;
+  const endpoint = `/blog/?${queryParams.toString()}`;
   const response = await apiCoreGet(endpoint, "GET", params.token);
   return response;
 };
 
 export const blogDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(`/frontend/blog/${id}/`, token);
+  const response = await apiCoreNode(`/blog/${id}/`,{},"DELETE", token);
   return response;
 };
 
@@ -92,8 +93,8 @@ export const blogUpdatedApi = async (
   image_alternate_text: string,
   seo_title: string,
   seo_metadata: string,
-  tag_list:number [],
-  seo_list:number[],
+  tagjoints:number [],
+  seofocuskeywordjoints:number[],
   isActive: boolean,
   updated_by: any,
   token: string
@@ -111,12 +112,12 @@ export const blogUpdatedApi = async (
   formData.append("seo_metadata", seo_metadata);
   formData.append("author", author);
   formData.append("publish_date", publish_date);
-  formData.append("tag_list", JSON.stringify(tag_list));
-  formData.append("seo_keyword_list", JSON.stringify(seo_list));
+  formData.append("tagjoints", JSON.stringify(tagjoints));
+  formData.append("seofocuskeywordjoints", JSON.stringify(seofocuskeywordjoints));
   formData.append("is_active", isActive.toString());
   formData.append("updated_by", updated_by);
   const response = await apiCoreUpdateuser(
-    `/frontend/blog/${id}/`,
+    `/blog/${id}/`,
     formData,
     "PATCH",
     token
@@ -137,7 +138,7 @@ export const blogtagAllDataApi = async (searchParams: {
     page_size: String(searchParams.page_size),
   }).toString();
   const response = await apiCoreGet(
-    `/frontend/blog-tag/?${queryParams}`,
+    `/blog/tag/?${queryParams}`,
     "GET",
     searchParams.token
   );
@@ -151,7 +152,7 @@ export const createBlogTagApi = async (
   token: string
 ) => {
   const response = await apiCores(
-    "/frontend/blog-tag/",
+    "/blog/tag/",
     { name: name,is_active:is_active, created_by: created_by },
     "POST",
     token
@@ -160,7 +161,7 @@ export const createBlogTagApi = async (
 };
 
 export const blogtagDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(`/frontend/blog-tag/${id}/`, token);
+  const response = await apiCoreNode(`/blog/tag/${id}`,{id:Number(id)},"DELETE", token);
   return response;
 };
 export const blogtagUpdatedApi = async (
@@ -176,7 +177,7 @@ export const blogtagUpdatedApi = async (
     created_by: created_by,
   };
   const response = await apiCoreUpdate(
-    `/frontend/blog-tag/${id}/`,
+    `/blog/tag/${id}`,
     "",
     requestBody,
     "PATCH",
@@ -186,7 +187,7 @@ export const blogtagUpdatedApi = async (
 };
 
 export const blogtagfetchdata = async (token: string) => {
-  const response = await apiCoreGet(`/frontend/blog-tag/`,"GET",token);
+  const response = await apiCoreNode(`/blog/tag/`,{},"GET",token);
   return response;
 };
 
@@ -204,7 +205,7 @@ export const seoAllDataApi = async (searchParams: {
     page_size: String(searchParams.page_size),
   }).toString();
   const response = await apiCoreGet(
-    `/frontend/blog-seo-keyword/?${queryParams}`,
+    `/blog/keyword/?${queryParams}`,
     "GET",
     searchParams.token
   );
@@ -217,8 +218,8 @@ export const createSeoApi = async (
   token: string
 ) => {
   const response = await apiCores(
-    "/frontend/blog-seo-keyword/",
-    { name: name, created_by: created_by },
+    "/blog/keyword/",
+    { name: name, created_by: created_by, is_active:true },
     "POST",
     token
   );
@@ -226,8 +227,8 @@ export const createSeoApi = async (
 };
 
 export const seoDeleteApi = async (id: any, token: string) => {
-  const response = await apiCoreDelete(
-    `/frontend/blog-seo-keyword/${id}/`,
+  const response = await apiCoreNode(
+    `/blog/keyword/${id}/`,{},'DELETE',
     token
   );
   return response;
@@ -243,7 +244,7 @@ export const seoUpdatedApi = async (
     created_by: created_by,
   };
   const response = await apiCoreUpdate(
-    `/frontend/blog-seo-keyword/${id}/`,
+    `/blog/keyword/${id}/`,
     "",
     requestBody,
     "PATCH",
@@ -253,7 +254,7 @@ export const seoUpdatedApi = async (
 };
 
 export const seofetchdata = async (token: string) => {
-  const response = await apiCoreGet(`/frontend/blog-seo-keyword/`,"GET",token);
+  const response = await apiCoreNode(`/blog/keyword/`,{},"GET",token);
   return response;
 };
 

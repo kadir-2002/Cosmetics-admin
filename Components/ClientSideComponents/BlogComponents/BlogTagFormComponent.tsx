@@ -101,10 +101,10 @@ const BlogTagFormComponent = () => {
         token: token,
         searchText: searchText,
       });
-      if (response?.results) {
-        setCategry(response?.results);
-        setTotalPages(response?.total_pages);
-      } else if (response?.detail === "Invalid token") {
+      if (response?.data) {
+        setCategry(response?.data?.tags);
+        setTotalPages(response?.data?.totalPages);
+      } else if (response?.data?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -137,11 +137,11 @@ const BlogTagFormComponent = () => {
   const handleDeleteConform = async (id: string) => {
     try {
       const response = await blogtagDeleteApi(id, token);
-      if (response?.success) {
+      if (response?.body?.success) {
         toast.success("Tag deleted successfully");
         setIsLogoutPopup(false);
         fetchTag();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -327,6 +327,7 @@ const BlogTagFormComponent = () => {
             <thead>
               <tr className='text-[#577C8E] font-semibold border-b-[1px] border-[#577C8E]'>
                 <th className='py-3 px-4 text-left w-1/3'>Tag Name</th>
+                <th className='py-3 w-1/3'>Action</th>
                 <th className='py-3 w-1/3'>Status</th>
                 <th className='py-3 w-1/3'>Info</th>
               </tr>
