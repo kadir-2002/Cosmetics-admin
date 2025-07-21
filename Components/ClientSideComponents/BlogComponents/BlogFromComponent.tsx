@@ -69,8 +69,8 @@ interface UserType {
   image_alternate_text: string;
   seo_title: string;
   seo_metadata: string;
-  tagjoints: number[];
-  seofocuskeywordjoints: number[];
+  tagjoints: any;
+  seofocuskeywordjoints: any;
   is_active: boolean;
 }
 
@@ -269,21 +269,21 @@ const BlogFormComponent = () => {
     image_alternate_text: string;
     seo_title: string;
     seo_metadata: string;
-    tags: [];
-    seo_keywords: [];
+    tagjoints: [];
+    seofocuskeywordjoints: [];
     is_active: boolean;
     created_by: string;
   }) => {
     setOpenForm(true);
     setFileName(blogs?.image);
     const formattedTagList =
-      blogs?.tags
-        ?.filter((tag: any) => tag?.id)
-        .map((tag: any) => Number(tag.id)) || [];
+      blogs?.tagjoints
+        ?.filter((tag: any) => tag?.frontend_blogtag?.id)
+        .map((tag: any) => Number(tag?.frontend_blogtag?.id)) || [];
     const formattedSeoList =
-      blogs?.seo_keywords
-        ?.filter((seo: any) => seo?.id)
-        .map((seo: any) => Number(seo.id)) || [];
+      blogs?.seofocuskeywordjoints
+        ?.filter((seo: any) => seo?.seo_focus_keyword?.id)
+        .map((seo: any) => Number(seo?.seo_focus_keyword.id)) || [];
 
     if (topRef.current) {
       topRef.current.scrollIntoView({
@@ -456,6 +456,7 @@ const BlogFormComponent = () => {
     const image = isfile;
     const tagListIds = blogs?.tags?.map((tag: any) => tag.id);
     const seoListIds = blogs?.seo_keywords?.map((seo: any) => seo.id);
+    console.log(tagListIds,seoListIds,"dataaaaaaaaaaaaaa")
     const response = await blogUpdatedApi(
       blogs?.id,
       blogs?.title,
@@ -498,19 +499,19 @@ const BlogFormComponent = () => {
     const categoryId = e.target.value;
     setNewUser((prev: any) => ({
       ...prev,
-      category: categoryId,
+      product_tag_id: categoryId,
     }));
   };
 
   const fetchtagdata = async () => {
     try {
       const [seoResponse, tagResponse] = await Promise.all([
-        await apiCoreNode(`/blog/tag/`,{},"GET",token),
         await apiCoreNode(`/blog/keyword/`,{},"GET",token),
+        await apiCoreNode(`/blog/tag/`,{},"GET",token),
       ]);
       if (tagResponse?.body?.data && seoResponse?.body?.data) {
-        setSeoData(seoResponse?.body?.data?.tags);
-        setTagData(tagResponse?.body?.data?.keywords);
+        setSeoData(seoResponse?.body?.data?.keywords);
+        setTagData(tagResponse?.body?.data?.tags);
       } else if (
         seoResponse?.body?.message === "Invalid or expired token" &&
         tagResponse?.body?.message === "Invalid or expired token"
@@ -866,7 +867,7 @@ const BlogFormComponent = () => {
             <div className='-mt-2 lg:col-span-2'>
               <p className='p-2'>Tag</p>
               <div className='flex flex-wrap gap-2 p-2 bg-[#F3F3F3] rounded-md border border-gray-300 h-20 overflow-auto  cursor-pointer'>
-                {isTagData?.map((data: any) => {
+               {isTagData?.map((data: any) => {
                   const isSelected = (newUser.tagjoints).includes(
                     data.id
                   );
