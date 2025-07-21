@@ -57,6 +57,8 @@ type Props = {
   iscaegoryvalue: any;
   handleActiveFilter: any;
   setCurrentPage: any;
+  totalPages:number;
+   currentPage: number;
   // handleSequenceUpdate: (sequenceData: any[]) => Promise<void>;
 };
 
@@ -95,6 +97,8 @@ const ProductAllDataComponent: React.FC<Props> = ({
   iscaegoryvalue,
   handleActiveFilter,
   setCurrentPage,
+    currentPage,
+  totalPages,
 }) => {
   const [isOpenDeletePopup, setOpenDeletePopup] = useState<boolean>(false);
   const [isSelectedProductId, setSelectedProductId] = useState("");
@@ -193,7 +197,13 @@ const ProductAllDataComponent: React.FC<Props> = ({
     setCurrentPage(1);
     setCategoryFilterPopup(false);
   };
+const handleNextPage = () => {
+  setCurrentPage((prev: number) => Math.min(prev + 1, totalPages));
+};
 
+const handlePreviousPage = () => {
+  setCurrentPage((prev: number) => Math.max(prev - 1, 1));
+};
   //////////
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
   const sensors = useSensors(
@@ -525,7 +535,34 @@ const ProductAllDataComponent: React.FC<Props> = ({
           iscaegoryvalue={iscaegoryvalue}
         />
       )}
-    </div>
+  
+    {products.length > 0 && (
+  <div className='flex justify-center mt-4'>
+    <button
+      onClick={handlePreviousPage}
+      disabled={currentPage === 1}
+      className={`px-4 py-2 bg-admin-buttonprimary text-white rounded-md mx-1 ${
+        currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+      }`}
+    >
+      Prev
+    </button>
+    <span className='px-4 py-2'>{`Page ${currentPage} of ${totalPages}`}</span>
+    <button
+      onClick={handleNextPage}
+      disabled={currentPage === totalPages}
+      className={`px-4 py-2 bg-admin-buttonprimary text-white rounded-md mx-1 ${
+        currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+      }`}
+    >
+      Next
+    </button>
+  </div>
+)}
+  </div>
+
+ 
   );
+  
 };
 export default ProductAllDataComponent;

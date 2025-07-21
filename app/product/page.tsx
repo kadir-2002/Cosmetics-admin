@@ -43,6 +43,9 @@ const Page: React.FC = () => {
   const [isfiltervalue, setfiltervalue] = useState<string>("")
   const [iscaegoryvalue, setcategoryvalue] = useState<string>("")
   const [variantSpecifications, setVariantSpecifications] = useState<VariantSpecifications>({})
+  const [totalPages, setTotalPages] = useState<number>(0)
+const [totalCount, setTotalCount] = useState<number>(0)
+
 
   // FIXED: Added tag_list to initial state
   const [newUser, setNewUser] = useState({
@@ -315,20 +318,23 @@ const Page: React.FC = () => {
           filterValue: isActivefilter,
         }
 
-        if (!isFromDashboard && searchText === "") {
-          if (filterSubCategory === "parent-category-only") {
-            paramsToSend.iscaegoryvalue = filterCategory
-          } else if (filterSubCategory) {
-            paramsToSend.issubcaegoryvalue = filterSubCategory
-          } else {
-            paramsToSend.iscaegoryvalue = filterCategory
-          }
-        }
+       if (!isFromDashboard && searchText === "") {
+  if (filterSubCategory === "parent-category-only") {
+    paramsToSend.iscaegoryvalue = filterCategory
+  } else if (filterSubCategory) {
+    paramsToSend.issubcaegoryvalue = filterSubCategory
+  } else {
+    paramsToSend.iscaegoryvalue = filterCategory
+  }
 
+  paramsToSend.page = currentPage
+}
         const response = await productAllDataApi(paramsToSend)
 
         if (response?.body?.products) {
           setProducts(response?.body?.products)
+            setTotalPages(response.body.totalPages)
+  setTotalCount(response.body.totalCount)
         } else if (response?.body?.detail === "Invalid tokens") {
           dispatch(clearUserDetails())
           toast.error("Session Expired, Please Login Again")
@@ -428,7 +434,8 @@ const Page: React.FC = () => {
             iscaegoryvalue={iscaegoryvalue}
             handleActiveFilter={handleActiveFilter}
             setCurrentPage={setCurrentPage}
-          />
+            totalPages={totalPages}
+             currentPage={currentPage}          />
         </div>
       ) : null}
     </>
