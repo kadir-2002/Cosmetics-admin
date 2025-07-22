@@ -164,7 +164,7 @@ const OrderDetailsPopup = ({
                     <p>Tax:</p>{" "}
                     <p>
                       {currency}
-                     {selectedOrder?.taxType} : {selectedOrder?.appliedTaxRate??  "0.00%"}
+                     {selectedOrder?.taxType} : {selectedOrder?.appliedTaxRate}%
                     </p>
                   </div>
                 ) : null}
