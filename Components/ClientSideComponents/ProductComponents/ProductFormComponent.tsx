@@ -65,6 +65,7 @@ const ProductFormComponent: React.FC<props> = ({
 
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState("");
+  const [subcat, setSubcat] = useState<any[]>([])
   const token = useSelector((state: any) => state?.user?.token);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
@@ -304,16 +305,38 @@ const ProductFormComponent: React.FC<props> = ({
       stackable_pieces_number: "",
     });
   };
+  // const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  // const categoryId = e.target.value;
+  //   setNewUser((prev: any) => ({
+  //     ...prev,
+  //     category: categoryId,
+  //     sub_catogry: "",
+  //   }))
+  //   const selected = categories.find((cat: any) => cat.id === Number.parseInt(categoryId))
+  //   setSubCategories(selected?.subcategories || [])
+  // }
+
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
   const categoryId = e.target.value;
-    setNewUser((prev: any) => ({
-      ...prev,
-      category: categoryId,
-      sub_catogry: "",
-    }))
-    const selected = categories.find((cat: any) => cat.id === Number.parseInt(categoryId))
-    setSubCategories(selected?.subcategories || [])
-  }
+
+  const selectedCategory = categories.find(
+    (cat: any) => String(cat.id) === String(categoryId)
+  );
+
+  const subs = selectedCategory?.subcategories || [];
+
+  // setSubCategories(subs);  // If you're using this elsewhere
+  setSubcat(subs);         // For dropdown
+
+  setNewUser((prev: any) => ({
+    ...prev,
+    category: categoryId,
+    sub_catogry: "", // Reset subcategory
+  }));
+};
+useEffect(() => {
+  console.log(subcat, "updated subcat data");
+}, [subcat]);
 
   const handleSubCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const subCategoryId = e.target.value;
@@ -802,7 +825,7 @@ const ProductFormComponent: React.FC<props> = ({
               </select>
             </div>
             <div className='bg-admin-secondary px-2 rounded-md'>
-              <select
+              {/* <select
               name='Sub Category'
                 className='p-3 rounded-md bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none overflow-y-auto'
   value={String(newUser.sub_catogry || '')}
@@ -812,7 +835,7 @@ const ProductFormComponent: React.FC<props> = ({
               >
   <option value=''>Select Sub Category</option>
 
-                {subCategories.map((subCategory: any) => (
+                {subcat.map((subCategory: any) => (
     <option
       key={subCategory.id}
                     value={subCategory.id}
@@ -820,7 +843,28 @@ const ProductFormComponent: React.FC<props> = ({
                     {subCategory.name}
                   </option>
                 ))}
-              </select>
+              </select> */}
+
+<select
+  name="Sub Category"
+  className="p-3 rounded-md bg-admin-secondary w-full text-white font-semibold text-lg h-12 focus:outline-none overflow-y-auto"
+  value={newUser.sub_catogry ? String(newUser.sub_catogry) : ''}
+  onChange={handleSubCategoryChange}
+  disabled={subcat.length === 0}
+  required={subcat.length > 0 && newUser.sub_catogry !== "parent-category-only"}
+>
+  <option value="">Select Sub Category</option>
+  {subcat.map((subCategory: any) => (
+    <option
+      key={subCategory.id}
+      value={subCategory.id}
+      className="bg-white text-black"
+    >
+      {subCategory.name}
+    </option>
+  ))}
+</select>
+
             </div>
             <div className='flex flex-col'>
               <div className='flex bg-[#F3F3F3] p-3 relative w-full h-12 rounded-lg shadow-sm'>
