@@ -264,8 +264,11 @@ const handlePreviousPage = () => {
                 <table className='w-full border-collapse text-sm lg:text-base'>
                   <thead className='bg-admin-secondary text-white'>
                     <tr>
-                      <th className='text-right'></th>
-                      {searchParams.toString() ? null : <th className='text-right'>Order</th>}
+                      <th className='text-right'></th><th
+  className={`text-right ${searchParams.toString() ? 'invisible' : ''}`}
+>
+  Order
+</th>
 
                       <th className='p-4 text-left'>Product</th>{" "}
                       {/* Combined Image and Name */}
@@ -323,9 +326,13 @@ const handlePreviousPage = () => {
                     {products.map((product) => (
                       <SortableRow key={product.id} id={product.id} searchParams={searchParams} >
                         {/* <td className="p-3 text-center"> <LuGrip size={24} className="text-black" /></td> */}
-                        <td className='p-4 text-center'>
-                          {/* <p>{product?.sequenceNumber}</p> */}
-                        </td>
+                      <td
+  className={`p-4 text-center ${
+    searchParams.toString() ? 'opacity-0 pointer-events-none' : ''
+  }`}
+>
+  {/* Optionally show something here if needed */}
+</td>
                         <td className='p-4'>
                           <div className='flex items-center gap-2'>
                             <div
