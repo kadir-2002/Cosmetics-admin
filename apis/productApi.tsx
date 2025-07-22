@@ -432,7 +432,7 @@ export const ProductUpdatedVarientApi = async (
   };
 
   const response = await apiCoreUpdate(
-    `/product-variant/${id}/?parent=${isParentProductId}`,
+    `/product/variant/${id}/?parent=${isParentProductId}`,
     "",
     requestBody,
     "PATCH",
@@ -542,7 +542,7 @@ export const varientToggleUpdatedApi = async (
     low_stock_threshold: low_stock_threshold,
   };
   const response = await apiCoreUpdate(
-    `/product-variant/${id}/?parent=${isParentProductId}`,
+    `/product/variant/${id}/?parent=${isParentProductId}`,
     "",
     requestBody,
     "PATCH",
