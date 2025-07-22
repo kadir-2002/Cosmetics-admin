@@ -183,15 +183,15 @@ const OrderPopup = ({
                     (item) => (
                       <div
                         key={item}
-                      className={`flex items-center gap-3 cursor-pointer py-3 px-4 rounded-md transition-all
+                        className={`flex items-center gap-3 cursor-pointer py-3 px-4 rounded-md transition-all
       ${activeDrawer === item ? "bg-gray-100 border-b-4 border-admin-buttonprimary" : ""}
     `}
                         onClick={() => toggleDrawer(item)}
                       >
                         <h3
                           className={`lg:text-xl text-lg font-semibold py-2 transition-colors ${activeDrawer === item
-                              ? "text-gray-500"
-                              : "text-[#696AA2]"
+                            ? "text-gray-500"
+                            : "text-[#696AA2]"
                             }`}
                         >
                           {item}
@@ -240,12 +240,12 @@ const OrderPopup = ({
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Billing Address:</strong>{" "}
-                      {role?.billingAddress} 
+                      {role?.billingAddress}
                       {/* {role?.address?.city},{role?.address?.state},{role?.address?.pincode} */}
                     </p>
                     <p className=' border-b-[1px] py-2'>
                       <strong>Delivery Address:</strong>{" "}
-                      {role?.shippingAddress} 
+                      {role?.shippingAddress}
                       {/* {role?.address?.city},{role?.address?.state},{role?.address?.pincode} */}
                     </p>
                   </div>
@@ -267,66 +267,67 @@ const OrderPopup = ({
                       </thead>
                       <tbody className='bg-white'>
                         {role?.items?.map((item: OrderItem, index: number) => {
-                           const product = item.product || item.variant?.product;
-  const image =
-    item?.product?.images?.[0]?.image ||
-    item?.variant?.images?.[0]?.url ||
-    "/product.png";
+                          const product = item.product || item.variant?.product;
+                          const image =
+                            item?.product?.images?.[0]?.image ||
+                            item?.variant?.images?.[0]?.url ||
+                            "/product.png";
                           return (
-                          <tr
-                            key={index}
-                            className='border cursor-pointer hover:bg-purple-100 text-gray-700'
-                           onClick={() =>
-  router.push(`/product?id=${item.product?.id || item.variant?.product?.id}`)
-}
+                            <tr
+                              key={index}
+                              className='border cursor-pointer hover:bg-purple-100 text-gray-700'
+                              onClick={() =>
+                                router.push(`/product?id=${item.product?.id || item.variant?.product?.id}`)
+                              }
 
-                          >
-                            <td className='border p-3 text-center'>{index + 1}</td>
+                            >
+                              <td className='border p-3 text-center'>{index + 1}</td>
 
-                            <td className='border p-3'>
-  <img
-    src={
-      item?.product?.images?.[0]?.image ||
-      item?.variant?.images?.[0]?.url ||
-      "/product.png"
-    }
-    alt='Product'
-    className='w-16 h-16 object-cover rounded'
-    onError={(e) => {
-      (e.target as HTMLImageElement).src = "/product.png";
-    }}
-  />
-</td>
+                              <td className='border p-3'>
+                                <img
+                                  src={
+                                    item?.product?.images?.[0]?.image ||
+                                    item?.variant?.images?.[0]?.url ||
+                                    "/product.png"
+                                  }
+                                  alt='Product'
+                                  className='w-16 h-16 object-cover rounded'
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).src = "/product.png";
+                                  }}
+                                />
+                              </td>
 
-                          <td className='border p-3 text-center'>
-  {item?.product?.SKU || item?.variant?.SKU || 'N/A'}
-</td>
-<td className='border p-3'>
-  <span className='text-blue-600 font-semibold'>
-    {item?.product?.name || item?.variant?.product?.name || 'N/A'}
-  </span>
-</td>
+                              <td className='border p-3 text-center'>
+                                {item?.product?.SKU || item?.variant?.SKU || 'N/A'}
+                              </td>
+                              <td className='border p-3'>
+                                <span className='text-blue-600 font-semibold'>
+                                  {item?.product?.name || item?.variant?.product?.name || 'N/A'}
+                                </span>
+                              </td>
 
-                          <td className='border p-3 text-center'>
-  {item?.product?.category?.name || item?.variant?.product?.category?.name || 'N/A'}
-</td>
+                              <td className='border p-3 text-center'>
+                                {item?.product?.category?.name || item?.variant?.product?.category?.name || 'N/A'}
+                              </td>
 
 
-                            <td className='border p-3 text-center'>
-                              {currency}
-                              {item?.price.toFixed(2) || 'N/A'}
-                            </td>
+                              <td className='border p-3 text-center'>
+                                {currency}
+                                {item?.price.toFixed(2) || 'N/A'}
+                              </td>
 
-                            <td className='border p-3 text-center'>
-                              {item?.quantity || 'N/A'}
-                            </td>
+                              <td className='border p-3 text-center'>
+                                {item?.quantity || 'N/A'}
+                              </td>
 
-                            <td className='border p-3 text-center'>
-                              {currency}
-                            {((item?.price || 0) * (item?.quantity || 0)).toFixed(2)}
-                            </td>
-                          </tr>
-                        )})}
+                              <td className='border p-3 text-center'>
+                                {currency}
+                                {((item?.price || 0) * (item?.quantity || 0)).toFixed(2)}
+                              </td>
+                            </tr>
+                          )
+                        })}
 
                       </tbody>
                     </table>
@@ -343,10 +344,10 @@ const OrderPopup = ({
                       <p>{role?.subtotal.toFixed(2) || "N/A"}</p>
                     </div>
 
-                    {role?.shippingRate=== 0 ? null : (
+                    {role?.shippingRate === 0 ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Shipping Charge:</p>
-                        <p>{role?.shippingRate.toFixed(2)|| "N/A"}</p>
+                        <p>{role?.shippingRate.toFixed(2) || "N/A"}</p>
                       </div>
                     )}
                     {role?.appliedTaxRate === 0 ? null : (
@@ -355,7 +356,7 @@ const OrderPopup = ({
                         <p>{role?.taxType} : {role?.appliedTaxRate || "N/A"}%</p>
                       </div>
                     )}
-                     {role?.taxAmount === 0 ? null : (
+                    {role?.taxAmount === 0 ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p> Total TaxAmount:</p>
                         <p> {role?.taxAmount || "N/A"}</p>
@@ -370,9 +371,20 @@ const OrderPopup = ({
                     ) : null}
                     {role?.discountAmount === 0 ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
-                        <p>Coupon Discount:</p>
+                        <p>Discount:</p>
                         <p>
-                          &#8377;{role?.discountAmount || "N/A"}
+                          {role?.totalAmount
+                            ? `${((role.discountAmount / role.totalAmount) * 100).toFixed(2)}%`
+                            : "N/A"}
+                        </p>
+                      </div>
+                    )}
+
+                    {role?.discountAmount === 0 ? null : (
+                      <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
+                        <p>Discount Amount:</p>
+                        <p>
+                          {role?.discountAmount || "N/A"}
                         </p>
                       </div>
                     )}
@@ -381,7 +393,7 @@ const OrderPopup = ({
                         <p>Abandoned Discount:</p>
                         <p>{(role?.abandentDiscountAmount)}</p>
                       </div>
-                    ) }
+                    )}
 
                     {role?.order_info?.discount ? (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
