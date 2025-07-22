@@ -183,7 +183,7 @@ const ChildProductDataComponent: React.FC<Props> = ({ products, productdata, han
                     ))}
                   </div></td>
                   <td className="p-4 text-center">{product?.SKU}</td>
-                  <td className="p-4 text-center">{isParentProductdata?.selling_price}</td>
+                  <td className="p-4 text-center">{product?.selling_price}</td>
                   {/* <td className="p-4 capitalize text-center"
                     onClick={() => handleOpenReview(product?.id)}>
                     <div className="p-2 flex gap-2 justify-center items-center bg-[#EFBF04] rounded-md text-white font-semibold">
