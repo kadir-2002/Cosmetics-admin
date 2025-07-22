@@ -344,19 +344,19 @@ const OrderPopup = ({
                       <p>{role?.subtotal.toFixed(2) || "N/A"}</p>
                     </div>
 
-                    {role?.shippingRate === 0 ? null : (
+                    {role?.shippingRate === 0 || null ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Shipping Charge:</p>
                         <p>{role?.shippingRate.toFixed(2) || "N/A"}</p>
                       </div>
                     )}
-                    {role?.appliedTaxRate === 0 ? null : (
+                    {role?.appliedTaxRate === 0 || null ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p> Total Rate:</p>
                         <p>{role?.taxType} : {role?.appliedTaxRate || "N/A"}%</p>
                       </div>
                     )}
-                    {role?.taxAmount === 0 ? null : (
+                    {role?.taxAmount === 0 || null ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p> Total TaxAmount:</p>
                         <p> {role?.taxAmount || "N/A"}</p>
@@ -369,7 +369,7 @@ const OrderPopup = ({
                         <p className="">{role?.discountCode || "N/A"}</p>
                       </div>
                     ) : null}
-                    {role?.discountAmount === 0 ? null : (
+                    {role?.discountAmount === 0 || null ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Discount:</p>
                         <p>
@@ -380,7 +380,7 @@ const OrderPopup = ({
                       </div>
                     )}
 
-                    {role?.discountAmount === 0 ? null : (
+                    {role?.discountAmount === 0 || null ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Discount Amount:</p>
                         <p>
@@ -388,7 +388,7 @@ const OrderPopup = ({
                         </p>
                       </div>
                     )}
-                    {role?.abandentDiscountAmount === 0 ? null : (
+                    {role?.abandentDiscountAmount === 0 || null ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Abandoned Discount:</p>
                         <p>{(role?.abandentDiscountAmount)}</p>
