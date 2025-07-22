@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { FaMoneyBill, FaShoppingBag } from "react-icons/fa";
 import { GoSearch } from "react-icons/go";
 import { AiOutlineClose } from "react-icons/ai";
-import { createProductApi, ProductUpdatedApi } from "@/apis/productApi";
+import { createProductApi, prentProductDataApi, productAllDataApi, productCSVUploadApi, ProductUpdatedApi } from "@/apis/productApi";
 import { useDispatch, useSelector } from "react-redux";
 import { TbAlignBoxBottomLeftFilled } from "react-icons/tb";
 import { MdDelete } from "react-icons/md";
@@ -16,8 +16,9 @@ import WarrantyReatchTextFiledComponent from "./WarrantyReatchTextFiledComponent
 import DescriptionReatchTextComponent from "./DescriptionReatchTextComponent";
 import DeliveryOrInstallationTipsComponent from "./DeliveryOrInstallationTipsComponent";
 import { BsPuzzleFill } from "react-icons/bs";
-import { FiMinus, FiPlus } from "react-icons/fi";
+import { FiMinus, FiPlus, FiUpload } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa6";
+import CSVActionPopup from "./FileUploadModal";
 
 type props = {
   setSearchText: any;
@@ -68,6 +69,10 @@ const ProductFormComponent: React.FC<props> = ({
   const [subcat, setSubcat] = useState<any[]>([])
   const token = useSelector((state: any) => state?.user?.token);
   const [isOpen, setIsOpen] = useState(false);
+  const [isCsvPopupOpen, setIsCsvPopupOpen] = useState(false);
+  const [selectFiledownload ,setFileDownload]=useState('')
+  const [isfile, setfile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const router = useRouter();
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -415,18 +420,64 @@ useEffect(() => {
     setDropdownVisible(false);
   };
 
-  const handleFileChange = (e: any) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setSelectedFileName(e.target.files[0].name);
-      console.log("docdc", selectedFileName);
-    } else {
-      setSelectedFileName("");
-    }
-  };
+  // const handleFileChange = (e: any) => {
+  //   if (e.target.files && e.target.files.length > 0) {
+  //     setSelectedFileName(e.target.files[0].name);
+  //     console.log("docdc", selectedFileName);
+  //   } else {
+  //     setSelectedFileName("");
+  //   }
+  // };
+
+const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (file) {
+    setfile(file);
+    setSelectedFileName(file.name);
+    setFileDownload(""); // Reset error file state if new file selected
+  }
+};
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
+
+
+    const handleCsvFileUpload = async () => {
+      if (!isfile) {
+        toast.error("Please select a file first.");
+        return;
+      }
+      try {
+        const response = await productCSVUploadApi(isfile, token);
+        if(response?.error){
+          toast.error(response?.error)
+        } else if (response?.status=== 200 && response?.data?.error_file_path){
+          setfile(null);
+          setSelectedFileName("");
+           setFileDownload(response?.data?.error_file_path)
+          toast.success("Please download the error file, resolve the error, and re-upload it.");
+             if (fileInputRef.current) {
+                      fileInputRef.current.value = ''; 
+                  }
+        } else if(response?.status=== 200 ){
+          toast.success("File Upload successfully");
+          productdata()
+          setfile(null);
+          setSelectedFileName("");
+          setIsCsvPopupOpen(false)
+          setFileDownload('')
+           if (fileInputRef.current) {
+                      fileInputRef.current.value = ''; 
+                  }
+        }
+      } catch (error) {
+        console.error("Upload failed:", error);
+      }
+    };
+
+
+
   return (
     <div className='w-full flex flex-col lg:items-center lg:p-4 mb-3'>
       <div className='flex justify-center items-center mx-auto w-full mb-4 lg:gap-8 gap-3'>
@@ -489,6 +540,31 @@ useEffect(() => {
           </button>
         </div>
       </div> */}
+
+
+
+{/* <div className="flex justify-end w-full px-1 mb-4">
+  <button
+    onClick={() => setIsCsvPopupOpen(true)}
+    className="bg-[#61BAB0] text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:bg-[#88cec6] transition-all flex items-center gap-2"
+  >
+    <FiUpload />
+    CSV Actions
+  </button>
+</div>
+{isCsvPopupOpen && (
+  <CSVActionPopup
+    onClose={() => setIsCsvPopupOpen(false)}
+    selectedFileName={selectedFileName}
+    handleFileChange={handleFileChange}
+    handleCsvFileUpload={handleCsvFileUpload}
+    fileInputRef={fileInputRef}
+    selectFiledownload={selectFiledownload}
+  />
+)} */}
+
+
+
       {openForm && (
         <form
           onSubmit={handleCreateOrUpdate}

@@ -483,12 +483,12 @@ const StoreAddressComponent = () => {
 )}
 
       {/* <div className='flex lg:flex-row flex-col lg:justify-end justify-center gap-3 w-full px-1'>
-        {selectFiledownload?  <a href={`${process.env.NEXT_PUBLIC_BASE_URL}${selectFiledownload}`} download="StoreAddress.csv" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-red-800 rounded-md cursor-pointer'>
+        {selectFiledownload?  <a href={`${process.env.NEXT_PUBLIC_BASE_URL}${selectFiledownload}`} download="stores-sample.xlsx" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-red-800 rounded-md cursor-pointer'>
           <button className='font-semibold text-lg'>
             Error File Download
           </button>
         </a>:
-        <a href={`/StoreAddress.csv`}   download="StoreAddress.csv" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#D77335] rounded-md cursor-pointer'>
+        <a href={`/stores-sample.xlsx`}   download="stores-sample.xlsx" className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#D77335] rounded-md cursor-pointer'>
           <button className='font-semibold text-lg'>
             Download File Format
           </button>

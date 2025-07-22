@@ -273,7 +273,7 @@ const CategryFormComponent = () => {
     try {
       const response = await categoryDeleteApi(id, token);
       if(response.body.success === false){
-        toast.error("error to delete category")
+        toast.error("for deleting category have to delete sub-category first")
       }
       if (response?.body.message === 'Category deleted') {
         toast.success("Category deleted successfully");

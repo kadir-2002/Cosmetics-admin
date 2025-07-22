@@ -61,7 +61,6 @@ export const productAllDataApi = async (params: {
 
 
   endpoint = `/product/?${queryParams.toString()}`;
-  console.log("Final API Endpoint:", endpoint) // ✅ Debug log
 
   const response = await apiCoreNode(endpoint, {}, "GET", params?.token);
   return response;
@@ -267,7 +266,7 @@ export const tagDataApi = async (token: string) => {
   return response;
 };
 export const prentProductDataApi = async (token: string) => {
-  const response = await apiCoreGet(`/parent-product/`, "GET", token);
+  const response = await apiCoreGet(`/product/`, "GET", token);
   return response;
 };
 
@@ -570,5 +569,13 @@ export const productsequenceDataApi = async (
     "PATCH",
     token
   );
+  return response;
+};
+
+
+export const productCSVUploadApi = async (excel_file:  File | null | any,token: string) => {
+  const formData = new FormData();
+  formData.append("file", excel_file);
+  const response = await apiCoreFormData(`/product/upload-csv/`,formData,"POST",token);
   return response;
 };

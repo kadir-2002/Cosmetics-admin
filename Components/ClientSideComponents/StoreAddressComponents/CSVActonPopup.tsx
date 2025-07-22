@@ -76,15 +76,15 @@ const CSVActionPopup: React.FC<Props> = ({
           {selectFiledownload ? (
             <a
               href={`${process.env.NEXT_PUBLIC_BACKEND_URL}${selectFiledownload}`}
-              download="StoreAddress.csv"
+              download="stores-sample.xlsx"
               className="bg-red-600 text-white text-center py-2 rounded hover:bg-red-700"
             >
               Download Error File
             </a>
           ) : (
             <a
-              href="/StoreAddress.csv"
-              download="StoreAddress.csv"
+              href="/stores-sample.xlsx"
+              download="stores-sample.xlsx"
               className="bg-[#61BAB0] text-white text-center py-2 rounded hover:bg-[#83bdb6]"
             >
               Download File Format
