@@ -694,6 +694,7 @@ const BlogFormComponent = () => {
                     }));
                   }
                 }}
+                required
                 showTimeSelect={false}
                 dateFormat='yyyy-MM-dd'
                 className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out '
