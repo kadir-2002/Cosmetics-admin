@@ -810,7 +810,8 @@ const ProductFormComponent: React.FC<props> = ({
                 disabled={subCategories.length === 0}
                 required={subCategories.length > 0 && newUser.sub_catogry !== "parent-category-only"} // Only required if subcategories exist and "parent-category-only" is not selected
               >
-  {/* <option value=''>Select Sub Category</option> */}
+  <option value=''>Select Sub Category</option>
+
                 {subCategories.map((subCategory: any) => (
     <option
       key={subCategory.id}
