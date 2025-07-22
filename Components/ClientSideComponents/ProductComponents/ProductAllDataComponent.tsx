@@ -57,13 +57,13 @@ type Props = {
   iscaegoryvalue: any;
   handleActiveFilter: any;
   setCurrentPage: any;
-  totalPages:number;
-   currentPage: number;
-   searchParams:any;
+  totalPages: number;
+  currentPage: number;
+  searchParams: any;
   // handleSequenceUpdate: (sequenceData: any[]) => Promise<void>;
 };
 
-const SortableRow = ({ id, children,searchParams }: { id: any; children: any ,searchParams:any}) => {
+const SortableRow = ({ id, children, searchParams }: { id: any; children: any, searchParams: any }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: id });
   const style = {
@@ -77,9 +77,9 @@ const SortableRow = ({ id, children,searchParams }: { id: any; children: any ,se
       {...attributes}
       className='p-4 hover:bg-slate-2 00 relative'>
       <tr className='text-center mt-5 absolute top-2 left-1 md:top-4 md:left-2 cursor-move z-10 touch-none'{...listeners}>
-      {searchParams.toString() ? null : <LuGrip size={24} className='text-black mt' />}
+        {searchParams.toString() ? null : <LuGrip size={24} className='text-black mt' />}
 
-      </tr> 
+      </tr>
       {children}
     </tr>
   );
@@ -99,7 +99,7 @@ const ProductAllDataComponent: React.FC<Props> = ({
   iscaegoryvalue,
   handleActiveFilter,
   setCurrentPage,
-    currentPage,
+  currentPage,
   totalPages,
   searchParams
 }) => {
@@ -162,8 +162,8 @@ const ProductAllDataComponent: React.FC<Props> = ({
       product?.id,
       isActive,
       isNewArrival,
-       token
-    
+      token
+
     );
     if (response?.status === 200) {
       productdata();
@@ -200,13 +200,13 @@ const ProductAllDataComponent: React.FC<Props> = ({
     setCurrentPage(1);
     setCategoryFilterPopup(false);
   };
-const handleNextPage = () => {
-  setCurrentPage((prev: number) => Math.min(prev + 1, totalPages));
-};
+  const handleNextPage = () => {
+    setCurrentPage((prev: number) => Math.min(prev + 1, totalPages));
+  };
 
-const handlePreviousPage = () => {
-  setCurrentPage((prev: number) => Math.max(prev - 1, 1));
-};
+  const handlePreviousPage = () => {
+    setCurrentPage((prev: number) => Math.max(prev - 1, 1));
+  };
   //////////
   const [selectedComponents, setSelectedComponents] = useState<string[]>([]);
   const sensors = useSensors(
@@ -263,12 +263,15 @@ const handlePreviousPage = () => {
               <SortableContext items={products} strategy={rectSortingStrategy}>
                 <table className='w-full border-collapse text-sm lg:text-base'>
                   <thead className='bg-admin-secondary text-white'>
-                    <tr>
-                      <th className='text-right'></th><th
-  className={`text-right ${searchParams.toString() ? 'invisible' : ''}`}
->
-  Order
-</th>
+                    <tr >
+                      {searchParams.toString() ? <th className='text-right'></th> : null }
+                      <th className='text-right'></th>
+                      {searchParams.toString() ? null : <th
+                        className={`text-right `}
+                      >
+                        Order
+                      </th>}
+
 
                       <th className='p-4 text-left'>Product</th>{" "}
                       {/* Combined Image and Name */}
@@ -281,25 +284,23 @@ const handlePreviousPage = () => {
                           <span>Selling Price</span>
                           <span className='flex flex-col'>
                             <MdArrowDropUp
-                              className={`w-5 h-5 ${
-                                ordering === "selling_price"
-                                  ? "text-white"
-                                  : "text-white"
-                              }`}
+                              className={`w-5 h-5 ${ordering === "selling_price"
+                                ? "text-white"
+                                : "text-white"
+                                }`}
                             />
                             <IoMdArrowDropdown
-                              className={`w-5 h-5 -mt-1 ${
-                                ordering === "-selling_price"
-                                  ? "text-white"
-                                  : "text-white"
-                              }`}
+                              className={`w-5 h-5 -mt-1 ${ordering === "-selling_price"
+                                ? "text-white"
+                                : "text-white"
+                                }`}
                             />
                           </span>
                         </div>
                       </th>
                       <th
                         className='p-4 text-left cursor-pointer'
-                        // onClick={() => setCategoryFilterPopup(true)}
+                      // onClick={() => setCategoryFilterPopup(true)}
                       >
                         {iscaegoryvalue === ""
                           ? "Category"
@@ -326,13 +327,12 @@ const handlePreviousPage = () => {
                     {products.map((product) => (
                       <SortableRow key={product.id} id={product.id} searchParams={searchParams} >
                         {/* <td className="p-3 text-center"> <LuGrip size={24} className="text-black" /></td> */}
-                      <td
-  className={`p-4 text-center ${
-    searchParams.toString() ? 'opacity-0 pointer-events-none' : ''
-  }`}
->
-  {/* Optionally show something here if needed */}
-</td>
+                        <td
+                          className={`p-4 text-center ${searchParams.toString() ? 'opacity-0 pointer-events-none' : ''
+                            }`}
+                        >
+                          {/* Optionally show something here if needed */}
+                        </td>
                         <td className='p-4'>
                           <div className='flex items-center gap-2'>
                             <div
@@ -343,8 +343,8 @@ const handlePreviousPage = () => {
                                 <img
                                   src={
                                     product?.images[0]
-                                      ? `${product?.images[0].image}`:""
-                                
+                                      ? `${product?.images[0].image}` : ""
+
                                   }
                                   alt='Product'
                                   className='object-cover w-full h-full'
@@ -390,16 +390,14 @@ const handlePreviousPage = () => {
                                 product.isNewArrival
                               )
                             }
-                            className={`${
-                              product.isActive ? "bg-green-500" : "bg-gray-300"
-                            } relative inline-flex h-6 w-12 items-center rounded-full transition-colors`}
+                            className={`${product.isActive ? "bg-green-500" : "bg-gray-300"
+                              } relative inline-flex h-6 w-12 items-center rounded-full transition-colors`}
                           >
                             <span
-                              className={`${
-                                product.isActive
-                                  ? "translate-x-6"
-                                  : "translate-x-1"
-                              } inline-block h-5 w-5 transform bg-white rounded-full transition`}
+                              className={`${product.isActive
+                                ? "translate-x-6"
+                                : "translate-x-1"
+                                } inline-block h-5 w-5 transform bg-white rounded-full transition`}
                             />
                           </Switch>
                         </td>
@@ -413,18 +411,16 @@ const handlePreviousPage = () => {
                                 !product.isNewArrival
                               )
                             }
-                            className={`${
-                              product.isNewArrival
-                                ? "bg-green-500"
-                                : "bg-gray-300"
-                            } relative inline-flex h-6 w-12 items-center rounded-full transition-colors`}
+                            className={`${product.isNewArrival
+                              ? "bg-green-500"
+                              : "bg-gray-300"
+                              } relative inline-flex h-6 w-12 items-center rounded-full transition-colors`}
                           >
                             <span
-                              className={`${
-                                product.isNewArrival
-                                  ? "translate-x-6"
-                                  : "translate-x-1"
-                              } inline-block h-5 w-5 transform bg-white rounded-full transition`}
+                              className={`${product.isNewArrival
+                                ? "translate-x-6"
+                                : "translate-x-1"
+                                } inline-block h-5 w-5 transform bg-white rounded-full transition`}
                             />
                           </Switch>
                         </td>
@@ -546,34 +542,32 @@ const handlePreviousPage = () => {
           iscaegoryvalue={iscaegoryvalue}
         />
       )}
-  
-    {products.length > 0 && (
-  <div className='flex justify-center mt-4'>
-    <button
-      onClick={handlePreviousPage}
-      disabled={currentPage === 1}
-      className={`px-4 py-2 bg-admin-buttonprimary text-white rounded-md mx-1 ${
-        currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
-      }`}
-    >
-      Prev
-    </button>
-    <span className='px-4 py-2'>{`Page ${currentPage} of ${totalPages}`}</span>
-    <button
-      onClick={handleNextPage}
-      disabled={currentPage === totalPages}
-      className={`px-4 py-2 bg-admin-buttonprimary text-white rounded-md mx-1 ${
-        currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
-      }`}
-    >
-      Next
-    </button>
-  </div>
-)}
-  </div>
 
- 
+      {products.length > 0 && (
+        <div className='flex justify-center mt-4'>
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 bg-admin-buttonprimary text-white rounded-md mx-1 ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+          >
+            Prev
+          </button>
+          <span className='px-4 py-2'>{`Page ${currentPage} of ${totalPages}`}</span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 bg-admin-buttonprimary text-white rounded-md mx-1 ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+          >
+            Next
+          </button>
+        </div>
+      )}
+    </div>
+
+
   );
-  
+
 };
 export default ProductAllDataComponent;
