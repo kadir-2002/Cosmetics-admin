@@ -7,13 +7,6 @@ import { Dialog } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
-type ProductImage = {
-  id: number;
-  image: string;
-  sequence?: number;
-  productId?: number;
-};
-
 type OrderItem = {
   id: number | null;
   orderId: number | null;
@@ -21,20 +14,46 @@ type OrderItem = {
   variantId: number | null;
   quantity: number;
   price: number;
-  totalAmount:number;
+  totalAmount: number;
   product: {
     id: number | null;
     name: string | null;
     SKU: string | null;
     image?: string | null;
-    // category?: string | null;
     specification?: string | null;
-    variant: any | null;
     images: ProductImage[];
     category: {
       name: string;
     };
-  };
+  } | null;
+  variant: {
+    id: number;
+    SKU: string;
+    productId: number;
+    images: VariantImage[];
+    product: {
+      id: number | null;
+      name: string | null;
+      SKU: string | null;
+      category: {
+        name: string;
+      };
+    };
+  } | null;
+};
+
+type ProductImage = {
+  id: number;
+  image: string;
+  sequence?: number;
+  productId?: number;
+};
+
+type VariantImage = {
+  id: number;
+  url: string;
+  variantId?: number;
+  sequence_number?: number;
 };
 
 const OrderPopup = ({
@@ -247,7 +266,13 @@ const OrderPopup = ({
                         </tr>
                       </thead>
                       <tbody className='bg-white'>
-                        {role?.items?.map((item: OrderItem, index: number) => (
+                        {role?.items?.map((item: OrderItem, index: number) => {
+                           const product = item.product || item.variant?.product;
+  const image =
+    item?.product?.images?.[0]?.image ||
+    item?.variant?.images?.[0]?.url ||
+    "/product.png";
+                          return (
                           <tr
                             key={index}
                             className='border cursor-pointer hover:bg-purple-100 text-gray-700'
@@ -303,7 +328,7 @@ const OrderPopup = ({
                             {((item?.price || 0) * (item?.quantity || 0)).toFixed(2)}
                             </td>
                           </tr>
-                        ))}
+                        )})}
 
                       </tbody>
                     </table>
