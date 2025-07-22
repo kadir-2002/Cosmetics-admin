@@ -521,25 +521,6 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
           )}
         </div>
       </div>
-      {/* <div className='flex lg:justify-end justify-center gap-3 w-full px-1'>
-        <div className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#577C8E] rounded-md cursor-pointer'>
-          <p className='font-semibold text-lg px-4'>Upload CSV</p>
-          <input
-            type='file'
-            accept='.csv,pdf'
-            className='absolute inset-0 opacity-0 cursor-pointer'
-            onChange={handleFileChange}
-          />
-          {selectedFileName && (
-            <p className='mt-2 text-sm text-white'>{selectedFileName}</p>
-          )}
-        </div>
-        <div className='relative flex justify-center items-center text-white gap-2 h-12 px-3 bg-[#577C8E] rounded-md cursor-pointer'>
-          <button className='font-semibold text-lg' onChange={handleFileChange}>
-            Submite
-          </button>
-        </div>
-      </div> */}
 
 
 
@@ -680,6 +661,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                   // placeholder="Enter Product Description"
                   className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out'
                   rows={3}
+                  required
                 ></textarea>
                 <label
                   htmlFor='tag'
@@ -705,6 +687,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                   // placeholder="Enter Product Description"
                   className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out'
                   rows={3}
+                  required
                 ></textarea>
                 <label
                   htmlFor='tag'
@@ -729,6 +712,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                   // placeholder="Enter Product Description"
                   className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out'
                   rows={3}
+                  required
                 ></textarea>
                 <label
                   htmlFor='tag'
@@ -753,6 +737,7 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                   // placeholder="Enter Product Description"
                   className='peer bg-[#F3F3F3] focus:outline-none w-full px-4 py-1 bg-transparent text-gray-900 placeholder-transparent transition-all duration-300 ease-in-out'
                   rows={3}
+                  required
                 ></textarea>
                 <label
                   htmlFor='tag'
