@@ -369,32 +369,34 @@ const OrderPopup = ({
                         <p className="">{role?.discountCode || "N/A"}</p>
                       </div>
                     ) : null}
-                    {role?.discountAmount === 0 || null ? null : (
-                      <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
-                        <p>Discount:</p>
-                        <p>
-                          {role?.totalAmount
-                            ? `${((role.discountAmount / role.totalAmount) * 100).toFixed(2)}%`
-                            : "N/A"}
-                        </p>
-                      </div>
-                    )}
+                  {role?.discountAmount
+  ? (
+    <>
+      <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
+        <p>Discount:</p>
+        <p>
+          {role?.totalAmount
+            ? `${((role.discountAmount / role.totalAmount) * 100).toFixed(2)}%`
+            : "N/A"}
+        </p>
+      </div>
 
-                    {role?.discountAmount === 0 || null ? null : (
-                      <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
-                        <p>Discount Amount:</p>
-                        <p>
-                          {role?.discountAmount || "N/A"}
-                        </p>
-                      </div>
-                    )}
-                    {role?.abandentDiscountAmount === 0 || null ? null : (
-                      <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
-                        <p>Abandoned Discount:</p>
-                        <p>{(role?.abandentDiscountAmount)}</p>
-                      </div>
-                    )}
+      <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
+        <p>Discount Amount:</p>
+        <p>{role.discountAmount}</p>
+      </div>
+    </>
+  )
+  : null}
 
+                    {role?.abandentDiscountAmount
+  ? (
+    <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
+      <p>Abandoned Discount:</p>
+      <p>{role.abandentDiscountAmount}</p>
+    </div>
+  )
+  : null}
                     {role?.order_info?.discount ? (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Total Discount:</p>
