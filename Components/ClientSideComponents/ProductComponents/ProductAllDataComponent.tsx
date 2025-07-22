@@ -265,7 +265,8 @@ const handlePreviousPage = () => {
                   <thead className='bg-admin-secondary text-white'>
                     <tr>
                       <th className='text-right'></th>
-                      <th className='text-right'>Order</th>
+                      {searchParams.toString() ? null : <th className='text-right'>Order</th>}
+
                       <th className='p-4 text-left'>Product</th>{" "}
                       {/* Combined Image and Name */}
                       <th className='p-4 text-left'>SKU</th>
