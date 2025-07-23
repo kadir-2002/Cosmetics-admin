@@ -238,7 +238,12 @@ const Page: React.FC = () => {
     const fetchData = async () => {
       try {
         const [categoryResponse, tagResponse] = await Promise.all([catagoryDataApi(token), tagDataApi(token)])
-
+        
+        if(categoryResponse.body.message === "Invalid or expired token"){
+        dispatch(clearUserDetails());
+        toast.error("Session Expired, Please Login Again");
+        router.push("/");      
+        }
         const fetchedCategories = categoryResponse?.body?.categories
         const fetchedTags = tagResponse?.results
 
@@ -269,8 +274,8 @@ const Page: React.FC = () => {
             }
           }
         } else if (
-          categoryResponse?.body.message === "Invalid token" ||
-          tagResponse?.body.message === "Invalid token"
+          categoryResponse?.body.message === "Invalid or expired token" ||
+          tagResponse?.body.message === "Invalid or expired token"
         ) {
           dispatch(clearUserDetails())
           toast.error("Session Expired, Please Login Again")
@@ -338,7 +343,7 @@ const Page: React.FC = () => {
           setProducts(response?.body?.products)
           setTotalPages(response.body.totalPages)
           setTotalCount(response.body.totalCount)
-        } else if (response?.body?.detail === "Invalid tokens") {
+        } else if (response?.body?.message === "Invalid or expired token") {
           dispatch(clearUserDetails())
           toast.error("Session Expired, Please Login Again")
           router.push("/")

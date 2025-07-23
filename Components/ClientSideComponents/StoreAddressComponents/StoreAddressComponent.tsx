@@ -163,7 +163,7 @@ const StoreAddressComponent = () => {
             longitude: "",
             is_active: false,
           });
-        } else if (response?.detail === "Invalid token") {
+        } else if (response?.messgae === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -233,7 +233,7 @@ const StoreAddressComponent = () => {
         apiParams.search = searchText;
       }
       const response = await addressAllDataApi(apiParams);
-      if (response?.detail === "Invalid token") {
+      if (response?.messgae === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

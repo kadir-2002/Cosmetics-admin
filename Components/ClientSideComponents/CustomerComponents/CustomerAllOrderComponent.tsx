@@ -43,7 +43,7 @@ const CustomerAllOrderComponent = ({ isCustomerSelectId }: props) => {
                 id,
                 isfiltervalue, SingleCustomerDateSorting
             });
-            if (response?.status === 401) {
+            if (response?.body.message === "Invalid or expired token") {
                 if (!tokenErrorShown.current) {
                     tokenErrorShown.current = true;
                     dispatch(clearUserDetails());

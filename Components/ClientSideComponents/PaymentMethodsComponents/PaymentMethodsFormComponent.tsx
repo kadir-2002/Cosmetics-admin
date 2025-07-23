@@ -200,7 +200,7 @@ const PaymentMethods = () => {
   const fetchPaymentData = async () => {
     try {
       const data = await paymentAllDataApi(token);
-      if (data?.detail === "Invalid token") {
+      if (data?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -315,7 +315,7 @@ const PaymentMethods = () => {
           );
           if (updatedData?.data?.error === "Invalid URL") {
             toast.error("Enter Correct url");
-          } else if (updatedData?.data?.detail === "Invalid token") {
+          } else if (updatedData?.data?.message === "Invalid or expired token") {
             dispatch(clearUserDetails());
             toast.error("Session Expired, Please Login Again");
             router.push("/");
@@ -350,7 +350,7 @@ const PaymentMethods = () => {
         console.log("Payment Updated:", updatedData);
         await fetchPaymentData();
         setEdit(false);
-      } else if (updatedData?.data?.detail === "Invalid token") {
+      } else if (updatedData?.data?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -387,7 +387,7 @@ const PaymentMethods = () => {
           console.log("Payment Updated:", updatedData);
           await fetchPaymentData();
           setEdit(false);
-        } else if (updatedData?.data?.detail === "Invalid token") {
+        } else if (updatedData?.data?.message=== "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");

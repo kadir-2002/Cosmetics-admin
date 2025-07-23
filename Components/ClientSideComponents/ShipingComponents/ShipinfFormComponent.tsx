@@ -29,7 +29,7 @@ const ShippingFormComponent = () => {
   const fetchShippingData = async () => {
     try {
       const res = await shippingAllDataApi(token);
-      if (res?.detail === "Invalid or expired token") {
+      if (res?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -82,7 +82,7 @@ const ShippingFormComponent = () => {
       toast.success("Shipping details updated successfully!");
       fetchShippingData();
       setIsFormOpen(false);
-    } else if (res?.data?.detail === "Invalid token") {
+    } else if (res?.data?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

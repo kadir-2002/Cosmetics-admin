@@ -88,7 +88,7 @@ const CurrencyManager = () => {
   const fetchcurrencyData = async () => {
     try {
       const response = await currencyAllDataApi(token);
-      if (response?.status === 401) {
+      if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -184,7 +184,7 @@ const CurrencyManager = () => {
         company_state,
         token
       );
-      if (response?.status === 401) {
+      if (response?.data.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -250,8 +250,8 @@ const CurrencyManager = () => {
         company_state,
         token
       );
-      console.log(response, "Response->>");
-      if (response?.status === 401) {
+      // console.log(response, "Response->>");
+      if (response?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

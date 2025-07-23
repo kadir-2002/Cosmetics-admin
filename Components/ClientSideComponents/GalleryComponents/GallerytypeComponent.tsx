@@ -60,7 +60,7 @@ const GallerytypeComponent = () => {
         if (response?.status === 200) {
           toast.success("Type updated successfully");
           setIsEdit(false);
-        } else if (response?.status === 401) {
+        } else if (response?.body.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -75,7 +75,7 @@ const GallerytypeComponent = () => {
         );
         if (response?.status === 201) {
           toast.success("Type created successfully");
-        } else if (response?.status === 401) {
+        } else if (response?.body.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -134,7 +134,7 @@ const GallerytypeComponent = () => {
         toast.success("Type Deleted successfully");
         setIsLogoutPopup(false);
         fetchTag();
-      } else if (response?.body.message === "Invalid token") {
+      } else if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

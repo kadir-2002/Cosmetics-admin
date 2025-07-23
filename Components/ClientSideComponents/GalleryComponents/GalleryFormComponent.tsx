@@ -129,7 +129,7 @@ const GalleryFormComponent = () => {
             types: "",
             is_active: false,
           });
-        } else if (response?.detail === "Invalid token") {
+        } else if (response?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -187,7 +187,7 @@ const GalleryFormComponent = () => {
       
           const response = await galleryAllDataApi(apiParams, token);
           
-          if (response?.status === 401) {
+          if (response?.body.message === "Invalid or expired token") {
             dispatch(clearUserDetails());
             toast.error("Session Expired, Please Login Again");
             router.push("/");
@@ -223,7 +223,7 @@ const GalleryFormComponent = () => {
         toast.success("Image deleted successfully");
         setIsLogoutPopup(false);
         fetchGalery();
-      } else if (response?.status === 401) {
+      } else if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -311,7 +311,7 @@ const GalleryFormComponent = () => {
         const response = await gallerysectionAllDataApi(token);
         if (response.body) {
           setType(response?.body.result);
-        } else if (response?.status === 401) {
+        } else if (response?.body.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");

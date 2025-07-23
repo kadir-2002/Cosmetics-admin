@@ -96,7 +96,7 @@ const ContactFormComponent = () => {
         token: token,
       });
 
-      if (response?.detail === "Invalid token") {
+      if (response?.message === "Invalid or expired token") {
         if (!tokenErrorShown.current) {
           tokenErrorShown.current = true;
           dispatch(clearUserDetails());

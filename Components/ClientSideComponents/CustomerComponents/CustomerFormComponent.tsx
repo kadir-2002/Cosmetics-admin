@@ -200,13 +200,12 @@ const CustomerFormComponent = () => {
         endDates: formattedEndDate,
         isActiveInactive: isActiveInactive,
       });
-      if (response?.body.message === "Invalid or expired token ") {
-        if (!tokenErrorShown.current) {
-          tokenErrorShown.current = true; // Prevent further toasts
+      if (response?.body.message === "Invalid or expired token") {
+        // Prevent further toasts
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
-        }
+        
         return;
       }
       if (response?.body) {
@@ -275,7 +274,7 @@ const goToPage = () => {
       isActive,
       token
     );
-    if (response?.status === 401) {
+    if (response?.data.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

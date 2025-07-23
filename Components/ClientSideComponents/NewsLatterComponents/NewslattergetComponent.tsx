@@ -40,13 +40,12 @@ const NewslattergetComponent = () => {
         token: token,
         ordering: ordering,
       });
-      if (response?.detail === "Invalid token") {
-        if (!tokenErrorShown.current) {
-          tokenErrorShown.current = true;
+      if (response?.message === "Invalid or expired token") {
+     
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
-        }
+        
         return;
       }
       if (response?.results) {

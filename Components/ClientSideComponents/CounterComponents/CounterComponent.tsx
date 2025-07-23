@@ -124,7 +124,7 @@ const CounterComponent = () => {
       if (response?.results) {
         setCategry(response?.results);
         setTotalPages(response?.total_pages);
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

@@ -169,13 +169,12 @@ const getPageNumbers = () => {
          ordering: ordering,
       });
 
-      if (data?.body.message === "Authorization header missing or malformed") {
-        if (!tokenErrorShown.current) {
-          tokenErrorShown.current = true; // Prevent further toasts
+      if (data?.body.message === "Invalid or expired token") {
+        
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
-        }
+        
         return;
       }
 
@@ -246,7 +245,7 @@ const getPageNumbers = () => {
         token
       );
 
-      if (response?.status === 401) {
+      if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again")
         router.push("/");

@@ -58,7 +58,7 @@ const GoogleAnalyticsComponent = () => {
     try {
       const response = await googleanalyticsApiAllDataApi(token);
 
-      if (response?.detail === "Invalid token") {
+      if (response?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -102,7 +102,7 @@ const GoogleAnalyticsComponent = () => {
         is_active,
         token
       );
-      if (response?.status === 401) {
+      if (response?.message=== "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -133,7 +133,7 @@ const GoogleAnalyticsComponent = () => {
         token
       );
       console.log(response, "Response->>");
-      if (response?.status === 401) {
+      if (response?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

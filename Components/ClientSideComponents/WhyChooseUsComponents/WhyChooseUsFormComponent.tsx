@@ -145,7 +145,7 @@ const WhyChooseUsFormComponent = () => {
             button_link: "",
             is_active: false,
           });
-        } else if (response?.detail === "Invalid token") {
+        } else if (response?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -192,7 +192,7 @@ const WhyChooseUsFormComponent = () => {
         isActive,
       };
       const response = await whychooseusAllDataApi(apiParams, token);
-      if (response?.status === "Invalid token") {
+      if (response?.body.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -227,7 +227,7 @@ const WhyChooseUsFormComponent = () => {
         toast.success("Why Choose Us deleted successfully");
         setIsLogoutPopup(false);
         fetchBanner();
-      } else if (response?.status === 401) {
+      } else if (response?.body === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
