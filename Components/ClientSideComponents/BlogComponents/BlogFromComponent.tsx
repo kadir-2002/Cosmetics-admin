@@ -352,7 +352,7 @@ const BlogFormComponent = () => {
       }
       if (response?.data) {
         setBlog(response?.data);
-        setTotalPages(response?.page_size);
+        setTotalPages(response?.totalPages);
       }
     } catch (error) {
       console.error("Error fetching blogs:", error);
