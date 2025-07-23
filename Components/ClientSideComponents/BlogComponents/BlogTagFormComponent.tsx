@@ -104,7 +104,7 @@ const BlogTagFormComponent = () => {
       if (response?.data) {
         setCategry(response?.data?.tags);
         setTotalPages(response?.data?.totalPages);
-      } else if (response?.data?.message === "Invalid or expired token") {
+      } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

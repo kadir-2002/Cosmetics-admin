@@ -344,7 +344,7 @@ const BlogFormComponent = () => {
         apiParams.search = searchText;
       }
       const response = await blogAllDataApi(apiParams);
-      if (response?.body?.message === "Invalid or expired token") {
+      if (response?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

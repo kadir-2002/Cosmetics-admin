@@ -61,7 +61,7 @@ const TaxFormComponent = () => {
         );
         if (
           response.status === 401 ||
-          response.data?.detail === "Invalid or expired token"
+          response.data?.message === "Invalid or expired token"
         ) {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
@@ -108,7 +108,7 @@ const TaxFormComponent = () => {
         search: searchText,
         token: token,
       });
-      if (response?.detail === "Invalid token") {
+      if (response?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

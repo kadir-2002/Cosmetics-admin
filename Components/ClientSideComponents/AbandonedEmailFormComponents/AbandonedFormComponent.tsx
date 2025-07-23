@@ -106,7 +106,7 @@ const AbandonedFormComponent = () => {
           expireTime: "",
           is_active: false,
         });
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.data?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -148,7 +148,7 @@ const fetchdata = async () => {
       isActive,
     };
     const response = await abandonedAllDataApi(apiParams, token);
-    if (response?.detail === "Invalid token") {
+    if (response?.body?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

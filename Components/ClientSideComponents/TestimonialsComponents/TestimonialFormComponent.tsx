@@ -202,7 +202,7 @@ const TestimonialFormComponent = () => {
         toast.success("Category deleted successfully");
         setIsLogoutPopup(false);
         fetchCategory();
-      } else if (response?.body?.detail === "Invalid token") {
+      } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

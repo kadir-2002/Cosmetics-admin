@@ -156,7 +156,7 @@ const AboutUsComponent = () => {
       const response = await sectionAllDataApi(apiParams);
       if (response?.results) {
         setData(response?.results);
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -268,7 +268,7 @@ const AboutUsComponent = () => {
     );
     if (response?.status === 200) {
       fetchSectiondata();
-    } else if (response?.data?.detail === "Invalid token") {
+    } else if (response?.data?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

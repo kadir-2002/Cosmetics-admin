@@ -277,7 +277,12 @@ const CouponsFormComponent = () => {
         toast.success("Coupon deleted successfully");
         setIsLogoutPopup(false);
         fetchRoles();
-      } else {
+      } else if(response.body.message==="Invalid or expired token"){
+        dispatch(clearUserDetails());
+        toast.error("Session Expired, Please Login Again");
+        router.push("/");
+        return;
+      }else {
         console.error("Unexpected response format:", response);
       }
     } catch (error) {
@@ -415,12 +420,12 @@ const CouponsFormComponent = () => {
       token
     );
 
-    if (response?.status === 401) {
-      dispatch(clearUserDetails());
-      toast.error("Session Expired, Please Login Again");
-      router.push("/");
-      return;
-    }
+      if(response.body.message==="Invalid or expired token"){
+        dispatch(clearUserDetails());
+        toast.error("Session Expired, Please Login Again");
+        router.push("/");
+        return;
+      }
 
     if (response?.status === 200) {
       fetchRoles(); // Refresh table

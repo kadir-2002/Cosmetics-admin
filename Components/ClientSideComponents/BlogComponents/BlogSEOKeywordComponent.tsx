@@ -108,7 +108,7 @@ const BlogSEOKeywordComponent = () => {
       if (response?.data?.keywords) {
         setCategry(response?.data?.keywords);
         setTotalPages(response?.data?.totalPages);
-      } else if (response?.detail === "Invalid or expired token") {
+      } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");

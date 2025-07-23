@@ -189,7 +189,7 @@ const PinCodeFormComponent = () => {
         apiParams.filtervalue = filtervalue;
       }
       const response = await pincodeAllDataApi(apiParams);
-      if (response?.detail === "Invalid or expired token") {
+      if (response?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -224,7 +224,7 @@ const PinCodeFormComponent = () => {
         toast.success("Pincode Deleted successfully");
         setIsLogoutPopup(false);
         fetchPincode();
-      } else if (response?.detail === "Invalid token") {
+      } else if (response?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
