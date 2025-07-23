@@ -314,7 +314,7 @@ const OrderPopup = ({
 
                               <td className='border p-3 text-center'>
                                 {currency}
-                                {item?.price.toFixed(2) || 'N/A'}
+                                {item?.price?.toFixed(2) || 'N/A'}
                               </td>
 
                               <td className='border p-3 text-center'>
@@ -341,13 +341,13 @@ const OrderPopup = ({
                     </div>
                     <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                       <p>SubTotal Price:</p>
-                      <p>{role?.subtotal.toFixed(2) || "N/A"}</p>
+                      <p>{role?.subtotal?.toFixed(2) || "N/A"}</p>
                     </div>
 
                     {role?.shippingRate === 0 || null ? null : (
                       <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
                         <p>Shipping Charge:</p>
-                        <p>{role?.shippingRate.toFixed(2) || "N/A"}</p>
+                        <p>{role?.shippingRate?.toFixed(2) || "N/A"}</p>
                       </div>
                     )}
                     {role?.appliedTaxRate === 0 || null ? null : (
@@ -373,7 +373,7 @@ const OrderPopup = ({
 {role?.discountAmount > 0 && role?.totalAmount ? (
   <div className='flex justify-between p-2 border-b-[1px] font-semibold'>
     <p>Discount:</p>
-    <p>{((role.discountAmount / role.totalAmount) * 100).toFixed(2)}%</p>
+    <p>{((role.discountAmount / role.totalAmount) * 100)?.toFixed(2)}%</p>
   </div>
 ) : null}
 
@@ -416,7 +416,7 @@ const OrderPopup = ({
                       </p>
                       <p className='lg:text-xl text-lg font-semibold'>
                         {currency}
-                        {(role?.totalAmount.toFixed(2))}
+                        {(role?.totalAmount?.toFixed(2))}
                       </p>
                     </div>
                     {role?.payment_info?.payment_transaction_id ? (
