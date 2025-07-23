@@ -13,8 +13,8 @@ import {
   FaCircleArrowRight,
   FaCircleUser,
 } from "react-icons/fa6";
-import { BiSolidImageAdd } from "react-icons/bi";
-import { Switch } from "@headlessui/react";
+import { BiCopy, BiSolidImageAdd } from "react-icons/bi";
+import { Button, Switch } from "@headlessui/react";
 import "react-phone-number-input/style.css";
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -983,6 +983,7 @@ const BlogFormComponent = () => {
                 </th>
                 <th className='p-3 text-center'>Action</th>
                 <th className='p-3 text-center'>Info</th>
+                {/* <th className='p-3 text-center'>Duplicate</th> */}
               </tr>
             </thead>
             <tbody>
@@ -1071,6 +1072,39 @@ const BlogFormComponent = () => {
                       />
                     </button>
                   </td>
+
+{/* duplicate */}
+                  {/* <td className='p-3 text-center flex items-center justify-center '>
+                    <BiCopy
+                      className='h-6 w-6 object-cover cursor-pointer text-blue-600 hover:text-blue-800'
+                      onClick={async () => {
+                        if (window.confirm('Duplicate this blog?')) {
+                          try {
+                            const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blog/duplicate/${user.id}`, {
+                              method: 'POST',
+                              headers: {
+                                Authorization: `Token ${token}`,
+                              },
+                            });
+
+                            const data = await response.json();
+
+                            if (response.ok) {
+                              alert('Blog duplicated successfully.');
+                              fetchBlog();
+                            } else {
+                              alert(`Failed to duplicate blog: ${data.message}`);
+                            }
+                          } catch (error) {
+                            alert('Something went wrong while duplicating the blog.');
+                            console.error(error);
+                          }
+                        }
+                      }}
+                    />
+                  </td> */}
+
+
                 </tr>
               ))}
             </tbody>
