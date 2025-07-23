@@ -110,7 +110,7 @@ const WhyChooseUsFormComponent = () => {
           toast.error("Sequence number already used by another item.");
         } else if (response?.data?.message === "Sequence number must be a positive number.") {
           toast.error("Sequence number must be a positive number.");
-        } else if (response?.data?.message === "Invalid or expired token ") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");

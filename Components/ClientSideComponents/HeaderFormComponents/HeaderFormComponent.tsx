@@ -94,7 +94,7 @@ const HeaderFormComponent = () => {
           response?.body?.message === "This sequence number already exists"
         ) {
           toast.error("This sequence number already exists");
-        } else if (response?.body?.data?.detail === "Invalid token") {
+        } else if (response?.body.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -205,7 +205,7 @@ const HeaderFormComponent = () => {
         toast.success("Header deleted successfully");
         setIsLogoutPopup(false);
         fetchHeaderData();
-      } else if (response?.body?.detail === "Invalid token") {
+      } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
@@ -256,7 +256,7 @@ const HeaderFormComponent = () => {
     );
     if (response?.status === 200) {
       fetchHeaderData();
-    } else if (response?.body?.data?.detail === "Invalid token") {
+    } else if (response?.body?.message === "Invalid or expired token") {
       dispatch(clearUserDetails());
       toast.error("Session Expired, Please Login Again");
       router.push("/");

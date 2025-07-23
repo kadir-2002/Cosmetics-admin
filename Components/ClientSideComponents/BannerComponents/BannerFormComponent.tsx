@@ -119,7 +119,7 @@ const BannerFormComponent = () => {
           response?.data?.error === "sequence_number must be a positive number."
         ) {
           toast.error("sequence_number must be a positive number.");
-        } else if (response?.data?.detail === "Invalid or expired token") {
+        } else if (response?.data?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -161,7 +161,7 @@ const BannerFormComponent = () => {
             button_link: "",
             isActive: false,
           });
-        } else if (response?.detail === "Invalid token") {
+        } else if (response?.message === "Invalid or expired token") {
           dispatch(clearUserDetails());
           toast.error("Session Expired, Please Login Again");
           router.push("/");
@@ -216,8 +216,8 @@ const BannerFormComponent = () => {
         isActive,
       };
       const response = await bannerAllDataApi(apiParams, token);
-      if (response?.status === "01") {
-        // dispatch(clearUserDetails());
+      if (response?.body.message === "Invalid or expired token") {
+        dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
       } else if (response) {
@@ -251,7 +251,7 @@ const BannerFormComponent = () => {
         toast.success("Banner deleted successfully");
         setIsLogoutPopup(false);
         fetchBanner();
-      } else if (response?.status === 401) {
+      } else if (response?.body?.message === "Invalid or expired token") {
         dispatch(clearUserDetails());
         toast.error("Session Expired, Please Login Again");
         router.push("/");
