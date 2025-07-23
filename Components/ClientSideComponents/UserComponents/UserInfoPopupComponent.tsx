@@ -169,7 +169,7 @@ const UserInfoPopupComponent: React.FC<LogoutPopupProps> = ({
                             Date of join:
                           </div>
                           <div className='text-lg text-gray-900  lg:w-[83%] w-[60%]'>
-                            {user?.date_joined}
+                            {formatIST(user?.date_joined)}
                           </div>
                         </div>
                       ) : null}
